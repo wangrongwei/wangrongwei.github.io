@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>内核--b43驱动问题</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h2><a id="_0"></a>问题</h2>
+<p>在我的macbookpro8.1上，使用ubuntu16上的b43驱动成功实现连接wifi信号，但是编译新的linux4.15内核并在内核配置里边加了bcm4331的驱动，还是出现问题，只有wifi标识，没有wifi信号（似乎就是不能搜索wifi）。</p>
+<h2><a id="ubuntu16_3"></a>ubuntu16自带的内核</h2>
+<ul>
+<li>
+<p>说明<br>
+使用安装ubuntu16.04自己的内核4.10，可正常上网，但是编译新版本内核4.15，无法上网。</p>
+</li>
+<li>
+<p>开机后使用dmesg查看–好使的情况</p>
+</li>
+</ul>
+<blockquote>
+<p>[   21.833056] b43-phy0: Broadcom 4331 WLAN found (core revision 29)<br>
+[   21.833460] b43-phy0: Found PHY: Analog 9, Type 7 (HT), Revision 1<br>
+[   21.833470] b43-phy0: Found Radio: Manuf 0x17F, ID 0x2059, Revision 0, Version 1<br>
+[   21.833470] b43-phy0 warning: 5 GHz band is unsupported on this PHY<br>
+[   22.165272] b43 bcma0:1 wlp3s0b1: renamed from wlan0<br>
+[   30.826526] b43-phy0: Loading firmware version 666.2 (2011-02-23 01:15:07)</p>
+</blockquote>
+<h2><a id="415_17"></a>使用新内核-4.15</h2>
+<ul>
+<li>
+<p>新内核-不好使的情况<br>
+不清楚是内核驱动配置的问题，还是固件版本的问题</p>
+</li>
+<li>
+<p>开机dmesg | grep b43</p>
+</li>
+</ul>
+<blockquote>
+<p>[    0.774174] b43-phy0: Broadcom 4331 WLAN found (core revision 29)<br>
+[    0.774619] b43-phy0: Found PHY: Analog 9, Type 7 (HT), Revision 1<br>
+[    0.774631] b43-phy0: Found Radio: Manuf 0x17F, ID 0x2059, Revision 0, Version 1<br>
+[    0.774632] b43-phy0 warning: 5 GHz band is unsupported on this PHY<br>
+[    0.775180] b43 bcma0:1: Direct firmware load for b43/ucode29_mimo.fw failed with error -2<br>
+[    0.775192] b43 bcma0:1: Direct firmware load for b43/ucode29_mimo.fw failed with error -2<br>
+[    0.775204] b43 bcma0:1: Direct firmware load for b43-open/ucode29_mimo.fw failed with error -2<br>
+[    0.775214] b43 bcma0:1: Direct firmware load for b43-open/ucode29_mimo.fw failed with error -2<br>
+[    0.775216] b43-phy0 ERROR: Firmware file “b43/ucode29_mimo.fw” not found<br>
+[    0.775216] b43-phy0 ERROR: Firmware file “b43-open/ucode29_mimo.fw” not found<br>
+[    0.775217] b43-phy0 ERROR: You must go to <a href="http://wireless.kernel.org/en/users/Drivers/b43#devicefirmware">http://wireless.kernel.org/en/users/Drivers/b43#devicefirmware</a> and download the correct firmware for this driver version. Please carefully read all instructions on this website.</p>
+</blockquote>
+<h2><a id="_36"></a>原因</h2>
+<p>由于作者测试的是最新的内核，使用lspci查看的确也配置了驱动，但是似乎在unity里边，使用wl驱动才好使。（卸载掉wl，只剩下bcma也不好使）</p>
+</div>
+</body>
+
+</html>

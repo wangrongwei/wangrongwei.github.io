@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>error LNK1120 and LNK2019：该符号在函数main中被引用</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h2><a id="0x00__0"></a>0x00 开篇</h2>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;昨天，本来是一个好日子的，然后我默默的随便拿出一本C++书随便练练语法写写代码的，找到一行关于C++内函数指针的例子，其功能就是将一个函数的地址作为地址传给另一个函数，以指针的形式在另一个函数章调用，然后写完了，出现了传说中的error LNK2019，但是就是那个一个不到三十行的代码，让我找bug找了一个多小时，今天早上才找到。注意，本文无任何技术含量，权当吐槽一波了。</p>
+<h2><a id="0x01__3"></a>0x01 详情</h2>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;原代码有点长，这里贴出那出错的一部分代码（与函数指针无关）：</p>
+<pre><code>//有bug
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+using namespace std;
+void display(const string str[], int n);
+
+int main(int argc, char *argv[])
+{
+	string str[3];
+
+	str[0] = "123";
+	str[1] = "qwe";
+	str[2] = "456";
+
+	display(str, 3);
+
+	return 0;
+
+}
+
+void display(const string str, int n)
+{
+	using namespace std;
+
+	for (int i = 0; i &lt; n; i++)
+		cout &lt;&lt; i + 1 &lt;&lt; ":" &lt;&lt; str[i] &lt;&lt; endl;
+}
+
+
+</code></pre>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;全怪我对自己的水平过于自信了，感觉自己不可能犯什么低级错误，我沿着是否是工程建的不对的方向上网搜搜：</p>
+<ul>
+<li>C++ VS2013 该符号在main中被引用</li>
+<li>C++ error LNK2019</li>
+<li>C++ 函数调用<br>
+&nbsp; &nbsp; &nbsp; &nbsp;从上面的问题可以看出，似乎我的状态是越来越迷惑，我就随便试试这么个功能就出现这么个问题，果然写代码的时候不能吊儿郎当的，最后简直都怀疑到C++函数调用上了，但是我就是没有老老实实看看原代码。到了早上，，我还是不能容忍居然那么几行代码还能藏个大bug，其实按照经验，我已经感觉到了这特么肯定是一个lowbie的bug，好了，那我看看代码吧，似乎一眼就看出来了：</li>
+</ul>
+<pre><code>void display(const string str, int n)
+//改成下面就Ok了
+void display(const string str[], int n)
+</code></pre>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;其实已经习惯了，像那种在网上没搜到一点提示信息的，或者相同问题的，基本都是那种lowbie bug。<strong>就以此记录一下520改的第一个bug吧</strong></p>
+</div>
+</body>
+
+</html>

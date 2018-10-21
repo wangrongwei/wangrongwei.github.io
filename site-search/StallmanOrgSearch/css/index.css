@@ -1,0 +1,96 @@
+@import "tbar.css";
+
+.center { text-align: center; }
+
+table { margin: 25px auto 5px auto; }
+
+/* divs */
+
+div { position: relative }
+
+#outer {
+	position: absolute;
+	top: 175px;
+	left: 5%;
+	width: 90%;
+	padding-bottom: 20px;
+}
+
+#main {
+	border: thin solid #000000;
+}
+
+#top {
+	position: relative;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	padding-bottom: 20px;
+}
+
+.search {
+	position: relative;
+	top: 50px;
+	left: 5%;
+	width: 90%;
+	margin-bottom: 25px;
+	border: thick solid #666666;
+	background-color: #aaaaaa;
+}
+
+#left {
+	position: relative;
+	float: left;
+	top: 25px;
+	left: 5%;
+	width: 30%;
+}
+
+#right {
+	position: relative;
+	float: right;
+	top: 25px;
+	right: 5%;
+	width: 50%;
+}
+
+#note {
+	position: relative;
+	clear: both;
+	bottom: 0px;
+	padding-top: 50px;
+	padding-bottom: 25px;
+}
+
+#bottom {
+	height: 50px;
+}
+
+/* form */
+#term { width: 100%; }
+
+input { margin: 5px auto 5px auto; }
+
+label { margin: 10px 10px 10px 10px; }
+
+h2 { margin: 40px 10px 10px 10px; }
+
+/* paragraph */
+
+p { margin: 5px 20px 5px 40px; }
+
+p.eg {
+	margin-left: 50px;
+	font-weight: bold;
+	font-style: italic;
+}
+
+p.desc {
+	padding: 0px 10% 20px 10%;
+	color: #004400;
+	text-align: center;
+}
+
+p.dent { text-indent: 20px; }
+
+em { color: #0000ff; }

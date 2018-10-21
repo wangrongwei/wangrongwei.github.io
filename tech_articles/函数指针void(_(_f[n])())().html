@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>函数指针void(*(*f[n])())()</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h2><a id="0x00__0"></a>0x00 函数指针</h2>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;<strong>函数指针</strong>和<strong>指针函数</strong>对于大多数使用C语言的程序员来说都是容易搞混的两个概念，相似的术语还有结构体指针和指针结构体、指针数组和数组指针等等，其他的类型都可以和指针结合起来。<br>
+&nbsp; &nbsp; &nbsp; &nbsp;为了更好的理解函数指针的使用方法和本质，本文打算从汇编的数据访问方式说起，从一个简单的、普通的函数指针到一个多层次的函数指针作为实验例子。</p>
+<h2><a id="0x01_XX_4"></a>0x01 如何看待这些XX指针概念</h2>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;下面从函数指针和指针函数的概念作为例子：</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">项目</th>
+<th align="right">指针函数</th>
+<th align="center">函数指针</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">声明</td>
+<td align="right">void *func()</td>
+<td align="center">void(*func) ()</td>
+</tr>
+<tr>
+<td align="left">本质</td>
+<td align="right">指针函数的本质是一个函数，返回的是指针</td>
+<td align="center">函数指针本质是一个指针</td>
+</tr>
+</tbody>
+</table><p>&nbsp; &nbsp; &nbsp; &nbsp;对于指针函数来说，<strong>func</strong>就是函数的地址了，调用的时候就是使用这个<strong>func()<strong>调用；对于函数指针来说，其本质是一个指针，那么对于一个指针，就比较灵活了，它可以随时改变指向的函数。<br>
+&nbsp; &nbsp; &nbsp; &nbsp;在</strong>void (<em>func)()<strong>里边，<strong>func</strong>不能说是一个函数了，应该说是一个指针（函数指针），因为</strong></em>func</strong>是一个函数，那么<strong>func</strong>就应该是一个指针。</p>
+<h2><a id="0x02__16"></a>0x02 一个简单的函数指针实现</h2>
+<pre><code>#include &lt;stdio.h&gt;
+
+/*
+ * 一个函数指针简单的示例
+ */
+void printhello(void)
+{
+	printf("Hello,world\n");
+}
+
+int main(int argc,char* argv[])
+{
+	//声明一个函数指针
+	void(*hello)(void);
+	//将函数的地址赋给hello
+	hello = printhello;
+	
+	//调用函数
+	(*hello)();
+
+	return 0;
+}
+
+</code></pre>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;该程序就是打印一串**“hello world”**，声明一个函数指针，其实就像是声明一个指针一样，唯一的不同是不能写成：</p>
+<pre><code>void (*)(void) hello;
+</code></pre>
+<p>目前的实验结果是不能写成这样的。</p>
+<h2><a id="0x03__51"></a>0x03 复杂的函数指针</h2>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;前几天在微博<strong>程序员话题</strong>上看见一道题：</p>
+<blockquote>
+<p>void (*(*f[])())()<br>
+defines f as an array of unspecified size, of pointers to functions that return pointers to functions that return void.</p>
+</blockquote>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;最开始看到这道题以为还有一丝问题：“<em>f[]”没有指明类型，但是在VS环境下测试了一下，不是没有指明类型，而是类型不完整。<br>
+&nbsp; &nbsp; &nbsp; &nbsp;正确的写法应该是**void (</em>(*f[n])())()<strong>，就是应该指明</strong>f**这个二维数组的大小。</p>
+<h3><a id="_61"></a>测试代码</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+void boot2(void)
+{
+	printf("boot2\n");
+
+	return;
+}
+
+void* boot(void)
+{
+	printf("boot\n");
+
+	void(*boot2_pointer)(void);
+
+	boot2_pointer = boot2;
+
+	return boot2_pointer;
+}
+
+
+void system2(void)
+{
+	printf("system2\n");
+
+	return;
+}
+
+void* system(void)
+{
+	printf("system\n");
+
+	void(*system2_pointer)(void);
+
+	system2_pointer = system2;
+
+	return system2_pointer;
+}
+
+//二维数组的程序是函数的地址，但是不能直接使用"boot"的方式填充，可能的原因是""形式的字符串后边还有一个'\0'
+//导致这个访问boot\0去了。
+char* fname_list[2] = { (char*)boot, (char*)system};
+
+int main(int argc,char* argv[])
+{
+	//void(*(*)())() f;
+	
+	//void (*  (*f[])()  )  ()
+	//声明函数指针
+	void (*(*f[2])())();
+	f[0] = (void(*(*)())())fname_list[0];
+	f[1] = (void(*(*)())())fname_list[1];
+
+	(*(f[0])())();
+	(*(f[1])())();
+
+	return 0;
+}
+
+</code></pre>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;如何理解<strong>void (*(*f[n])())()</strong>，可以按照下面的形式分段：</p>
+<pre><code>void (*  (*f[n])()  )  ()
+</code></pre>
+<ul>
+<li>*<em>1 — (<em>f[n])</em></em></li>
+</ul>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;<em><em><em>f[n]<strong>是一个常规的二维数组的形式，其中的每一个</strong>f[0]—f[n-1]<strong>都是一个char指针，似乎这里没有指明是char指针，这个没关系，到最后都需要将这个指针强制转换成</strong>(void(</em>(</em>)())())</em>*，所以它是一个什么指针无所谓了。</p>
+<ul>
+<li>*<em>2 — (<em>f[])()</em></em></li>
+</ul>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;这是第二步组合方式，其实**(*f[])()<strong>就是一个函数指针数组，其中</strong>f[0]—f[n-1]**代表了不同的函数指针。</p>
+<ul>
+<li>*<em>3 — * (<em>f[])()</em></em></li>
+</ul>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;第三步才与*组合，表明其中**f[0]—f[n-1]**每一个函数指针的返回类型必须是一个指针。</p>
+<ul>
+<li><em><em>4 — (</em>  (<em>f[n])()  )  ()</em></em></li>
+</ul>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;第四步在第三步的基础上进一步说明这个返回的指针必须是一个函数指针。</p>
+<ul>
+<li><em><em>5 — void (</em>  (<em>f[n])()  )  ()</em></em></li>
+</ul>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;最后这个<strong>void</strong>最普通，表明了第四步的那个函数指针指向的函数的返回类型为<strong>void</strong>。</p>
+<h2><a id="0x04__150"></a>0x04 疑问</h2>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;在上面的代码段中，有一段被注释掉：</p>
+<pre><code>void(*(*)())() f;
+</code></pre>
+<p>最开始我认为<strong>void(<em>(</em>)())()<strong>是一种类型，类似</strong>int、float</strong>，因此可以像上面这样使用，但是这种用法是不对的，声明一个函数指针必须使用<strong>void (*(*f[2])())()<strong>的形式，对于上面声明方式的更接近于将</strong>f</strong>强制转换成<strong>void(<em>(</em>)())()</strong>，有些怪哉！！</p>
+</div>
+</body>
+
+</html>
