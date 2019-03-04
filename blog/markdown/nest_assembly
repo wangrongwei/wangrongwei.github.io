@@ -1,0 +1,19 @@
+
+# 前言
+对于使用gcc对C语言代码进行编译，若需在C语言中调用汇编，则需编写ATT汇编，理由主要是因为gcc仅支持C语言嵌套ATT格式的汇编。
+
+
+
+
+
+
+
+
+
+
+# 参考
+[1] https://blog.csdn.net/fdsafwagdagadg6576/article/details/44647239
+
+
+
+
