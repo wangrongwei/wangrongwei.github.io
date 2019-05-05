@@ -1,6 +1,0 @@
-<div class="nextbatch">
-	<p class="nextX" onclick="document.getElementById('nextbatch').submit()">
-		Next <!NUM!>
-	</p>
-</div>
-
