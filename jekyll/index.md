@@ -1,6 +1,6 @@
 ---
 layout: archive
-permalink: /jekyll
+permalink: jekyll
 title: ""
 excerpt: ""
 ---
