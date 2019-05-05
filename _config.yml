@@ -5,7 +5,7 @@ description: "This is a description of my awesome site."
 logo: avator.jpg # 120x120 px default image used for Twitter summary card
 teaser: default-teaser.jpg # 400x250 px default teaser image used in image archive grid
 locale: en
-url:
+url: "https://wangrongwei.github.io/"
 feed:
   path: atom.xml
 
