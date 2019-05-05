@@ -6,19 +6,19 @@
   image: 
 
 - title: C/C++
-  url: /language/
+  url: language/
 
 - title: Architecture
-  url: /arch/
+  url: arch/
   
 - title: Linux Kernel
-  url: /kernel/
+  url: kernel/
 
 - title: Linux
-  url: /linux/
+  url: linux/
 
 - title: Jekyll
-  url: /jekyll/
+  url: jekyll/
 
 - title: About Me
-  url: /about/
+  url: about/
