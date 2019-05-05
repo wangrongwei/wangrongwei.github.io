@@ -1,0 +1,24 @@
+# Site navigation links
+
+- title: Home
+  url: /
+  excerpt: 
+  image: 
+
+- title: C/C++
+  url: /language/
+
+- title: Architecture
+  url: /arch/
+  
+- title: Linux Kernel
+  url: /kernel/
+
+- title: Linux
+  url: /linux/
+
+- title: Jekyll
+  url: /jekyll/
+
+- title: About Me
+  url: /about/
