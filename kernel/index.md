@@ -1,6 +1,6 @@
 ---
 layout: archive
-permalink: kernel
+permalink:
 title: ""
 excerpt: ""
 ---

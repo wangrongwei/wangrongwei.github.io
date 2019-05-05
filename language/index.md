@@ -1,6 +1,6 @@
 ---
 layout: archive
-permalink: /language
+permalink:
 title: ""
 excerpt: ""
 ---
