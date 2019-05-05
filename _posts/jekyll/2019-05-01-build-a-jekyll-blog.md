@@ -1,7 +1,7 @@
 ---
 layout: article
 title:  "记录本网站搭建过程"
-date:   2019-05-01 01:54:43
+date:   2019-05-01
 categories: jekyll
 ---
 
@@ -15,15 +15,18 @@ jekyll依赖于ruby安装包，需前往[l](https://rubyinstaller.org/downloads/
 
 在进行后续步骤前，需要对ruby源进行更新，否则后续下载相关包将花费不少的时间，源更改操作如下：
 
+```bash
 - gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
-
 - gem sources -l
+```
 
 通过以上操作，使用**gem sources -l**查看仅存在新添加的淘宝源。
 
 ## jekyll and bundler 安装 ##
 
+```bash
 - gem install jekyll bundler
+```
 
 ## 选择主题 ##
 
@@ -76,9 +79,11 @@ jekyll依赖于ruby安装包，需前往[l](https://rubyinstaller.org/downloads/
 
 ## 基本使用 ##
 
+```bash
 - bundle exec jekyll build
 
 - bundle exec jekyll serve
+```
 
 ## 首页图片 ##
 
@@ -86,13 +91,13 @@ jekyll依赖于ruby安装包，需前往[l](https://rubyinstaller.org/downloads/
 
 ## 相关引用 ##
 
-- https://www.jekyll.com.cn/docs/
+- <https://www.jekyll.com.cn/docs/>
 
-- https://rubyinstaller.org/downloads/
+- <https://rubyinstaller.org/downloads/>
 
-- https://gems.ruby-china.com/
+- <https://gems.ruby-china.com/>
 
-- http://jekyllthemes.org/
+- <http://jekyllthemes.org/>
 
 
 
