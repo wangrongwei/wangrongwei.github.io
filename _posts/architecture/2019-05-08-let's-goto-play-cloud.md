@@ -1,7 +1,7 @@
 ---
 layout: article
 title:  "漫谈虚拟化"
-date:   2019-05-04
+date:   2019-05-08
 categories: arch
 toc: true
 image:
