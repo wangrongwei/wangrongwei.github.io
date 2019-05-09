@@ -51,7 +51,7 @@ libvirt主要功能如下[^1]：
 
 两个根本区别，libvirt将物理主机称为节点，将guestOS称为域
 
-![libvirt](https://www.ibm.com/developerworks/cn/linux/l-libvirt/index.html "libvirt")
+![libvirt](https://www.ibm.com/developerworks/cn/linux/l-libvirt/index.html)
 
 同时libvirt可实现两种控制方式，上图为第一种，guest和libvirt在同一节点下，第二种为guest和libvirt在不同的节点i下，需要实现libvirt远程控制，示意图如下：
 
