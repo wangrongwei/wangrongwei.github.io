@@ -12,7 +12,29 @@ image:
 
 ## OpenStack ##
 
-一种云操作系统
+一种云操作系统[^3]，同时称为云平台管理项目更合适，其中管理的资源对象概括为三大项：**计算、网络和存储**，通过调用不同的**API**实现三大资源的管理和分配。目前，其发布版本如下：
+
+[OpenStack演化版本](/images/cloud/2019-05-10_11-15-41_OpenStack_version.png)
+
+关于**OpenStack**全局功能图如下：
+
+[OpenStack全局项目图](/images/cloud/2019-05-10_09-53-20_openstack_arch.png)
+
+上图中各子项目项目描述如下：
+
+[OpenStack基本框架](https://docs.openstack.org/ironic/pike/_images/conceptual_architecture.png)
+
+- Heat：自动化部署组件；
+- Horizon：基于diango开发的web管理，Horizon通过调用Cinder、Neutron、Nova、Glance和Keystone组件功能对虚拟机进行管理；
+- Nova：通过虚拟化技术提供计算资源池；
+- Neutron：实现虚拟机的网络资源管理；
+- Swift：对象存储，适用于“一次写入，多次读取”；
+- Cinder：块存储，提供存储资源池；
+- Glance：提供虚拟镜像的注册和存储管理；
+- Keystone：认证管理；
+- Ironic：对于虚拟机的管理，OpenStack已经非常成熟，通过Nova可以创建虚拟机、枚举虚拟设备、管理电源状态和安装操作系统。但是对于物理机的管理，需要设计新的组件，Ironic为此设计，可以解决物理机的添加、删除、电源管理和安装部署。对于物理机的部署而言，与虚拟机部署很相似，也是通过Nova创建虚拟机的方式进行触发，只是底层nova-scheduler和nova-computer的驱动方式不同，虚拟机的底层驱动采用libvirt的虚拟化技术实现，物理机则采用Ironic技术，Ironic技术可以理解为一组Hypervisor API接口集合，其功能与libvirt相似。
+
+在以上子项目中，Ironic主要为Bare Metal Service（裸金属服务器）服务[^5]，对于高性能计算集群、数据库主机等需要直接使用物理机提高性能。
 
 ## Hypervisor ##
 
@@ -86,3 +108,9 @@ KVM只是内核模块，用户并没法直接跟内核模块交互，需要借�
 [1] <https://www.cnblogs.com/zsychanpin/p/6859717.html>
 
 [2] <https://www.cnblogs.com/boyzgw/p/6807986.html>
+
+[3] <https://www.cnblogs.com/shhnwangjian/p/6358754.html>
+
+[4] <http://zixi.org/index.php/archives/bms-architecture.html>
+
+[5] <http://www.sohu.com/a/220012524_281404>
