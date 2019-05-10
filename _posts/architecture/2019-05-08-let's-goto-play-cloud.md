@@ -38,7 +38,7 @@ image:
 
 ## Hypervisor ##
 
-一种运行在基础物理服务器和操作系统之间的中间软件层，可允许多个操作系统和应用贡献硬件，也可称为VMM（virtual machine monitor，虚拟机监视器）。通过Hypervisor可访问物理服务器上包括磁盘和内存在内的所有物理设备，以及对各虚拟机施加防护。当服务器启动并执行Hypervisor时，它会加载所有虚拟机客户端的操作系统同时为每台虚拟机分配适量的内存、CPU、网络和磁盘。Hypervisor类型包括：
+一种运行在基础物理服务器和操作系统之间的中间软件层，可允许多个操作系统和应用共享硬件，也可称为VMM（virtual machine monitor，虚拟机监视器）。通过Hypervisor可访问物理服务器上包括磁盘和内存在内的所有物理设备，以及对各虚拟机施加防护。当服务器启动并执行Hypervisor时，它会加载所有虚拟机客户端的操作系统，同时为每台虚拟机分配适量的内存、CPU、网络和磁盘。Hypervisor类型包括：
 
 - I型
   直接运行在系统硬件上，创建硬件全仿真实例，称为“裸机型”，例如：ACRN。
@@ -103,6 +103,12 @@ KVM只是内核模块，用户并没法直接跟内核模块交互，需要借�
 
 ## OPENVZ ##
 
+## 其他技术 ##
+
+### InfiniBand ###
+
+简称IB网络，应用在高性能计算中，例如InfiniBnad在主机旁采用RDMA技术，释放部分CPU负载，可实现将主机内CPU延时从几十微妙降到几微秒[^6]。
+
 ## 参考 ##
 
 [1] <https://www.cnblogs.com/zsychanpin/p/6859717.html>
@@ -114,3 +120,5 @@ KVM只是内核模块，用户并没法直接跟内核模块交互，需要借�
 [4] <http://zixi.org/index.php/archives/bms-architecture.html>
 
 [5] <http://www.sohu.com/a/220012524_281404>
+
+[6] <http://www.cnblogs.com/allcloud/p/7680353.html>
