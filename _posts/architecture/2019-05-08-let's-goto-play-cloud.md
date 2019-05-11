@@ -14,15 +14,15 @@ image:
 
 一种云操作系统[^3]，同时称为云平台管理项目更合适，其中管理的资源对象概括为三大项：**计算、网络和存储**，通过调用不同的**API**实现三大资源的管理和分配。目前，其发布版本如下：
 
-[OpenStack演化版本](/images/cloud/2019-05-10_11-15-41_OpenStack_version.png)
+![OpenStack演化版本](/images/cloud/2019-05-10_11-15-41_OpenStack_version.png)
 
 关于**OpenStack**全局功能图如下：
 
-[OpenStack全局项目图](/images/cloud/2019-05-10_09-53-20_openstack_arch.png)
+![OpenStack全局项目图](/images/cloud/2019-05-10_09-53-20_openstack_arch.png)
 
 上图中各子项目项目描述如下：
 
-[OpenStack基本框架](https://docs.openstack.org/ironic/pike/_images/conceptual_architecture.png)
+![OpenStack基本框架](https://docs.openstack.org/ironic/pike/_images/conceptual_architecture.png)
 
 - Heat：自动化部署组件；
 - Horizon：基于diango开发的web管理，Horizon通过调用Cinder、Neutron、Nova、Glance和Keystone组件功能对虚拟机进行管理；
