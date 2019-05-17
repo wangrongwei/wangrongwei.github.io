@@ -5,7 +5,7 @@ date:   2019-05-08
 categories: arch
 toc: true
 image:
-    teaser: /teaser/cloud-c.png
+    teaser: /teaser/cloud-c.jpg
 ---
 
 <!-- TOC -->autoauto- [OpenStack](#openstack)auto- [Hypervisor](#hypervisor)auto- [libvirt](#libvirt)auto    - [libvirt主要功能](#libvirt主要功能)auto- [qemu](#qemu)auto- [kvm](#kvm)auto    - [qemu-kvm](#qemu-kvm)auto- [OPENVZ](#openvz)auto- [其他技术](#其他技术)auto    - [InfiniBand](#infiniband)auto- [参考](#参考)autoauto<!-- /TOC -->

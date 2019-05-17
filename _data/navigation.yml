@@ -7,18 +7,24 @@
 
 - title: C/C++
   url: language/
+  image: /navigation/c_cpp.jpg
 
 - title: Architecture
   url: arch/
-  
+  image:
+
 - title: Linux Kernel
   url: kernel/
+  image:
 
 - title: Linux
   url: linux/
+  image: /navigation/linux.jpg
 
 - title: Jekyll
   url: jekyll/
+  image:
 
 - title: About Me
   url: about/
+  image:
