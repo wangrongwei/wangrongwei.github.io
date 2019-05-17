@@ -5,7 +5,7 @@ date:   2019-05-08
 categories: arch
 toc: true
 image:
-    teaser: /teaser/2019-05-13-09-45-57_vm.png
+    teaser: /teaser/cloud-c.png
 ---
 
 <!-- TOC -->autoauto- [OpenStack](#openstack)auto- [Hypervisor](#hypervisor)auto- [libvirt](#libvirt)auto    - [libvirt主要功能](#libvirt主要功能)auto- [qemu](#qemu)auto- [kvm](#kvm)auto    - [qemu-kvm](#qemu-kvm)auto- [OPENVZ](#openvz)auto- [其他技术](#其他技术)auto    - [InfiniBand](#infiniband)auto- [参考](#参考)autoauto<!-- /TOC -->
@@ -26,17 +26,21 @@ image:
 
 ![OpenStack基本框架](https://docs.openstack.org/ironic/pike/_images/conceptual_architecture.png)
 
+各服务介绍如下：
+
 - Heat：自动化部署组件；
-- Horizon：基于**diango**开发的web管理，Horizon通过调用Cinder、Neutron、Nova、Glance和Keystone组件功能对虚拟机进行管理；
+- Horizon：基于**diango**开发的web管理，**Horizon**通过调用**Cinder、Neutron、Nova、Glance和Keystone**组件功能对虚拟机进行管理；
 - Nova：通过虚拟化技术提供计算资源池；
-- Neutron：实现虚拟机的网络资源管理；
+- Neutron：为虚拟机提供网络资源；
 - Swift：对象存储，适用于“一次写入，多次读取”；
 - Cinder：块存储，提供存储资源池；
 - Glance：提供虚拟镜像的注册和存储管理；
-- Keystone：认证管理；
-- Ironic：对于虚拟机的管理，OpenStack已经非常成熟，通过Nova可以创建虚拟机、枚举虚拟设备、管理电源状态和安装操作系统。但是对于物理机的管理，需要设计新的组件，Ironic为此设计，可以解决物理机的添加、删除、电源管理和安装部署。对于物理机的部署而言，与虚拟机部署很相似，也是通过Nova创建虚拟机的方式进行触发，只是底层nova-scheduler和nova-computer的驱动方式不同，虚拟机的底层驱动采用libvirt的虚拟化技术实现，物理机则采用Ironic技术，Ironic技术可以理解为一组Hypervisor API接口集合，其功能与libvirt相似。
+- Keystone：认证管理，为各服务器之间通信提供认证和服务注册；
+- Ironic：对于虚拟机的管理，OpenStack已经非常成熟，通过Nova可以创建虚拟机、枚举虚拟设备、管理电源状态和安装操作系统。但是对于物理机的管理，需要设计新的组件，Ironic为此设计，可以解决物理机的添加、删除、电源管理和安装部署。对于物理机的部署而言，与虚拟机部署很相似，也是通过Nova创建虚拟机的方式进行触发，只是底层nova-scheduler和nova-computer的驱动方式不同，虚拟机的底层驱动采用libvirt的虚拟化技术实现，物理机则采用Ironic技术，Ironic技术可以理解为一组Hypervisor API接口集合，其功能与libvirt相似；
+- MySQL：为各服务器提供数据存储；
+- RabbitMq：为各服务之间通信提供认证和服务注册。
 
-在以上子项目中，Ironic主要为Bare Metal Service（裸金属服务器）服务[^5]，对于高性能计算集群、数据库主机等需要直接使用物理机提高性能。
+在以上子项目中，Ironic主要为Bare Metal Service（裸金属服务器）服务[^5]，对于高性能计算集群、数据库主机等需要直接使用物理机提高性能。同时，以上服务包括计算服务、认证服务、网络服务、镜像服务、块存储服务、对象存储服务、计量服务、编排服务和数据库服务，在实际云搭建过程中，可以独立安装这些服务、独自配置它们或者连接成一个整体。
 
 关于OpenStack相关组件关系，以及认证、创建虚拟机以及管理虚拟机过程如下：
 
@@ -110,18 +114,18 @@ image:
 
 一种运行在基础物理服务器和操作系统之间的中间软件层，可允许多个操作系统和应用共享硬件，也可称为VMM（virtual machine monitor，虚拟机监视器）。通过Hypervisor可访问物理服务器上包括磁盘和内存在内的所有物理设备，以及对各虚拟机施加防护。当服务器启动并执行Hypervisor时，它会加载所有虚拟机客户端的操作系统，同时为每台虚拟机分配适量的内存、CPU、网络和磁盘。Hypervisor类型包括：
 
-- I型
-  直接运行在系统硬件上，创建硬件全仿真实例，称为“裸机型”，例如：ACRN。
+- I型：
+  直接运行在系统硬件上，创建硬件全仿真实例，称为“裸机型”（bare-metal Hypervisor），典型地如Xen和VMware ESX。
 
-- II型
-  虚拟机运行在传统操作系统上，同样创建的是硬件全仿真实例，被称为“托管”型，例如VMware：在Windows上运行Linux操作系统，主机虚拟化中VM的应用程序调用硬件资源时，需经过：VM内核->Hypervisor->主机内核，因此，II型是三种虚拟化中性能最差的。
+- II型：
+  虚拟机运行在传统操作系统上，同样创建的是硬件全仿真实例，被称为“托管”型，例如VMware Workstation或KVM（KVM属于I型还是II型有些争议）：在Windows上运行Linux操作系统，主机虚拟化中VM的应用程序调用硬件资源时，需经过：VM内核->Hypervisor->主机内核，因此，II型是三种虚拟化中性能最差的。
 
-- III型
+- III型：
   虚拟机运行在传统操作系统上，创建一个独立的虚拟化实例（容器），指向底层托管操作系统，被称为“操作系统虚拟化”。“操作系统虚拟化”是在操作系统中模拟出运行应用程序的容器，所有虚拟机共享内核空间，性能最好、耗费资源最少。但是底层和上层必须使用同一种操作系统，如底层操作系统使用Windows，则VPS和VE必须运行Windows。
 
 目前，Hypervisor包括XEN、Hyper-V和KVM，更准确的说法是加载了KVM模块的Linux内核是一个Hypervisor。
 
-![虚拟机](./images/2019-05-13-09-45-57.png)
+![虚拟机](/images/cloud/2019-05-13-09-45-57.png)
 
 >>VPS：虚拟专用服务器（VPS，Virtual Private Server）
 >>VE：虚拟环境（VE, Virtual Environment）
@@ -138,16 +142,39 @@ image:
 
 ### libvirt主要功能 ###
 
-libvirt主要功能如下[^1]：
+libvirt是底层Hypervisor和上层用户之间的存在的中间适配层，将底层不同Hypervisor使用接口进行统一，为上层虚拟机管理工具提供一套统一、较稳定的接口。通过libvirt可以做到如下[^1]：
 
 - 虚拟机管理
   包含不同的领域生命周期操作，比如：启动、停止、暂停、保存、恢复和迁移。
 
 - 远程机器支持
 
-两个根本区别，libvirt将物理主机称为节点，将guestOS称为域
+更具体的**libvirt**管理功能主要包含如下5个部分。
 
-![libvirt](https://www.ibm.com/developerworks/cn/linux/l-libvirt/figure1.gif)
+- 1）域的管理。包括对节点上的域的各个⽣命周期的管理，如启动、停⽌、暂停、保存、恢复和动态迁移。还包括对多种设备类型的热插拔操作，包括磁盘、网卡、内存和CPU。当然不同的Hypervisor上对这些热插拔的支持程度有所不同。
+
+- 2）远程节点的管理。只要物理节点上运⾏了**libvirtd**这个守护进程，远程的管理程序就可以连接到该节点进程管理操作，经过认证和授权之后，所有的libvirt功能都可以被访问和使⽤。libvirt支持多种网络远程传输类型，如SSH、TCP套接字、Unix domain socket、TLS的加密传输等。假设使⽤了最简单的SSH，不需要额外的配置⼯作，比如，在example.com节点上运⾏了libvirtd，而且允许SSH访问，在远程的某台管理机器上就可以用如下的命令⾏来连接到example.com上，从而管理其上的域。
+
+- 3）存储的管理。任何运行了libvirtd守护进程的主机，都可以通过libvirt来管理不同类型的存储，如创建不同格式的客户机镜像（qcow2、raw、qde、vmdk等）、挂载NFS共享存储系统、查看现有的LVM卷组、创建新的LVM卷组和逻辑卷、对磁盘设备分区、挂载iSCSI共享存储、使⽤Ceph系统支持的RBD远程存储，等等。当然在libvirt中，对存储的管理也是支持远程的。
+
+- 4）网络的管理。任何运行了libvirtd守护进程的主机，都可以通过libvirt来管理物理的和逻辑的网络接口。包括列出现有的网络接口卡，配置网络接口，创建虚拟网络接口，网络接口的桥接，VLAN管理，NAT网络设置，为客户机分配虚拟网络接⼝，等等。
+
+- 5）提供⼀个稳定、可靠、⾼效的应用程序接⼝，以便可以完成前⾯的4个管理功能。
+
+libvirt主要由3个部分组成，分别是：应⽤程序编程接口库、⼀个守护进程（libvirtd）和⼀个默认命令⾏管理⼯具（virsh）。应用程序接口是为其他虚拟机管理⼯具（如virsh、virt-manager等）提供虚拟机管理的程序库⽀持。libvirtd守护进程负责执行对节点上的域的管理⼯作，在用各种⼯具对虚拟机进⾏管理时，这个守护进程⼀定要处于运⾏状态中。而且这个守护进程可以分为两种：⼀种是root权限的libvirtd，其权限较⼤，可以完成所有⽀持的管理⼯作；⼀种是普通用户权限的libvirtd，只能完成比较受限的管理⼯作。virsh是libvirt项⽬中默认的对虚拟机管理的⼀个命令行⼯具。
+
+在libvirt中存在几个重要的概念：
+
+- 节点：
+  一个物理机器，可运行多个虚拟客户机。其中Hypervisor和Domain都运行在节点上；
+- Hypervisor：
+  虚拟机监控器（VMM），如KVM、Xen和VMware等。VMM可以将一个节点虚拟化，然后运行多个虚拟客户机；
+- 域（Domain）：
+  一个客户机操作系统实例，通常也称为实例，如客户机操作系统、虚拟机皆指同一个概念。
+
+在表明以上概念后，有相关书籍[^10]采用以下一句话概括libvirt的目标：为了安全高效地管理节点上各个域，而提供一个公共的稳定的软件层。其中管理包括：本地管理和远程管理。关于本地管理和远程管理示意图如下：
+
+![本地libvirt](https://www.ibm.com/developerworks/cn/linux/l-libvirt/figure1.gif)
 
 同时libvirt可实现两种控制方式，上图为第一种，guest和libvirt在同一节点下，第二种为guest和libvirt在不同的节点i下，需要实现libvirt远程控制，示意图如下：
 
@@ -157,9 +184,11 @@ libvirt主要功能如下[^1]：
 
 ![libvirt与Hypervisor关系](https://www.ibm.com/developerworks/cn/linux/l-libvirt/figure3.gif)
 
+libvirt对多种不同的Hypervisor的⽀持是通过⼀种基于驱动程序的架构来实现的。libvirt对不同的Hypervisor提供了不同的驱动：对Xen有Xen的驱动，对QEMU/KVM有QEMU驱动，对VMware有VMware驱动。在libvirt源代码中，可以很容易找到**qemu_driver.c、xen_driver.c、xenapi_driver.c、VMware_driver.c、vbox_driver.c**这样的驱动程序源代码⽂件。
+
 ## qemu ##
 
-QEMU为纯软件实现，具有整套虚拟机实现，包括在无KVM的情况下，其可独立允许，但由于纯软件但问题，其性能较低。
+QEMU为纯软件实现，具有整套虚拟机实现，包括在无KVM的情况下，其可独立允许，但由于采用纯软件模拟CPU、内存和I/O设备，其性能较低。
 
 ## kvm ##
 
@@ -173,9 +202,21 @@ QEMU（quick emulator)本身并不包含或依赖KVM模块，而是一套由**Fa
 
 KVM只模拟CPU和内存，因此一个客户机操作系统可以在宿主机上跑起来，但是你看不到它，无法和它沟通。于是，有人修改了QEMU代码，把他模拟CPU、内存的代码换成KVM，而网卡、显示器等留着，因此QEMU+KVM就成了一个完整的虚拟化平台。
 
-KVM只是内核模块，用户并没法直接跟内核模块交互，需要借助用户空间的管理工具，而这个工具就是QEMU。KVM和QEMU相辅相成，QEMU通过KVM达到了硬件虚拟化的速度，而KVM则通过QEMU来模拟设备。对于KVM来说，其匹配的用户空间工具并不仅仅只有QEMU，还有其他的，比如RedHat开发的libvirt、virsh、virt-manager等，QEMU并不是KVM的唯一选择。综上所述，关于KVM与QEMU的关系可以理解为：**QEMU是个计算机模拟器，而KVM为计算机的模拟提供加速功能**。
+KVM只是内核模块，用户并没法直接跟内核模块交互，需要借助用户空间的管理工具，而这个工具就是QEMU。KVM和QEMU相辅相成，QEMU通过KVM达到了硬件虚拟化的速度，而KVM则通过QEMU来模拟设备。对于KVM来说，其匹配的用户空间工具并不仅仅只有QEMU，还有其他选择，如RedHat开发的libvirt、virsh、virt-manager等，QEMU并不是KVM的唯一选择。综上所述，关于KVM与QEMU的关系可以理解为：**QEMU是个计算机模拟器，而KVM为计算机的模拟提供加速功能**。
+
+### 其他 ###
+
+在OpenStack部署过程中，例如搭建计算节点，需检测虚拟机硬件是否支持硬件加速，即检测**/proc/cpuinfo**：
+
+```bash
+egrep -c '(vmx|svm)' /proc/cpuinfo
+```
+
+如果计算节点不支持硬件加速，必须采用配置libvirt使用qemu替代KVM。
 
 ## OPENVZ ##
+
+与以上平台虚拟化（KVM/QEMU/XEN/VMware/VirtualBox/Hyper-V）方案不同，OpenVZ属于容器虚拟化，此外还包括：LXC等。
 
 ## 其他技术 ##
 
@@ -198,3 +239,11 @@ KVM只是内核模块，用户并没法直接跟内核模块交互，需要借�
 [6] <http://www.cnblogs.com/allcloud/p/7680353.html>
 
 [7] <https://blog.csdn.net/u010653908/article/details/72121559>
+
+[8] <http://www.cnblogs.com/sammyliu/p/4543110.html>
+
+[9] <https://docs.openstack.org/mitaka/zh_CN/install-guide-rdo/>
+
+[10] 《KVM实战：原理、进阶与性能调优》
+
+[11] <https://www.ibm.com/developerworks/cn/cloud/library/1402_chenhy_openstacknetwork/index.html>
