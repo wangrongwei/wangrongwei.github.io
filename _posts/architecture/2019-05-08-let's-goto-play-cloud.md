@@ -14,6 +14,8 @@ image:
 
 ## OpenStack ##
 
+### OpenStack基本框架 ###
+
 一种云操作系统[^3]，同时称为云平台管理项目更合适，其中管理的资源对象概括为三大项：**计算、网络和存储**，通过调用不同的**API**实现三大资源的管理和分配。目前，其发布版本如下：
 
 ![OpenStack演化版本](/images/cloud/2019-05-10_11-15-41_OpenStack_version.png)
@@ -30,13 +32,13 @@ image:
 
 - Heat：自动化部署组件；
 - Horizon：基于**diango**开发的web管理，**Horizon**通过调用**Cinder、Neutron、Nova、Glance和Keystone**组件功能对虚拟机进行管理；
-- Nova：通过虚拟化技术提供计算资源池；
+- Nova：为虚拟机提供计算资源；
 - Neutron：为虚拟机提供网络资源；
 - Swift：对象存储，适用于“一次写入，多次读取”；
 - Cinder：块存储，提供存储资源池；
 - Glance：提供虚拟镜像的注册和存储管理；
 - Keystone：认证管理，为各服务器之间通信提供认证和服务注册；
-- Ironic：对于虚拟机的管理，OpenStack已经非常成熟，通过Nova可以创建虚拟机、枚举虚拟设备、管理电源状态和安装操作系统。但是对于物理机的管理，需要设计新的组件，Ironic为此设计，可以解决物理机的添加、删除、电源管理和安装部署。对于物理机的部署而言，与虚拟机部署很相似，也是通过Nova创建虚拟机的方式进行触发，只是底层nova-scheduler和nova-computer的驱动方式不同，虚拟机的底层驱动采用libvirt的虚拟化技术实现，物理机则采用Ironic技术，Ironic技术可以理解为一组Hypervisor API接口集合，其功能与libvirt相似；
+- Ironic：提供物理机申请管理。对于虚拟机的管理，OpenStack已经非常成熟，通过Nova可以创建虚拟机、枚举虚拟设备、管理电源状态和安装操作系统。但是对于物理机的管理，需要设计新的组件，Ironic为此设计，可以解决物理机的添加、删除、电源管理和安装部署。对于物理机的部署而言，与虚拟机部署很相似，也是通过Nova创建虚拟机的方式进行触发，只是底层nova-scheduler和nova-computer的驱动方式不同，虚拟机的底层驱动采用libvirt的虚拟化技术实现，物理机则采用Ironic技术，Ironic技术可以理解为一组Hypervisor API接口集合，其功能与libvirt相似；
 - MySQL：为各服务器提供数据存储；
 - RabbitMq：为各服务之间通信提供认证和服务注册。
 
@@ -110,6 +112,24 @@ image:
 
 通过以上过程便于理解各组件协同关系，以及与底层Hypervisor关系。
 
+#### Keystone ###
+
+前面已经提到Keystone为各服务器之间通信提供认证和服务注册，由于在OpenStack各组件间，相互独立以减少耦合性，但各组件发挥作用都依赖于Keystone。下图以user访问nova为例说明：
+
+![用户-Keystone-其他组件三者关系](./images/2019-05-20-09-59-14.png)
+
+>>>图片来源于<https://www.cnblogs.com/charles1ee/p/6293387.html>
+
+在上图中，当User访问调用nova时，需输入用户名以及密码，keystone认证User输入的信息以确认User身份；若认证成功，keystone返回一个Endpoint和Token（包含Role列表，具体为当前User有权限访问到的Nova资源）发送到User；User收到Token并根据Role列表上的权限对nova上系统资源进行调用；当nova收到来自User发送的请求后，需想keystone发起认证，认证成功，nova开始执行User所发送的请求。
+
+在实际User申请虚拟机过程中，除nova外，一般还需要Glance、Neutron提供的镜像管理功能和网络资源，因此，Keystone与其他三种间如何协作对理解OpenStack各组件功能尤为重要，接下来使用下图进行说明：
+
+![User-keystone-其他组件间关系](./images/2019-05-20-10-17-58.png)
+
+>>>图片来源于<https://www.cnblogs.com/charles1ee/p/6293387.html>
+
+在上图显示的User创建或访问各组件功能过程中，各组件收到来自其他组件的请求时，该组件将使用token向Keystone发起认证，仅当认证成功后，开始执行其他组件的请求。
+
 ## Hypervisor ##
 
 一种运行在基础物理服务器和操作系统之间的中间软件层，可允许多个操作系统和应用共享硬件，也可称为VMM（virtual machine monitor，虚拟机监视器）。通过Hypervisor可访问物理服务器上包括磁盘和内存在内的所有物理设备，以及对各虚拟机施加防护。当服务器启动并执行Hypervisor时，它会加载所有虚拟机客户端的操作系统，同时为每台虚拟机分配适量的内存、CPU、网络和磁盘。Hypervisor类型包括：
@@ -132,7 +152,8 @@ image:
 
 ## libvirt ##
 
-首先，在虚拟云实现过程中，涉及到：虚拟化技术实现-虚拟机管理-集群资源管理（云管理），不同虚拟化技术提供了主要管理工具，包括启用、停用、配置和连接控制台等。这样在构建云管理时存在两个问题：
+首先，在虚拟云实现过程中，涉及到：虚拟化技术实现-虚拟机管理-集群资源管理（云管理），不同虚拟化技
+术提供了主要管理工具，包括启用、停用、配置和连接控制台等。这样在构建云管理时存在两个问题：
 
 - 假设采用混合虚拟技术，上层需对不同的虚拟技术调用不同的管理工具，此时，接口不统一十分麻烦；
 
@@ -185,6 +206,8 @@ libvirt主要由3个部分组成，分别是：应⽤程序编程接口库、⼀
 ![libvirt与Hypervisor关系](https://www.ibm.com/developerworks/cn/linux/l-libvirt/figure3.gif)
 
 libvirt对多种不同的Hypervisor的⽀持是通过⼀种基于驱动程序的架构来实现的。libvirt对不同的Hypervisor提供了不同的驱动：对Xen有Xen的驱动，对QEMU/KVM有QEMU驱动，对VMware有VMware驱动。在libvirt源代码中，可以很容易找到**qemu_driver.c、xen_driver.c、xenapi_driver.c、VMware_driver.c、vbox_driver.c**这样的驱动程序源代码⽂件。
+
+![libvirt关系图](https://huangwei.me/wiki/image/openstack_libvirt_qemu_kvm.png)
 
 ## qemu ##
 
