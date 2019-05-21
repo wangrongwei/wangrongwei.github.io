@@ -8,8 +8,6 @@ image:
     teaser: teaser/github.png
 ---
 
-# Git与GitHub环境搭建 #
-
 ## Git ##
 
 ### Git使用 ###
