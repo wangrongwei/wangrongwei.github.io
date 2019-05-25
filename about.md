@@ -6,9 +6,11 @@ permalink: /about/
 
 >"Everything that is beautiful is recognized."
 
+本博客搭建于2019年5月。
+
 ## Who I Am ##
 
-开源爱好者，Linux Kernel开发者
+开源爱好者，专注于计算机体系结构与操作系统
 
 ## My Creation ##
 

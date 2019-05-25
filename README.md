@@ -21,3 +21,10 @@ Check out my more popular Jekyll themes, available as Ruby gems and 100% GitHub 
 * [Minimal Mistakes](https://github.com/mmistakes/minimal-mistakes)
 * [So Simple](https://github.com/mmistakes/so-simple-theme)
 * [Basically Basic](https://github.com/mmistakes/jekyll-theme-basically-basic)
+
+## Tools
+
+Those tools are easy to build a md file or other: 
+
+- date "+%Y-%m-%d-%H-%M-%S"
+
