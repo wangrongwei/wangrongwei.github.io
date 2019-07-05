@@ -3,7 +3,7 @@
 - title: Home
   url: /
   excerpt: 
-  image: 
+  image: /navigation/c_cpp.jpg
 
 - title: C/C++
   url: language/
@@ -11,11 +11,11 @@
 
 - title: Architecture
   url: arch/
-  image:
+  image: /navigation/c_cpp.jpg
 
 - title: Linux Kernel
   url: kernel/
-  image:
+  image: /navigation/c_cpp.jpg
 
 - title: Linux
   url: linux/
@@ -23,8 +23,8 @@
 
 - title: Jekyll
   url: jekyll/
-  image:
+  image: /navigation/linux.jpg
 
 - title: About Me
   url: about/
-  image:
+  image: /navigation/linux.jpg
