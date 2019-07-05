@@ -1,7 +1,7 @@
 # Site wide configuration
 
-title: "wangrongwei's blog"
-description: "This is a description of my awesome site."
+title: "wangrongwei's Home Page"
+description: "Hello, welcome !"
 logo: avator.jpg # 120x120 px default image used for Twitter summary card
 teaser: default-teaser.jpg # 400x250 px default teaser image used in image archive grid
 locale: en
