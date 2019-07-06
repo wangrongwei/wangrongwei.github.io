@@ -1,30 +1,30 @@
 # Site navigation links
 
 - title: Home
-  url: home/
+  url: home
   excerpt: 
   image: /navigation/c_cpp.jpg
 
 - title: C/C++
-  url: language/
+  url: language
   image: /navigation/c_cpp.jpg
 
 - title: Architecture
-  url: arch/
+  url: arch
   image: /navigation/c_cpp.jpg
 
 - title: Linux Kernel
-  url: kernel/
+  url: kernel
   image: /navigation/c_cpp.jpg
 
 - title: Linux
-  url: linux/
+  url: linux
   image: /navigation/linux.jpg
 
 - title: Jekyll
-  url: jekyll/
+  url: jekyll
   image: /navigation/linux.jpg
 
 - title: About Me
-  url: about/
+  url: about
   image: /navigation/linux.jpg

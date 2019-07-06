@@ -1,6 +1,6 @@
 ---
 layout: archive
-permalink: home/
+permalink: home
 title: "Latest Posts"
 image: 
     feature: cover.jpg
