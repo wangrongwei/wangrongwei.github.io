@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
->"Everything that is beautiful is recognized."
+>"Everything that is beautiful is recognized（凡是美的东西，都是人们所公认的。）."
 
 本博客搭建于2019年5月。
 
@@ -20,3 +20,12 @@ permalink: /about/
 ## More Hyperlinks ##
 
 - [kmtalexwang's a GitHub Page](https://kmtalexwang.github.io/)
+- [创造者的鉴赏力](http://daiyuwen.freeshell.org/gb/taste/taste.html)
+
+<div class="tiles">
+{% for post in site.categories.arch %}
+	{% include post-list.html %}
+{% endfor %}
+</div><!-- /.tiles -->
+
+
