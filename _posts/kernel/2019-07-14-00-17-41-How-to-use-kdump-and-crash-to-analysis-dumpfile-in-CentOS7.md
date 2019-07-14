@@ -11,6 +11,10 @@ categories: jekyll
 > 作者：雨庭(rongwei)
 > 本文原文地址：<http://wangrongwei.github.io{{ page.url }}>
 
+<div class="tiles">
+{% include toc.html %}
+</div><!-- /.tiles -->
+
 ## 环境搭建
 
 ### 步骤1 安装kexec-tool与vmlinux
