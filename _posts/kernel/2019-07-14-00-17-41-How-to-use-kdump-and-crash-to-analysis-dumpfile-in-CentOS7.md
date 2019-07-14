@@ -27,6 +27,8 @@ yum install kexec-tools
 
 >尽量在linux环境下采用wget等方式下载，作者在windows下载并上传到CentOS出现问题
 
+安装成功后，可在**/usr/lib/debug/lib/modules/3.10.0-957.el7.x86_64/**发现vmlinux文件。
+
 ### 步骤2 设置crashkernel预留内存
 
 ```bash
@@ -72,3 +74,9 @@ echo c > /proc/sysrq-trigger
 ```
 
 重启后可查看在/var/crash目录下的coredump文件。
+
+### 步骤6 执行crash
+
+```bash
+crash /usr/lib/debug/lib/modules/3.10.0-957.el7.x86_64/vmlinux /var/crash/127.0.0.1-2019-07-13-11\:49\:43/vmcore
+```
