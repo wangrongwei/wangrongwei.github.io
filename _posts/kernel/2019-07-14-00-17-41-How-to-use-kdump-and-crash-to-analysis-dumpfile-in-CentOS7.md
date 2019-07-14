@@ -11,7 +11,7 @@ categories: jekyll
 > 作者：雨庭(rongwei)
 > 本文原文地址：<http://wangrongwei.github.io{{ page.url }}>
 
-{:toc}
+[toc]
 
 ## 环境搭建
 
