@@ -8,6 +8,12 @@ image:
     teaser: /teaser/system.jpg
 ---
 
+> 文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部
+
+> 作者：雨庭(rongwei)
+
+> 本文原文地址：<http://wangrongwei.github.io{{ page.url }}>
+
 # 深入理解操作系统代码 #
 
 > 在阅读过程中，对某些有意思的代码进行实现

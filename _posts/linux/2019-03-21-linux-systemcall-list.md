@@ -8,6 +8,12 @@ image:
     teaser: /teaser/linux.jpg
 ---
 
+> 文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部
+
+> 作者：雨庭(rongwei)
+
+> 本文原文地址：<http://wangrongwei.github.io{{ page.url }}>
+
 # linux系统调用接口 #
 
 > 对linux系统调用进行整理，后续并给出简单的参考代码
