@@ -14,14 +14,3 @@ image:
 {% endfor %}
 </div><!-- /.tiles -->
 
----
-layout: archive
-permalink: /
-title: "Latest Posts"
----
-
-<div class="tiles">
-{% for post in site.categories.arch %}
-	{% include post-list.html %}
-{% endfor %}
-</div><!-- /.tiles -->
