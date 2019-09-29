@@ -23,6 +23,7 @@ permalink: /about/
 - [kmtalexwang's a GitHub Page](https://kmtalexwang.github.io/)
 - [创造者的鉴赏力](http://daiyuwen.freeshell.org/gb/taste/taste.html)
 - [阿里正一](http://ilinuxkernel.com/)
+- [管理处理器的亲和性](https://www.ibm.com/developerworks/cn/linux/l-affinity.html)
 
 <div class="tiles">
 {% for post in site.categories.arch %}
