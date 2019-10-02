@@ -20,7 +20,7 @@ permalink: /about/
 
 ## More Hyperlinks ##
 
-- [采用LATEX排版的文章](https://wangrongwei.github.io/_posts/latex/latex2html.html)
+- [采用LATEX排版的文章](https://wangrongwei.github.io/latex/latex2html.html)
 - [kmtalexwang's a GitHub Page](https://kmtalexwang.github.io/)
 - [创造者的鉴赏力](http://daiyuwen.freeshell.org/gb/taste/taste.html)
 - [阿里正一](http://ilinuxkernel.com/)
