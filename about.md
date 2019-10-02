@@ -20,16 +20,10 @@ permalink: /about/
 
 ## More Hyperlinks ##
 
+- [采用LATEX排版的文章](https://wangrongwei.github.io/_posts/latex/latex2html.html)
 - [kmtalexwang's a GitHub Page](https://kmtalexwang.github.io/)
 - [创造者的鉴赏力](http://daiyuwen.freeshell.org/gb/taste/taste.html)
 - [阿里正一](http://ilinuxkernel.com/)
 - [brendangregg-perf](http://www.brendangregg.com/perf.html)
 - [管理处理器的亲和性](https://www.ibm.com/developerworks/cn/linux/l-affinity.html)
-
-<div class="tiles">
-{% for post in site.categories.arch %}
-	{% include post-list.html %}
-{% endfor %}
-</div><!-- /.tiles -->
-
 
