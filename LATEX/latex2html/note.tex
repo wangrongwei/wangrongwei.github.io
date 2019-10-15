@@ -1,0 +1,134 @@
+\documentclass{article}
+\usepackage[contents={}]{background}
+\usepackage{tikzpagenodes}
+\usetikzlibrary{shadows,calc}
+\usepackage{lipsum}
+
+\def\ShadowXshift{0.5ex}
+\def\ShadowYshift{-0.5ex}
+
+\makeatletter
+\define@key{educnotebook}{spiralnumber}{\def\SpiralNumber{#1}}
+\define@key{educnotebook}{nbcolorbg}{\def\NbColorBg{#1}}
+\define@key{educnotebook}{minorgridcolor}{\def\MinorGridColor{#1}}
+\define@key{educnotebook}{majorgridcolor}{\def\MajorGridColor{#1}}
+\define@boolkey{educnotebook}{majorgrid}[false]{
+\ifKV@educnotebook@majorgrid
+  \def\DrawMajorGrid{
+    \path[clip,rounded corners=10pt]
+        ([xshift=-30pt,yshift=20pt]current page text area.north west) rectangle
+        ([xshift=30pt,yshift=-20pt]current page text area.south east);
+    \draw[\MajorGridColor,opacity=0.3]
+          ([xshift=30pt,yshift=-20pt]current page text area.south east) grid[step=10mm]
+          ([xshift=-30pt,yshift=20pt]current page text area.north west);
+  }
+\else
+  \def\DrawMajorGrid{\relax}
+\fi
+}
+\define@boolkey{educnotebook}{minorgrid}[false]{
+\ifKV@educnotebook@minorgrid
+  \def\DrawMinorGrid{
+    \path[clip,rounded corners=10pt]
+        ([xshift=-30pt,yshift=20pt]current page text area.north west) rectangle
+        ([xshift=30pt,yshift=-20pt]current page text area.south east);
+    \draw[\MinorGridColor,opacity=0.3]
+          ([xshift=30pt,yshift=-20pt]current page text area.south east) grid[step=1mm]
+          ([xshift=-30pt,yshift=20pt]current page text area.north west);
+  }
+\else
+  \def\DrawMinorGrid{\relax}
+\fi
+}
+\define@choicekey+{educnotebook}{spiralposition}[\val\nr]{left,right,top}[left]{%
+  \ifcase\nr\relax
+    \def\SpiralPosition{
+      ([xshift=9pt,yshift=3pt-\Valor*\textheight/(\SpiralNumber-1)]current page text area.north west)
+    }
+    \def\RotateAngle{0}
+  \or
+    \def\SpiralPosition{
+      ([xshift=-9pt,yshift=-5pt-\Valor*\textheight/(\SpiralNumber-1)]current page text area.north east)
+    }
+    \def\RotateAngle{180}
+    \def\ShadowXshift{-0.5ex}
+    \def\ShadowYshift{-0.5ex}
+  \or
+    \def\SpiralPosition{
+      ([yshift=-19pt,xshift=5pt+\Valor*\textwidth/(\SpiralNumber-1)]current page text area.north west)
+      }
+    \def\RotateAngle{270}
+  \fi
+}{}
+
+\setkeys{educnotebook}{
+  nbcolorbg=white,
+  minorgrid=false,
+  majorgrid=false,
+  minorgridcolor=black!20,
+  majorgridcolor=black!60,
+  spiralposition=left,
+  spiralnumber=15
+  }
+\def\RotateAngle{0}
+\def\ShadowXshift{0.5ex}
+\def\ShadowYshift{-0.5ex}
+
+\makeatother
+
+\tikzset{
+spiral/.pic={
+  \draw[rotate=\RotateAngle,
+    draw=black,
+    left color=black!70,
+    right color=black!60,
+    middle color=gray!40
+    ]
+    (-1.1,-0.35) rectangle ++(10pt,10pt);
+  \draw[
+    rotate=\RotateAngle,
+    double=gray!80,
+    double distance=1pt,
+    ]
+    (-1,-0.2) arc (40:-250:10pt and 2pt);
+  \draw[
+    rotate=\RotateAngle,
+    double=gray!80,
+    double distance=1pt,
+    ]
+    (-1,-0.05) arc (40:-250:10pt and 2pt);
+  }
+}
+
+\newcommand\EducNotebook[1][]{%
+\begingroup
+\AddEverypageHook{%
+  \setkeys{educnotebook}{#1}%
+  \backgroundsetup{
+    scale=1,
+    opacity=1,
+    color=black,
+    angle=0,
+    contents={
+      \tikz[remember picture,overlay]
+      {
+      \draw[rounded corners=10pt,fill=\NbColorBg,drop shadow={shadow xshift=\ShadowXshift, shadow yshift=\ShadowYshift}]
+        ([xshift=-30pt,yshift=20pt]current page text area.north west) rectangle
+        ([xshift=30pt,yshift=-20pt]current page text area.south east);
+      \foreach \Valor in {0,1,...,\numexpr\SpiralNumber-1\relax}
+        \pic at \SpiralPosition {spiral};
+      \DrawMajorGrid
+      \DrawMinorGrid
+      }
+      }
+    }
+  \BgMaterial
+  }
+\endgroup
+}
+
+\EducNotebook
+
+\begin{document}
+\lipsum[1-4]
+\end{document}

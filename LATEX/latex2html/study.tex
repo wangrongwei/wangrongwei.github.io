@@ -1,0 +1,39 @@
+
+%
+% 练习使用LaTeX
+%
+% !TEX program = xelatex
+\documentclass{article}
+\usepackage{CJK}
+\usepackage[a4paper,text={125mm,195mm},centering]{geometry}
+\usepackage{graphicx}
+
+\usepackage[cm-default]{fontspec}
+\usepackage{xunicode}
+\usepackage{xltxtra}
+
+\setmonofont{NSimSun}
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt
+
+\begin{document}
+
+\title{Notes On LaTeX Typesetting}
+\author{rongwei.lisp@gmail.com}
+\maketitle
+
+\begin{abstract}
+	hello, world.
+\end{abstract}
+
+\begin{CJK}{GBK}{SimSun}
+中文测试
+\end{CJK}
+\begin{itemize}
+	\item 1
+	\item xx
+	\item xs
+\end{itemize}
+\end{document}
+
+
