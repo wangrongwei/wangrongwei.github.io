@@ -18,3 +18,6 @@ mktextfm GB2312/OT
 mktextfm GB2312/B/OT
 mktextfm GB2312/OT
 mktextfm GB2312/OT
+mktextfm _zh-cn
+mktextfm _zh-cn
+mktextfm _zh-cn

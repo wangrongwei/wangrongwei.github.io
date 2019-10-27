@@ -1,38 +1,67 @@
-
 %
-% ��ϰʹ��LaTeX
+% 练习使用LaTeX
 %
 % !TEX program = xelatex
-\documentclass{article}
-\usepackage{CJK}
-\usepackage[a4paper,text={125mm,195mm},centering]{geometry}
+\documentclass[UTF8]{ctexart}
+\usepackage[a4paper,text={125mm,195mm}]{geometry}
 \usepackage{graphicx}
-
 \usepackage[cm-default]{fontspec}
-\usepackage{xunicode}
-\usepackage{xltxtra}
+\usepackage{listings}
+\usepackage{xcolor}
 
-\setmonofont{NSimSun}
-\XeTeXlinebreaklocale "zh"
-\XeTeXlinebreakskip = 0pt plus 1pt
+\usepackage{geometry}
+\geometry{papersize={20cm,15cm}}
+\geometry{left=1cm,right=2cm,top=3cm,bottom=4cm}
+
+\lstset{
+	%backgroundcolor=\color{red!50!green!50!blue!50},%代码块背景色为浅灰色
+	rulesepcolor= \color{gray}, %代码块边框颜色
+	breaklines=true,  %代码过长则换行
+	numbers=left, %行号在左侧显示
+	numberstyle= \small,%行号字体
+	%keywordstyle= \color{blue},%关键字颜色
+	commentstyle=\color{gray}, %注释颜色
+	frame=shadowbox%用方框框住代码块
+}
+
 
 \begin{document}
 
 \title{Notes On LaTeX Typesetting}
 \author{rongwei.lisp@gmail.com}
 \maketitle
+\tableofcontents
 
 \begin{abstract}
-	hello, world.
+	hello, world. 开始
 \end{abstract}
 
-\begin{CJK}{GBK}{SimSun}
-���Ĳ���
-\end{CJK}
 \begin{itemize}
 	\item 1
-	\item xx
-	\item xs
+	\item 2
+	\item 3
+	\item 
+\section{第一章：LaTeX}
+
+\subsection{第一节：辅助命令}
+查找系统中中文字体
+
+\begin{lstlisting}[language={c}]
+fc-list :lang=zh-cn > C:\font_zh-cn.txt
+\end{lstlisting}
+
+\subsubsection{第一小节：第一个}
+
+\paragraph{Tian'anmen Square}
+xsaxsaxxxxxxxxxxxxxxxxxxxs
+\subparagraph{Tian'anmen Square}
+xsaxsaxxxxxxxxxxxxxxxxxxxs
+
+\section{参考链接}
+\begin{itemize}
+	\item https://liam.page/2014/09/08/latex-introduction/
+\end{itemize}
+
 \end{itemize}
 \end{document}
 
