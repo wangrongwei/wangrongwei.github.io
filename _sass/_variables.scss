@@ -6,16 +6,16 @@
    Typography variables
    ========================================================================== */
 
-$base-font                   	: Georgia,Times,"Times New Roman",serif;
+$base-font                   	: Georgia,Times,"Times New Roman","宋体",serif;
 $heading-font                	: "Helvetica Neue","Segoe UI",Arial,sans-serif;
 $caption-font                	: $base-font;
 $code-font                   	: monospace;
 $alt-font                    	: $heading-font;
 
-$doc-font-size               	: 16;
+$doc-font-size               	: 18;
 $doc-line-height             	: 24;
 
-$border-radius               	: 3px;
+$border-radius               	: 5px;
 
 /*
    Color variables
