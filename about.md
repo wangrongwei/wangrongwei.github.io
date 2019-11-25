@@ -23,6 +23,7 @@ permalink: /about/
 
 - 一个基于i386架构的玩具内核：[UNIX386](https://github.com/wangrongwei/UNIX386)
 - OMNeT++网络仿真编程手册：[omnetpp_primer](https://github.com/wangrongwei/omnetpp_primer)
+- 语音播报数字电压表：[语音播报数字电压表](https://weibo.com/tv/v/IhTQYDofW?fid=1034:4442660597859883)
 
 ## More Hyperlinks ##
 
