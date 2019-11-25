@@ -13,6 +13,12 @@ permalink: /about/
 
 开源爱好者，专注于计算机体系结构与操作系统
 
+目前还是一名研究生
+
+好读书，尤为人物自传
+
+甚挑剔，包括生活和技术
+
 ## My Creation ##
 
 - 一个基于i386架构的玩具内核：[UNIX386](https://github.com/wangrongwei/UNIX386)
@@ -26,4 +32,8 @@ permalink: /about/
 - [阿里正一](http://ilinuxkernel.com/)
 - [brendangregg-perf](http://www.brendangregg.com/perf.html)
 - [管理处理器的亲和性](https://www.ibm.com/developerworks/cn/linux/l-affinity.html)
+
+## Q&A
+
+- [Think]()
 

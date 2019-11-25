@@ -2,7 +2,7 @@
 layout: article
 title:  "记录本网站搭建过程"
 date:   2019-05-01
-categories: jekyll
+categories: Day
 ---
 
 # 基于skinny-bones-jekyll主题的jekyll博客搭建 #
