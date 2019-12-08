@@ -73,6 +73,19 @@ ssh -T git@github.com
   第二步：修改本地分支的名字（git branch -m oldname newname）；
   第三步：重新提交）（git push）；  
 
+### 回退 ###
+
+当在某次merge中出现冲突，数量较多，无法手动解决时，可以采用回退到合适的版本重新merge。回退命令示例如下：
+
+```bash
+/* 回退到前一个 */
+git reset --hard HEAD^
+/* 回退到前两个 */
+git reset --hard HEAD^^
+/* 回退到前7个版本处 */
+git reset --hard HEAD~7
+```
+
 ### 初始化本地仓库和远程仓库 ###
 
 #### 本地操作 ####
