@@ -2,7 +2,7 @@
 layout: default
 ---
 
-<div id="main" role="main">			
+<div id="main">			
 	<div class="wrap">
 		{% if page.image.feature %}
 		<div class="page-feature">
@@ -26,15 +26,12 @@ layout: default
                     {% include page-meta.html %}
 				</footer><!-- /.footer -->
 				<aside>
-					{% if page.comments == true %}{% include comments.html %}{% endif %}
+                    {% if page.comments == true %}{% include comments.html %}{% endif %}
 				</aside>
             </div><!-- /.content -->
-            <div class="toc-sticky">
-                <p>tables</p>
-                <li>1 aaaaaa</li>
-                <li>1.1 aaaaaa</li>
-                <li>1.2 aaaaaa</li>
-            </div>
-		</div class="archive-wrap"><!-- /.archive-wrap -->
-	</div><!-- /.wrap -->
+            
+        </div class="archive-wrap"><!-- /.archive-wrap -->
+
+    </div><!-- /.wrap -->
+
 </div><!-- /#main -->

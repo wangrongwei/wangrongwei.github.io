@@ -2,9 +2,9 @@
 <script>
         $( document ).ready(function() {
           // Handler for .ready() called.
-        $('#toc').toc({ minimumHeaders: 0, listType: 'ul', showSpeed: 0, headers: 'h2,h3,h4' });
+        $('#toc2').toc({ minimumHeaders: 0, listType: 'ul', showSpeed: 0, headers: 'h2,h3,h4' });
         /* this offset helps account for the space taken up by the floating toolbar. */
-        $('#toc').on('click', 'a', function() {
+        $('#toc2').on('click', 'a', function() {
           var target = $(this.getAttribute('href'))
             , scroll_target = target.offset().top
           $(window).scrollTop(scroll_target - 10);
@@ -13,5 +13,3 @@
           
         });
 </script>
-        
- <div id="toc"></div>

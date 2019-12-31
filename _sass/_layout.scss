@@ -7,6 +7,8 @@
    ========================================================================== */
 
 #masthead {
+    //float: left;
+    position: relative;
 	padding: $gutter;
 	z-index: 5;
 	@include transform(translate(0,0));
@@ -15,6 +17,7 @@
 		@include transform(translate(-1600px,0));
 	}
 	.inner-wrap {
+        //position: absolute;
 		@include outer-container;
 	}
 }
@@ -127,12 +130,16 @@
    ========================================================================== */
 
 #page-wrapper {
-	padding: 0 $gutter; // add white space for smaller screens
+    max-width: 68em;
+    position: relative;
+    margin: auto;
+    padding: 0;
+	//padding: 0 $gutter; // add white space for smaller screens
 	@include size(100% 100%);
 	-webkit-overflow-scrolling: touch;
 	z-index: 2;
 	@include transform(translate(0,0));
-	@include transition(500ms cubic-bezier(.645,.045,.355,1.000));
+    @include transition(500ms cubic-bezier(.645,.045,.355,1.000));
 	&.slide {
 		@include transform(translate(-60rem,0));
 	}
@@ -153,6 +160,9 @@
    ========================================================================== */
 
 #main {
+    margin: 0 auto;
+    //width: 68em;
+    float: left;
 	.inner-wrap {
 		@include media($medium) {
 			@include span-columns(9);
