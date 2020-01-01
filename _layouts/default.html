@@ -12,7 +12,9 @@
 
     {% if page.image.feature %}
     {% else %}
-        {% include toc3.html %}
+        {% if page.tags %}
+            {% include toc3.html %}
+        {% endif %}
     {% endif %}
 
     <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.url }}">
