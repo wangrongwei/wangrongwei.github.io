@@ -1,7 +1,7 @@
 ---
 layout: archive
 permalink:
-title: ""
+title: "arch"
 excerpt: ""
 ---
 
