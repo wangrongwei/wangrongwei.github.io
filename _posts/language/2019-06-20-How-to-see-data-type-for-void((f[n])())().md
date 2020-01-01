@@ -5,7 +5,7 @@ date:   2019-06-20 19:52:48
 categories: language
 toc: true
 image:
-    teaser: /teaser/2019-06-20-20-16-13.png
+    teaser: /teaser/linux.jpg
 ---
 
 ## 函数指针
