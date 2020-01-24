@@ -1,7 +1,7 @@
 ---
 layout: archive
 permalink:
-title: "C/C++"
+title: "language"
 excerpt: ""
 ---
 
