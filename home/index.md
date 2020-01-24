@@ -1,7 +1,7 @@
 ---
 layout: archive
 permalink: /
-title: "Latest Posts"
+title: "home"
 image: 
     feature: cover.jpg
     credit: Rapidly Spinning Black Hole is Spitting Out Blobs of Plasma

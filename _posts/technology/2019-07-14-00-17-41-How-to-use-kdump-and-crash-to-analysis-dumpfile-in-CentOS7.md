@@ -2,7 +2,7 @@
 layout: article
 title:  "记录在CentOS7上采用crash分析dumpfile"
 date:   2019-07-14
-categories: kernel
+categories: tech
 ---
 
 > 本文介绍叙述在CentOS上分析dumpfile零开始过程

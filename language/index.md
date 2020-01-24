@@ -1,7 +1,7 @@
 ---
 layout: archive
 permalink:
-title: "language"
+title: "Computer Language"
 excerpt: ""
 ---
 

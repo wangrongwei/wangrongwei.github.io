@@ -1,7 +1,7 @@
 ---
 layout: archive
 permalink:
-title: tech
+title: "Technology"
 excerpt: ""
 ---
 
