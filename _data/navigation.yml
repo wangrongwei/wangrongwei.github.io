@@ -1,7 +1,7 @@
 # Site navigation links
 
 - title: Home
-  url: /
+  url: main
   image: /navigation/c_cpp.jpg
 
 - title: Computer language
