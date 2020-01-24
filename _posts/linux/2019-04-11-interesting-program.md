@@ -2,7 +2,7 @@
 layout: article
 title:  "一些无聊的代码"
 date:   2019-04-11 00:54:43
-categories: linux
+categories: tech
 toc: true
 image:
     teaser: /teaser/system.jpg

@@ -2,7 +2,7 @@
 layout: article
 title:  "为什么发生segmentation fault"
 date:   2019-05-25 23:36:11
-categories: linux
+categories: tech
 toc: true
 image:
     teaser: /teaser/linux.jpg

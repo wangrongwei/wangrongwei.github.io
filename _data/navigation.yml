@@ -4,7 +4,7 @@
   url: /
   image: /navigation/c_cpp.jpg
 
-- title: C/C++
+- title: Computer language
   url: language
   image: /navigation/c_cpp.jpg
 
@@ -12,16 +12,12 @@
   url: arch
   image: /navigation/c_cpp.jpg
 
-- title: Linux Kernel
-  url: kernel
+- title: technology
+  url: tech
   image: /navigation/c_cpp.jpg
 
-- title: Linux
-  url: linux
-  image: /navigation/linux.jpg
-
-- title: Day
-  url: day
+- title: life
+  url: life
   image: /navigation/linux.jpg
 
 - title: About Me

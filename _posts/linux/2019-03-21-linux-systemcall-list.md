@@ -2,8 +2,7 @@
 layout: article
 title:  "记录linux系统调用整理过程"
 date:   2019-03-21 01:54:43
-categories: linux
-toc: true
+categories: tech
 image:
     teaser: /teaser/linux.jpg
 ---

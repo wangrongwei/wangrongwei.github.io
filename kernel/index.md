@@ -1,7 +1,7 @@
 ---
 layout: archive
 permalink:
-title: "kernel"
+title: "tech"
 excerpt: ""
 ---
 
