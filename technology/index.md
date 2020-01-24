@@ -6,7 +6,7 @@ excerpt: ""
 ---
 
 <div class="tiles">
-{% for post in site.categories.linux %}
+{% for post in site.categories.tech %}
 	{% include post-grid.html %}
 {% endfor %}
 </div><!-- /.tiles -->
