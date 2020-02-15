@@ -1,6 +1,6 @@
 ---
 layout: archive
-permalink:
+permalink: /tech/
 title: "Technology"
 excerpt: ""
 ---

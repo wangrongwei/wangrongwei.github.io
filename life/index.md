@@ -1,6 +1,6 @@
 ---
 layout: archive
-permalink:
+permalink: /life/
 title: "life"
 excerpt: ""
 ---

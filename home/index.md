@@ -1,6 +1,6 @@
 ---
 layout: archive
-permalink: /
+permalink: /home/
 title: "home"
 image: 
     feature: cover.jpg

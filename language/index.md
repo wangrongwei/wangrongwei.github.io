@@ -1,6 +1,6 @@
 ---
 layout: archive
-permalink:
+permalink: /language/
 title: "Computer Language"
 excerpt: ""
 ---
