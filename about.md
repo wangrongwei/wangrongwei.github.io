@@ -5,7 +5,6 @@ permalink: /about/
 ---
 
 >“凡是美的东西，都是人们所公认的。”
->"Everything that is beautiful is recognized."
 
 本博客搭建于2019年5月。
 
