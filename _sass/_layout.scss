@@ -106,7 +106,7 @@
 	li {
 		a {
 			font-weight: 700;
-			@include font-size(20,no);
+			@include font-size(18,no);
 			line-height: .5 * $masthead-height; // half the height to center vertically
 			color: $black;
 			text-transform: capitalize;
