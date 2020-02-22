@@ -5,7 +5,7 @@ date:   2019-02-21
 categories: tech
 toc: true
 image:
-    teaser: teaser/win10.png
+    teaser: teaser/win10.jpg
 ---
 
 > step by step 安装win10
