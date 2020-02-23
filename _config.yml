@@ -4,7 +4,7 @@ title: "wangrongwei's Home Page"
 description: "Hello, welcome !"
 logo: avator.jpg # 120x120 px default image used for Twitter summary card
 teaser: default-teaser.jpg # 400x250 px default teaser image used in image archive grid
-locale: en
+locale: zh
 url: "https://wangrongwei.github.io/"
 feed:
   path: atom.xml
@@ -15,7 +15,8 @@ sass:
   sass_dir: _sass
   style: compressed
 permalink: /:categories/:title/
-kramdown:
+markdown:redcarpet
+redcarpet:
   toc_levels: 1..2
 highlighter: rouge
 gems:
