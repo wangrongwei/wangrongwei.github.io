@@ -7,6 +7,6 @@ excerpt: ""
 
 <div class="tiles">
 {% for post in site.categories.life %}
-	{% include post-g.html %}
+	{% include post-list.html %}
 {% endfor %}
 </div><!-- /.tiles -->
