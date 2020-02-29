@@ -31,5 +31,5 @@ Those tools are easy to build a md file or other:
 ## How to use this Themes ?
 
 - Change font
-- 删除
+- 删除/，用home取代
 
