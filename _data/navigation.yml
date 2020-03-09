@@ -1,22 +1,22 @@
 # Site navigation links
 
-- title: Computer language
+- title: 编程语言
   url: language
   image: /navigation/c_cpp.jpg
 
-- title: Architecture
+- title: 体系结构
   url: arch
   image: /navigation/c_cpp.jpg
 
-- title: technology
+- title: 其他技术
   url: tech
   image: /navigation/c_cpp.jpg
 
-- title: life
+- title: 生活
   url: life
   image: /navigation/linux.jpg
 
-- title: About Me
+- title: 关于
   url: about
   image: /navigation/linux.jpg
 
