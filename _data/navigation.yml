@@ -1,9 +1,5 @@
 # Site navigation links
 
-- title: Home
-  url: home
-  image: /navigation/c_cpp.jpg
-
 - title: Computer language
   url: language
   image: /navigation/c_cpp.jpg
