@@ -1,6 +1,6 @@
 <li>
     {% if post.date %}
-        <span  class="post-meta">{{ post.date | date: "%B %-d, %Y" }}</span> &raquo; 
+        <span  class="post-meta">{{ post.date | date: "%B %-d, %Y" }}</span>
     {% endif %}
-    <a href="{{ site.url }}{{ post.url }}" class="post-meta"> &raquo{{ post.title }}</a>
+    <a href="{{ site.url }}{{ post.url }}" class="post-meta"> &raquo; {{ post.title }}</a>
 </li>
