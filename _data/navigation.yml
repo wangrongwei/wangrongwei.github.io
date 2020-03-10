@@ -1,13 +1,5 @@
 # Site navigation links
 
-- title: 编程语言
-  url: language
-  image: /navigation/c_cpp.jpg
-
-- title: 体系结构
-  url: arch
-  image: /navigation/c_cpp.jpg
-
 - title: 技术
   url: tech
   image: /navigation/c_cpp.jpg
