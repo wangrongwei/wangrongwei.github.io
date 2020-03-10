@@ -2,5 +2,5 @@
     {% if post.date %}
         <span  class="post-meta">{{ post.date | date: "%B %-d, %Y" }}</span> &raquo; 
     {% endif %}
-    <a href="{{ site.url }}{{ post.url }}" class="post-meta">{{ post.title }}</a>
+    <a href="{{ site.url }}{{ post.url }}" class="post-meta"> &raquo{{ post.title }}</a>
 </li>
