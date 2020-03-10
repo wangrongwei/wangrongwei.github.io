@@ -3,6 +3,7 @@ layout: article
 title:  "Git与GitHub环境搭建"
 date:   2019-05-20 15:58:43
 categories: tech
+share: false
 toc: true
 image:
     teaser: teaser/github.png
