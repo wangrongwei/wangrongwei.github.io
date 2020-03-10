@@ -1,7 +1,7 @@
 ---
 layout: archive
 permalink: /life/
-title: "life"
+title: "Life"
 excerpt: ""
 ---
 
