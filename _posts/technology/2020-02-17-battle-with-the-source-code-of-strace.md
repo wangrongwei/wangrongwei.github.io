@@ -3,6 +3,8 @@ layout: article
 title:  "与strace源码的battle"
 date:   2020-02-17
 categories: tech
+share: false
+toc: true
 ---
 
 > 对strace代码的学习记录

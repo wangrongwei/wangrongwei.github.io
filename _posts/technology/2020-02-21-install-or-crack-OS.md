@@ -3,6 +3,7 @@ layout: article
 title:  "安装win10"
 date:   2019-02-21
 categories: tech
+share: false
 toc: true
 image:
     teaser: teaser/win10.jpg
