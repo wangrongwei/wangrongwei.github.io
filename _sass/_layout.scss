@@ -18,6 +18,7 @@
 	}
 	.inner-wrap {
         @include span-columns(6);
+        @include clearfix;
         margin: {
             left: 36em;
             right: auto;
