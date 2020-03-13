@@ -93,7 +93,7 @@
 		@include span-columns(12);
 	}
 	@include media($large) {
-		@include span-columns(8);
+		@include span-columns(6);
 		ul {
 			position: absolute;
 			right: 0;
@@ -130,7 +130,7 @@
    ========================================================================== */
 
 #page-wrapper {
-    max-width: 50em;
+    max-width: 58em;
     position: relative;
     margin: auto;
     padding: 0;
