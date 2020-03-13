@@ -81,10 +81,19 @@ jekyll依赖于ruby安装包，需前往[l](https://rubyinstaller.org/downloads/
 
 ### 修改posts-list样式 ###
 
-不同的博客分类中，采用list对博客进行展示，其中主要增加**post-meta**和**post-link**，css内容如下：
+不同的博客分类中，采用list对博客进行展示，其中主要增加**post-meta**和**post-link**，对__layout.sass文件如下：
 
 ```
+.post-meta {
+    font-size: 20px;
+    display: block;
+}
 
+.post-link {
+    color: RoyalBlue ;
+    font-size: 20px;
+    display: block;
+}
 
 ```
 
