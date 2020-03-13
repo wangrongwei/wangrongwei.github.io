@@ -18,7 +18,8 @@
 	}
 	.inner-wrap {
         //position: absolute;
-		@include outer-container;
+        @include outer-container;
+        @include span-columns(5);
 	}
 }
 .site-title {
