@@ -17,7 +17,7 @@
 		@include transform(translate(-1600px,0));
 	}
 	.inner-wrap {
-        @include span-columns(8);
+        @include span-columns(6);
         //@include outer-container;
 	}
 }
