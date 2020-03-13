@@ -79,6 +79,8 @@ jekyll依赖于ruby安装包，需前往[l](https://rubyinstaller.org/downloads/
 
 以上修改将**Top menu**可容纳的长度增加到8，使最后的**about me**目录展示在第一行避免被紧接的**cover.jpg**遮挡。
 
+### 修改 ###
+
 ## 基本使用 ##
 
 ```bash
