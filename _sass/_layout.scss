@@ -18,7 +18,6 @@
 	}
 	.inner-wrap {
         @include outer-container;
-        position: center;
 	}
 }
 .site-title {
