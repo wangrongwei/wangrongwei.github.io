@@ -17,8 +17,7 @@
 		@include transform(translate(-1600px,0));
 	}
 	.inner-wrap {
-        //position: absolute;
-        padding: 1em;
+        position: absolute;
         @include outer-container;
 	}
 }
