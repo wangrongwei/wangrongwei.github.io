@@ -18,6 +18,7 @@
 	}
 	.inner-wrap {
         //position: absolute;
+        padding: 1em;
         @include outer-container;
 	}
 }
