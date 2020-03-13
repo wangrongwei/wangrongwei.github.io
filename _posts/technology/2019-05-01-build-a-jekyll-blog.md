@@ -48,7 +48,7 @@ jekyll依赖于ruby安装包，需前往[l](https://rubyinstaller.org/downloads/
 
 .top-menu {
     display: none;
-	position: relative;
+    position: relative;
 	@include media($medium) {
 		@include span-columns(12);
 	}
