@@ -17,7 +17,7 @@
 		@include transform(translate(-1600px,0));
 	}
 	.inner-wrap {
-        @include span-columns(7);
+        @include span-columns(6);
         margin: {
             left: 36em;
             right: auto;
