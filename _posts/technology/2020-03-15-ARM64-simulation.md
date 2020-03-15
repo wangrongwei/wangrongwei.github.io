@@ -17,7 +17,10 @@ toc: true
 
 - 安装qemu
 
-jinr
+可选择一下版本：
+
+
+进入qemu目录，执行：
 
 ```
 ./configure --enable-virtfs --enable-debug && make -j4 && make install
