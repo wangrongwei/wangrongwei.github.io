@@ -25,7 +25,7 @@ https://download.qemu.org/qemu-4.2.0.tar.xz
 
 接下来，进入qemu目录，执行：
 
-```
+```bash
 ./configure --enable-virtfs --enable-debug && make -j4 && make install
 ```
 
@@ -38,8 +38,8 @@ https://download.qemu.org/qemu-4.2.0.tar.xz
 
 首先，选择busybox制作文件系统，需要先安装busybox，可下载如下版本：
 
-```
-https://busybox.net/downloads/busybox-1.24.2.tar.bz2
+```bash
+wget https://busybox.net/downloads/busybox-1.24.2.tar.bz2
 ```
 
 - 配置
@@ -62,8 +62,8 @@ make -j4 && make install
 
 可选择以下内核版本：
 
-```
-https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.99.tar.gz
+```bash
+wget https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.99.tar.gz
 ```
 
 接下来，进入Linux目录，执行以下命令：
@@ -76,4 +76,8 @@ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- Image -j8
 编译成功的内核为arch/arm64/boot/Image
 
 
-## 虚拟机
+## 虚拟机管理
+
+```bash
+qemu-system-aarch64 -cpu cortex-a57 -machine type=virt -nographic -smp 1 -m 512 -kernel Image -append "rdinit=/linuxrc console=ttyAMA0" -initrd rootfs.cpio.gz -device virtio-scsi-device
+```
