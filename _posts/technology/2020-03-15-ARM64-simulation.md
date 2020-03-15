@@ -43,7 +43,7 @@ https://download.qemu.org/qemu-4.2.0.tar.xz
 https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.99.tar.gz
 ```
 
-接下来
+接下来，进入Linux目录，执行以下命令：
 
 ```bash
 make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- defconfig
