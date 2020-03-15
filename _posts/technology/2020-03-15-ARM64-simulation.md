@@ -37,6 +37,14 @@ https://download.qemu.org/qemu-4.2.0.tar.xz
 
 - 制作Linux内核
 
+可选择以下内核版本：
+
+```
+https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.99.tar.gz
+```
+
+接下来
+
 ```bash
 make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- defconfig
 make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- Image -j8
