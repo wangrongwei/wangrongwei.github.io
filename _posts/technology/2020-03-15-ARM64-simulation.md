@@ -57,7 +57,39 @@ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
 make install
 ```
 
-在当前文件的上一级目录下生成rootfs文件。接下来需要在rootfs中添加必要的文件
+在当前文件的上一级目录下生成rootfs文件。接下来需要在rootfs中添加必要的文件：
+
+进入rootfs，执行以下命令
+
+mkdir dev etc mnt 
+mkdir -p etc/init.d
+进入etc/init.d中创建文件rcS，在文件中加入以下内容，并修改rcS为可执行
+
+mkdir -p /proc
+mkdir -p /tmp
+mkdir -p /sys
+mkdir -p /mnt
+/bin/mount -a
+mkdir -p /dev/pts
+mount -t devpts devpts /dev/pts
+echo /sbin/mdev > /proc/sys/kernel/hotplug
+mdev -s
+在etc/ 目录下新建一个inittab文件，加入以下内容
+
+::sysinit:/etc/init.d/rcS 
+::respawn:-/bin/sh 
+::askfirst:-/bin/sh 
+::ctrlaltdel:/bin/umount -a -r 
+在dev目录下执行以下命令
+
+mknod console c 5 1 
+mknod null c 1 3
+在rootfs目录执行以下命令
+
+find . | cpio -o -H newc > rootfs.cpio 
+gzip -c rootfs.cpio > rootfs.cpio.gz
+至此，rootfs中的rootfs.cpio.gz就是制作好的文件系统
+
 
 - 制作文件系统
 
