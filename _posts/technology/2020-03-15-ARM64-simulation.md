@@ -50,6 +50,8 @@ Busybox Setting -> Build Options -> static binary(enable)
 Networking Utilities -> inetd(disable)
 Busybox Setting -> BusyBox installation prefix(../rootfs)
 
+在当前文件的上一级目录下生成rootfs文件
+
 - 编译
 
 ```bash
