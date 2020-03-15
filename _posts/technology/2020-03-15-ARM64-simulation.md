@@ -64,7 +64,7 @@ make install
 进入rootfs，执行以下命令
 
 ```bash
-mkdir dev etc mnt 
+mkdir dev etc mnt
 mkdir -p etc/init.d
 ```
 
