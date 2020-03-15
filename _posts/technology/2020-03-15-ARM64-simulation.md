@@ -57,7 +57,9 @@ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
 make install
 ```
 
-在当前文件的上一级目录下生成rootfs文件。接下来需要在rootfs中添加必要的文件：
+在当前文件的上一级目录下生成rootfs文件。接下来需要在rootfs中添加必要的文件
+
+- 制作文件系统
 
 进入rootfs，执行以下命令
 
@@ -112,9 +114,11 @@ find . | cpio -o -H newc > rootfs.cpio
 gzip -c rootfs.cpio > rootfs.cpio.gz
 至此，rootfs中的rootfs.cpio.gz就是制作好的文件系统
 
-- 制作文件系统
+后续将以上操作写成shell脚本，可参考：
 
-后续将以上操作
+```bash
+https://github.com/gengcixi/build-busybox
+```
 
 ### 制作Linux内核
 
