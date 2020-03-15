@@ -57,7 +57,7 @@ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
 make install
 ```
 
-在当前文件的上一级目录下生成rootfs文件。接下来需要在rootfs中添加必要的文件
+在当前文件的上一级目录下生成rootfs文件。接下来需要在rootfs中添加必要的文件。
 
 - 制作文件系统
 
