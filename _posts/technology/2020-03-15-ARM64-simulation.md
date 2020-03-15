@@ -144,3 +144,4 @@ qemu-system-aarch64 -cpu cortex-a57 -machine type=virt -nographic -smp 1 -m 512 
 
 在编译和最后的执行内核过程中，若出现问题，可采用**file | which**两个命令对生成的可执行文件进行查看。
 
+后续将
