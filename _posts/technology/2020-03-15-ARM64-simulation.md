@@ -160,7 +160,28 @@ QEMU_EFI.fd(下载地址：http://releases.linaro.org/components/kernel/uefi-lin
 
 其他启动脚本：
 
-
+```bash
+qemu-system-aarch64 \
+        -machine virt-3.1 \
+        -smp 8 \
+        -m 1G,slots=2,maxmem=3G \
+        -enable-kvm \
+        -cpu host \
+        -nographic \
+        -drive if=none,file=ubuntu-16.04-server-cloudimg-arm64-uefi1.img,id=hd0 \
+        -monitor unix:qemu-monitor-socket,server,nowait \
+        -device virtio-blk-device,drive=hd0 \
+        -qmp unix:./qmp-sock,server,nowait \
+        -qmp tcp:localhost:6666,server,nowait \
+        -device pcie-pci-bridge,bus=pcie.0,id=pcie-bridge-0,msi=on,x-pcie-lnksta-dllla=on,addr=2,romfile= \
+        -device pci-bridge,bus=pcie-bridge-0,id=pci.0,shpc=on,msi=on,chassis_nr=1,addr=2 \
+        -pflash flash0.img \
+        -pflash flash1.img \
+        -netdev user,id=user0 -device virtio-net-device,netdev=user0 \
+————————————————
+版权声明：本文为CSDN博主「jongwu3」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/wujianyongw4/article/details/90289208
+```
 
 ## 参考
 
