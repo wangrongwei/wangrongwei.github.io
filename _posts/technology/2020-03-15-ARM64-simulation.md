@@ -52,8 +52,11 @@ Busybox Setting -> BusyBox installation prefix(../rootfs)
 
 - 编译
 
+
 ```bash
 make -j4 && make install
+
+
 ```
 
 - 制作文件系统
