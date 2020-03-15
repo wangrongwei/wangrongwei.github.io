@@ -66,7 +66,7 @@ mkdir dev etc mnt
 mkdir -p etc/init.d
 ```
 
-进入etc/init.d中创建文件rcS，在文件中加入以下内容，并修改rcS为可执行
+进入etc/init.d中创建文件rcS，在文件中加入以下内容，并修改rcS为可执行。
 
 ```bash
 mkdir -p /proc
@@ -90,7 +90,7 @@ tmpfs /dev tmpfs defaults 0 0
 debugfs /sys/kernel/debug debugfs defaults 0 0
 ```
 
-在etc/ 目录下新建一个inittab文件，加入以下内容
+在etc/ 目录下新建一个inittab文件，加入以下内容：
 
 ```bash
 ::sysinit:/etc/init.d/rcS 
