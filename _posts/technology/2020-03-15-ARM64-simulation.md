@@ -32,20 +32,21 @@ https://download.qemu.org/qemu-4.2.0.tar.xz
 未指明--target-list表示配置所有架构。
 
 
-- 制作文件系统
+### 制作文件系统
 
 首先，选择busybox制作文件系统，需要先安装busybox，可下载如下版本：
 
 ```
 https://busybox.net/downloads/busybox-1.24.2.tar.bz2
 ```
-执行make menuconfig命令进行配置，以下两个选项需要设置
+
+接下来，需要对busybox进行配置，执行make menuconfig命令进行配置，以下两个选项需要设置：
 
 Busybox Setting -> Build Options -> static binary(enable)
 Networking Utilities -> inetd(disable)
 Busybox Setting -> BusyBox installation prefix(../rootfs)
 
-- 制作Linux内核
+### 制作Linux内核
 
 可选择以下内核版本：
 
