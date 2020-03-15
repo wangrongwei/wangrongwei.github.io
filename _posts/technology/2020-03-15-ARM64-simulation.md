@@ -56,6 +56,8 @@ Busybox Setting -> BusyBox installation prefix(../rootfs)
 make -j4 && make install
 ```
 
+- 制作文件系统
+
 ### 制作Linux内核
 
 可选择以下内核版本：
