@@ -61,10 +61,14 @@ make install
 
 进入rootfs，执行以下命令
 
+```bash
 mkdir dev etc mnt 
 mkdir -p etc/init.d
+```
+
 进入etc/init.d中创建文件rcS，在文件中加入以下内容，并修改rcS为可执行
 
+```
 mkdir -p /proc
 mkdir -p /tmp
 mkdir -p /sys
@@ -74,6 +78,8 @@ mkdir -p /dev/pts
 mount -t devpts devpts /dev/pts
 echo /sbin/mdev > /proc/sys/kernel/hotplug
 mdev -s
+```
+
 在etc/ 目录下新建一个inittab文件，加入以下内容
 
 ::sysinit:/etc/init.d/rcS 
