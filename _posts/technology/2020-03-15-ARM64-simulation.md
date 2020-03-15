@@ -83,7 +83,11 @@ mdev -s
 在etc/目录下新建一个fstab文件，加入内容如下：
 
 ```bash
-
+proc /proc proc defaults 0 0 
+tmpfs /tmp tmpfs defaults 0 0 
+sysfs /sys sysfs defaults 0 0 
+tmpfs /dev tmpfs defaults 0 0
+debugfs /sys/kernel/debug debugfs defaults 0 0
 ```
 
 在etc/ 目录下新建一个inittab文件，加入以下内容
