@@ -68,7 +68,7 @@ mkdir -p etc/init.d
 
 进入etc/init.d中创建文件rcS，在文件中加入以下内容，并修改rcS为可执行
 
-```
+```bash
 mkdir -p /proc
 mkdir -p /tmp
 mkdir -p /sys
@@ -82,14 +82,20 @@ mdev -s
 
 在etc/ 目录下新建一个inittab文件，加入以下内容
 
+```bash
 ::sysinit:/etc/init.d/rcS 
 ::respawn:-/bin/sh 
 ::askfirst:-/bin/sh 
 ::ctrlaltdel:/bin/umount -a -r 
+```
+
 在dev目录下执行以下命令
 
+```bash
 mknod console c 5 1 
 mknod null c 1 3
+```
+
 在rootfs目录执行以下命令
 
 find . | cpio -o -H newc > rootfs.cpio 
