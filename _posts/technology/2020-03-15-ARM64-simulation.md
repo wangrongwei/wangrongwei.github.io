@@ -154,8 +154,9 @@ qemu-system-aarch64 -cpu cortex-a57 -machine type=virt -nographic -smp 1 -m 512 
 
 ## FAQ
 
-- 
+- 如何制作
 
 ## 参考
 
 - https://luomuxiaoxiao.com/?p=743
+- https://blog.csdn.net/linsheng_111/article/details/82996347
