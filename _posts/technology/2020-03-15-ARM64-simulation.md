@@ -15,7 +15,7 @@ toc: true
 
 ## 环境搭建
 
-- 安装qemu
+### 安装qemu
 
 可选择一下版本：
 
@@ -39,7 +39,11 @@ https://download.qemu.org/qemu-4.2.0.tar.xz
 ```
 https://busybox.net/downloads/busybox-1.24.2.tar.bz2
 ```
+执行make menuconfig命令进行配置，以下两个选项需要设置
 
+Busybox Setting -> Build Options -> static binary(enable)
+Networking Utilities -> inetd(disable)
+Busybox Setting -> BusyBox installation prefix(../rootfs)
 
 - 制作Linux内核
 
