@@ -19,8 +19,8 @@ toc: true
 
 可选择一下版本：
 
-```
-https://download.qemu.org/qemu-4.2.0.tar.xz
+```bash
+wget https://download.qemu.org/qemu-4.2.0.tar.xz
 ```
 
 接下来，进入qemu目录，执行：
@@ -74,7 +74,6 @@ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- Image -j8
 ```
 
 编译成功的内核为arch/arm64/boot/Image
-
 
 ## 虚拟机管理
 
