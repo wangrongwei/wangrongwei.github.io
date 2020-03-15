@@ -52,11 +52,9 @@ Busybox Setting -> BusyBox installation prefix(../rootfs)
 
 - 编译
 
-
 ```bash
-make -j4 && make install
-
-
+make menuconfig ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
+make install
 ```
 
 - 制作文件系统
