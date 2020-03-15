@@ -75,3 +75,5 @@ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- Image -j8
 
 编译成功的内核为arch/arm64/boot/Image
 
+
+## 虚拟机
