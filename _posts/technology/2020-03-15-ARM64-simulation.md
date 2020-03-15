@@ -134,6 +134,8 @@ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- Image -j8
 
 ## 虚拟机管理
 
+将以上生成的
+
 ```bash
 qemu-system-aarch64 -cpu cortex-a57 -machine type=virt -nographic -smp 1 -m 512 -kernel Image -append "rdinit=/linuxrc console=ttyAMA0" -initrd rootfs.cpio.gz -device virtio-scsi-device
 ```
