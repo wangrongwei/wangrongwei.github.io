@@ -31,7 +31,6 @@ wget https://download.qemu.org/qemu-4.2.0.tar.xz
 
 未指明--target-list表示配置所有架构。
 
-
 ### 制作文件系统
 
 - 下载
@@ -156,6 +155,8 @@ qemu-system-aarch64 -cpu cortex-a57 -machine type=virt -nographic -smp 1 -m 512 
 
 - 如何制作rootfs文件系统？
 - 改变方案，用现有发行版的arm64取代？
+
+QEMU_EFI.fd(下载地址：http://releases.linaro.org/components/kernel/uefi-linaro/16.02/release/qemu64/)
 
 ## 参考
 
