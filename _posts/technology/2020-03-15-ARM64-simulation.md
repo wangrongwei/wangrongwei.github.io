@@ -80,6 +80,12 @@ echo /sbin/mdev > /proc/sys/kernel/hotplug
 mdev -s
 ```
 
+在etc/目录下新建一个fstab文件，加入内容如下：
+
+```bash
+
+```
+
 在etc/ 目录下新建一个inittab文件，加入以下内容
 
 ```bash
