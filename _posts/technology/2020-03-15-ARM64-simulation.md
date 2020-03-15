@@ -158,6 +158,10 @@ qemu-system-aarch64 -cpu cortex-a57 -machine type=virt -nographic -smp 1 -m 512 
 
 QEMU_EFI.fd(下载地址：http://releases.linaro.org/components/kernel/uefi-linaro/16.02/release/qemu64/)
 
+其他启动脚本：
+
+
+
 ## 参考
 
 - https://luomuxiaoxiao.com/?p=743
