@@ -154,7 +154,8 @@ qemu-system-aarch64 -cpu cortex-a57 -machine type=virt -nographic -smp 1 -m 512 
 
 ## FAQ
 
-- 如何制作
+- 如何制作rootfs文件系统？
+- 改变方案，用现有
 
 ## 参考
 
