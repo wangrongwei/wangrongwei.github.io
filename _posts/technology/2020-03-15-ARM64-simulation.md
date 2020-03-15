@@ -46,6 +46,12 @@ Busybox Setting -> Build Options -> static binary(enable)
 Networking Utilities -> inetd(disable)
 Busybox Setting -> BusyBox installation prefix(../rootfs)
 
+编译：
+
+```bash
+make -j4 && make install
+```
+
 ### 制作Linux内核
 
 可选择以下内核版本：
