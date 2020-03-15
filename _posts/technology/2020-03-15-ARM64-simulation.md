@@ -13,9 +13,10 @@ toc: true
 
 > 本文原文地址：<http://wangrongwei.github.io{{ page.url }}>
 
+## 环境搭建
 
-
-
+- 安装qemu
+- 安装
 
 
 
