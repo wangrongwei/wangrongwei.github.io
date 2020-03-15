@@ -18,7 +18,11 @@ toc: true
 - 安装qemu
 
 ```
+./configure --target-list=aarch64-softmmu,aarch64-linux-user --enable-virtfs --enable-debug && make -j4 && make install
 ```
+
+未指明--target-list表示安装所有架构
+
 
 - 制作文件系统
 
