@@ -34,7 +34,11 @@ https://download.qemu.org/qemu-4.2.0.tar.xz
 
 - 制作文件系统
 
-首先，选择busybox
+首先，选择busybox制作文件系统，需要先安装busybox，可下载如下版本：
+
+```
+https://busybox.net/downloads/busybox-1.24.2.tar.bz2
+```
 
 
 - 制作Linux内核
