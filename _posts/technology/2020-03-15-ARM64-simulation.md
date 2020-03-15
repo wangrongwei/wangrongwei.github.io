@@ -19,8 +19,11 @@ toc: true
 
 可选择一下版本：
 
+```
+https://download.qemu.org/qemu-4.2.0.tar.xz
+```
 
-进入qemu目录，执行：
+接下来，进入qemu目录，执行：
 
 ```
 ./configure --enable-virtfs --enable-debug && make -j4 && make install
