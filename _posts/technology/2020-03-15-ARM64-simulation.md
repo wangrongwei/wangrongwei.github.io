@@ -151,6 +151,8 @@ qemu-system-aarch64 -cpu cortex-a57 -machine type=virt -nographic -smp 1 -m 512 
 按Ctrl+A+X组合键退出qemu模拟器
 按Ctrl+A+C组合键进入qemu-monitor，输入help可以查看操作命令
 
+以上满足基本的aarch64开发环境需求，
+
 ## FAQ
 
 - 如何制作rootfs文件系统？
