@@ -165,7 +165,7 @@ qemu-system-aarch64 -m 2048 -cpu cortex-a57 -smp 2 -M virt -bios QEMU_EFI.fd -no
 qemu-system-aarch64 -m 2048 -cpu cortex-a57 -smp 2 -M virt -bios QEMU_EFI.fd -nographic -device virtio-scsi-device -drive driver=qcow2,media=disk,cache=writeback,if=none,file=CentOS7-arm64.qcow2,id=hd0 -device virtio-blk-device,drive=hd0
 ```
 
-两个
+两个脚本分开，以防止在后续使用过程中重复安装操作。
 
 ## FAQ
 
