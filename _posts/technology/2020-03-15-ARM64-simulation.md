@@ -153,8 +153,14 @@ qemu-system-aarch64 -cpu cortex-a57 -machine type=virt -nographic -smp 1 -m 512 
 
 以上满足基本的aarch64开发环境需求，需另外补充：
 
-首次安装ubuntu：
+首次安装虚拟机，采用脚本：
 
+```bash
+
+
+```
+
+后续，再使用时，
 
 
 ## FAQ
