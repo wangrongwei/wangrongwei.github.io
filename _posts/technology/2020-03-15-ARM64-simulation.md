@@ -195,7 +195,12 @@ ifconfig eth0 192.168.0.119 netmask 255.255.255.0
 ```bash
 qemu-system-aarch64 \
     -m 2048 -cpu cortex-a57 \
-    -smp 2 -M virt -bios QEMU_EFI.fd -nographic -drive if=none,file=ubuntu-18.04.4-server-arm64.iso,id=cdrom,media=cdrom -device virtio-scsi-device -device scsi-cd,drive=cdrom -drive if=none,file=CentOS7-arm64.qcow2,id=hd0 -device virtio-blk-device,drive=hd0
+    -smp 2 -M virt \
+    -bios QEMU_EFI.fd \
+    -nographic -drive if=none,file=ubuntu-18.04.4-server-arm64.iso,id=cdrom,media=cdrom \
+    -device virtio-scsi-device -device scsi-cd,drive=cdrom \
+    -drive if=none,file=CentOS7-arm64.qcow2,id=hd0 \
+    -device virtio-blk-device,drive=hd0
 ```
 
 后续再使用时，可采用脚本：
