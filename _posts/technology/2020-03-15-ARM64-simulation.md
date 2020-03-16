@@ -46,7 +46,9 @@ wget https://busybox.net/downloads/busybox-1.24.2.tar.bz2
 接下来，需要对busybox进行配置，执行make menuconfig命令进行配置，以下两个选项需要设置：
 
 Busybox Setting -> Build Options -> static binary(enable)
+
 Networking Utilities -> inetd(disable)
+
 Busybox Setting -> BusyBox installation prefix(../rootfs)
 
 - 编译
