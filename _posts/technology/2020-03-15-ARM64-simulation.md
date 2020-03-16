@@ -162,7 +162,7 @@ qemu-system-aarch64 -cpu cortex-a57 -machine type=virt -nographic -smp 1 -m 512 
 后续再使用时，可采用脚本：
 
 ```bash
-
+qemu-system-aarch64 -m 2048 -cpu cortex-a57 -smp 2 -M virt -bios QEMU_EFI.fd -nographic -device virtio-scsi-device -drive driver=qcow2,media=disk,cache=writeback,if=none,file=CentOS7-arm64.qcow2,id=hd0 -device virtio-blk-device,drive=hd0
 ```
 
 ## FAQ
