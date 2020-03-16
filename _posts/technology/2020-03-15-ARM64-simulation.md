@@ -208,6 +208,7 @@ qemu-system-aarch64 -m 2048 -cpu cortex-a57 -smp 2 -M virt -bios QEMU_EFI.fd -no
 - 改变方案，用现有发行版的arm64取代？
 - Failed to set MokListRT: Invalid Parameter
 - 如何在qemu虚拟机内连接网络？
+- 在虚拟机中键盘不匹配，无法使用vim
 
 QEMU_EFI.fd(下载地址：http://releases.linaro.org/components/kernel/uefi-linaro/16.02/release/qemu64/)
 
