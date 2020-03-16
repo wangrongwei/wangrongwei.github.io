@@ -163,17 +163,19 @@ QEMU的TAP初始化脚本缺省是 /etc/qemu-ifup，它的内容很简单：
 
 其中192.168.0.118与host的ip地址需在不同网段，另外，/etc/qemu-ifup文件需要增加可执行的权限。
 
-- 虚拟机的网络设置 
+- 虚拟机的网络设置
 
 虚拟机的启动命令行增加网络参数：
 
 ```bash
--net nic -net tap 
+-net nic -net tap
 ```
 
 即可启动TAP网络模式。注意：因为创建TAP网卡需要root权限，所以必须用root用户启动QEMU。虚拟机启动后，用ifconfig命令设置网络，要求它的IP与host的tap网口的IP（即在上个步骤里qemu-ifup文件中设置的IP）处于同一网段。例如：
-ifconfig eth0 192.168.0.119 netmask 255.255.255.0 
 
+```bash
+ifconfig eth0 192.168.0.119 netmask 255.255.255.0
+```
 
 ## 补充
 
