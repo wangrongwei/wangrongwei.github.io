@@ -152,10 +152,15 @@ QEMU虚拟机网络的缺省模式是NAT方式，即虚拟机可以通过host访
 
 首先，需要安装tunctl，可采用**lsmod | grep tun**确认系统是否已经安装tun模块，若内核模块已经安装，可继续安装tunctl。
 
--编写QEMU的TAP初始化脚本 
+- 编写QEMU的TAP初始化脚本 
+
 QEMU的TAP初始化脚本缺省是 /etc/qemu-ifup，它的内容很简单： 
+
+```bash
 #!/bin/sh 
 /sbin/ifconfig $1 192.168.0.11 
+```
+
 /etc/qemu-ifup文件需要增加可执行的权限。 
 
 ## 补充
