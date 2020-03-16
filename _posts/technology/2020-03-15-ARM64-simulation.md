@@ -157,11 +157,13 @@ qemu-system-aarch64 -cpu cortex-a57 -machine type=virt -nographic -smp 1 -m 512 
 
 ```bash
 
-
 ```
 
-后续，再使用时，
+后续再使用时，可采用脚本：
 
+```bash
+
+```
 
 ## FAQ
 
