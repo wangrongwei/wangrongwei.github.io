@@ -157,11 +157,11 @@ QEMU虚拟机网络的缺省模式是NAT方式，即虚拟机可以通过host访
 QEMU的TAP初始化脚本缺省是 /etc/qemu-ifup，它的内容很简单： 
 
 ```bash
-#!/bin/sh 
+#!/bin/sh
 /sbin/ifconfig $1 192.168.0.11 
 ```
 
-/etc/qemu-ifup文件需要增加可执行的权限。 
+其中192.168.0.11与host的ip地址需在不同网段，另外，/etc/qemu-ifup文件需要增加可执行的权限。
 
 ## 补充
 
