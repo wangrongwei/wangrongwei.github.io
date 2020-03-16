@@ -144,7 +144,9 @@ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- Image -j8
 qemu-system-aarch64 -cpu cortex-a57 -machine type=virt -nographic -smp 1 -m 512 -kernel Image -append "rdinit=/linuxrc console=ttyAMA0" -initrd rootfs.cpio.gz -device virtio-scsi-device
 ```
 
-###
+### 网络配置
+
+如何在虚拟机内核连接外网？
 
 ## 补充
 
