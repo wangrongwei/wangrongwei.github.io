@@ -156,7 +156,7 @@ qemu-system-aarch64 -cpu cortex-a57 -machine type=virt -nographic -smp 1 -m 512 
 - 如何制作rootfs文件系统？
 - 改变方案，用现有发行版的arm64取代？
 - Failed to set MokListRT: Invalid Parameter
-
+- 如何在qemu虚拟机内连接网络？
 
 QEMU_EFI.fd(下载地址：http://releases.linaro.org/components/kernel/uefi-linaro/16.02/release/qemu64/)
 
@@ -180,12 +180,10 @@ qemu-system-aarch64 \
         -pflash flash0.img \
         -pflash flash1.img \
         -netdev user,id=user0 -device virtio-net-device,netdev=user0 \
-————————————————
-版权声明：本文为CSDN博主「jongwu3」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
-原文链接：https://blog.csdn.net/wujianyongw4/article/details/90289208
 ```
 
 ## 参考
 
 - https://luomuxiaoxiao.com/?p=743
 - https://blog.csdn.net/linsheng_111/article/details/82996347
+- https://blog.csdn.net/wujianyongw4/article/details/90289208
