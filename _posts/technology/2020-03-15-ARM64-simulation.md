@@ -228,12 +228,18 @@ qemu-system-aarch64 \
 ## FAQ
 
 - 如何制作rootfs文件系统？
-- 改变方案，用现有发行版的arm64取代？
-- Failed to set MokListRT: Invalid Parameter
-- 如何在qemu虚拟机内连接网络？
-- 在虚拟机中键盘不匹配，无法使用vim
-- 虚拟机无法ping通host，host可以ping通
 
+- 改变方案，用现有发行版的arm64取代？
+
+- Failed to set MokListRT: Invalid Parameter
+
+- 如何在qemu虚拟机内连接网络？
+
+- 在虚拟机中键盘不匹配，无法使用vim
+
+- 虚拟机无法ping通host，host可以ping通虚拟机？
+
+在虚拟机
 
 QEMU_EFI.fd(下载地址：http://releases.linaro.org/components/kernel/uefi-linaro/16.02/release/qemu64/)
 
