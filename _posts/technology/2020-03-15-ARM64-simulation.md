@@ -239,7 +239,7 @@ qemu-system-aarch64 \
 
 - 虚拟机无法ping通host，host可以ping通虚拟机？
 
-在虚拟机
+检测路由：route -v，缺少到目的IP的路由时，采用以下
 
 QEMU_EFI.fd(下载地址：http://releases.linaro.org/components/kernel/uefi-linaro/16.02/release/qemu64/)
 
