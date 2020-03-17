@@ -188,7 +188,6 @@ QEMU的TAP初始化脚本缺省是 /etc/qemu-ifup，它的内容很简单：
 ifconfig eth0 192.168.0.119 netmask 255.255.255.0
 ```
 
-
 ## 补充
 
 在编译和最后的执行内核过程中，若出现问题，可采用**file | which**两个命令对生成的可执行文件进行查看。
@@ -233,7 +232,8 @@ qemu-system-aarch64 \
 - Failed to set MokListRT: Invalid Parameter
 - 如何在qemu虚拟机内连接网络？
 - 在虚拟机中键盘不匹配，无法使用vim
-- 虚拟机无法ping通host
+- 虚拟机无法ping通host，host可以ping通
+
 
 QEMU_EFI.fd(下载地址：http://releases.linaro.org/components/kernel/uefi-linaro/16.02/release/qemu64/)
 
