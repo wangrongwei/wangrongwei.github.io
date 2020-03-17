@@ -143,7 +143,11 @@ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- Image -j8
 将以上生成的Image文件和rootfs.cpio.gz拷贝到单独的文件下，执行以下命令启动linux内核：
 
 ```bash
-qemu-system-aarch64 -cpu cortex-a57 -machine type=virt -nographic -smp 1 -m 512 -kernel Image -append "rdinit=/linuxrc console=ttyAMA0" -initrd rootfs.cpio.gz -device virtio-scsi-device
+qemu-system-aarch64 \
+    -cpu cortex-a57 \
+    -machine type=virt \
+    -nographic -smp 1 \
+    -m 512 -kernel Image -append "rdinit=/linuxrc console=ttyAMA0" -initrd rootfs.cpio.gz -device virtio-scsi-device
 ```
 
 ### 网络配置
