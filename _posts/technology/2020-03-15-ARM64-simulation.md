@@ -147,7 +147,10 @@ qemu-system-aarch64 \
     -cpu cortex-a57 \
     -machine type=virt \
     -nographic -smp 1 \
-    -m 512 -kernel Image -append "rdinit=/linuxrc console=ttyAMA0" -initrd rootfs.cpio.gz -device virtio-scsi-device
+    -m 512 -kernel Image \
+    -append "rdinit=/linuxrc console=ttyAMA0" \
+    -initrd rootfs.cpio.gz \
+    -device virtio-scsi-device
 ```
 
 ### 网络配置
