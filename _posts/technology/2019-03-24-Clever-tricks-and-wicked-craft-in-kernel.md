@@ -1,6 +1,6 @@
 ---
 layout: article
-title:  "内核中的"
+title:  "奇技淫巧@kernel"
 date:   2020-03-24
 categories: tech
 share: false
@@ -13,4 +13,4 @@ toc: true
 
 > 本文原文地址：<http://wangrongwei.github.io{{ page.url }}>
 
-
+## 操作
