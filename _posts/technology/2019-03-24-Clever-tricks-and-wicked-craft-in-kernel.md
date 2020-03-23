@@ -13,4 +13,7 @@ toc: true
 
 > 本文原文地址：<http://wangrongwei.github.io{{ page.url }}>
 
-## 操作
+## linux kernel
+
+
+
