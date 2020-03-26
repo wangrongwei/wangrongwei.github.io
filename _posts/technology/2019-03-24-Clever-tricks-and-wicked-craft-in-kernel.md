@@ -41,3 +41,17 @@ toc: true
 ### x86
 
 待补充
+
+
+
+### 其他
+
+登录ssh，不必每次输入命令，可操作如下：
+
+```shell
+ssh-keygen -t rsa
+ssh-copy-id <name>@<ip>
+```
+
+
+
