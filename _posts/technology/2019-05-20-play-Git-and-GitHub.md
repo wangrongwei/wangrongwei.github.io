@@ -1,6 +1,6 @@
 ---
 layout: article
-title:  "Git与GitHub环境搭建"
+title:  "Git技巧"
 date:   2019-05-20 15:58:43
 categories: tech
 share: false
@@ -115,3 +115,14 @@ git reset --hard HEAD~7
   真正的更新在这一步，将原作者当前更新提交与本地融合
 - git push
   将修改更新到自己的远程仓库
+
+## 补一张图
+
+
+
+![image-20200404111740474](D:\git\wangrongwei.github.io\images\image-20200404111740474.png)
+
+
+
+
+
