@@ -13,7 +13,7 @@ toc: true
 
 > 作者：雨庭
 
-> 本文原文地址：<http://wangrongwei.github.io{{ page.url }}>
+> 本文原文地址：<http://wangrongwei.com{{ page.url }}>
 
 ## 环境搭建
 
