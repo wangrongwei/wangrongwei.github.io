@@ -142,6 +142,18 @@ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- Image -j8
 
 ## 虚拟机管理
 
+### 制作镜像
+
+使用qemu-img制作镜像
+
+```shell
+qemu-img create -f qcow2 centos7-aarch64.img 10G
+```
+
+
+
+### 启动虚拟机
+
 将以上生成的Image文件和rootfs.cpio.gz拷贝到单独的文件下，执行以下命令启动linux内核：
 
 ```bash
