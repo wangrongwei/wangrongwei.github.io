@@ -13,7 +13,7 @@ image:
 
 > 作者：雨庭(rongwei)
 
-> 本文原文地址：<http://wangrongwei.github.io{{ page.url }}>
+> 本文原文地址：<http://wangrongwei.com/{{ page.url }}>
 
 ## Git ##
 
@@ -53,7 +53,9 @@ git config --global user.email "wangrongwei2014@gmail.com"
 ssh-keygen -t ras -C "wangrongwei2014@gmail.com"
 ```
 
-测试：
+以上的指令完成以后将会在~/.ssh/路径下生成id_rsa.pub等文件。接下来，需要将id_rsa.pub中的内容复制到Github的SSH and GPG keys。
+
+测试是否绑定成功：
 
 ```bash
 ssh -T git@github.com
@@ -107,20 +109,23 @@ git reset --hard HEAD~7
 
 - git add remote
   添加原作者地址到本地
-
 - git fetch --all
   fetch原作者的修改到本地，但是该命令执行完成后，本地仓库还未修改，可以通过git log查看没有最新的提交
-
 - git rebase
   真正的更新在这一步，将原作者当前更新提交与本地融合
 - git push
   将修改更新到自己的远程仓库
 
+### 补丁相关
+
+- 导出commit为补丁文件：git format-patch -s commit-id
+
+- 将最新的N个commit分别生成补丁文件：git format-patch -s -N
+- 获取与某feature的完整commit
+
 ## 补一张图
 
-
-
-![image-20200404111740474](D:\git\wangrongwei.github.io\images\image-20200404111740474.png)
+![image-20200404111740474](/images/image-20200404111740474.png)
 
 
 
