@@ -3,6 +3,7 @@ layout: article
 title:  "为什么发生segmentation fault"
 date:   2019-05-25 23:36:11
 categories: tech
+share: false
 toc: true
 image:
     teaser: /teaser/linux.jpg
@@ -14,7 +15,7 @@ image:
 
 > 作者：雨庭(rongwei)
 
-> 本文原文地址：<http://wangrongwei.github.io{{ page.url }}>
+> 本文原文地址：<http://wangrongwei.com{{ page.url }}>
 
 ## 实验 ##
 

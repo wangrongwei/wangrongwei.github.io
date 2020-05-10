@@ -1,18 +1,18 @@
-﻿---
+---
 layout: article
 title:  "函数指针void((f[n])())()的故事"
 date:   2019-06-20 19:52:48
-categories: language
+categories: tech
 share: false
 toc: true
 image:
     teaser: /teaser/2019-06-20-20-16-13.png
 ---
 
-> 本文尝试说明C语言中指针函数与函数指针中的本质区别，并举例说明复杂的函数指针。
+>本文尝试说明C语言中指针函数与函数指针中的本质区别，并举例说明复杂的函数指针。
 
 > 文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部
-> 作者：雨庭(rongwei)
+> 作者：雨庭
 > 本文原文地址：<http://wangrongwei.github.io{{ page.url }}>
 
 ## 函数指针
