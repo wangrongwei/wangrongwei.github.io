@@ -1,0 +1,236 @@
+body {
+	font-family: 'Raleway', Helvetica, Arial, sans-serif;
+	font-weight: 400;
+	background-color: rgba(0, 0, 0, 0.02);
+}
+
+.button {
+	font-family: 'Raleway', Helvetica, Arial, sans-serif;
+}
+
+.button-group li{
+	padding-top: 3%;
+}
+
+.button-group a{
+	color: rgba(0, 0, 0, 1);
+	background-color: transparent;
+}
+
+.button-group a:hover {
+	background-color: #007095;
+}
+
+.button-group a:focus, .button-group a:active {
+	color: rgba(0, 0, 0, 1);
+	background-color: inherit;
+}
+
+.button-group{
+	float: none;
+}
+
+@media only screen and (min-width: 40.063em) {
+	.button-group{
+		float: right;
+	}
+}
+
+.namelogo {
+	padding: 20px 10px 0px 10px;
+}
+
+@media only screen and (min-width: 40.063em) {
+	.namelogo {
+		padding-bottom: 20px;
+	}
+}
+
+.namelogo h1 {
+	font-size: 1.5em;
+	font-weight: 300;
+	text-align: center;
+	display: inline-block;
+}
+
+@media only screen and (min-width: 40.063em) {
+	.namelogo h1 {
+		text-align: left;
+	}
+}
+
+@media only screen and (min-width: 64.063em) {
+	.namelogo h1 {
+		text-align: left;
+	}
+}
+
+.hero {
+	background-image: url(../img/pierian-spring1.jpg);
+/*	background: url(../img/spring.gif),url(../img/filter.png);*/
+	background-size: cover;
+	background-position: center;
+	box-shadow: inset 0px 0px 0 2000px rgba(0,0,0,0.15);
+	height: 80%;
+	position: relative;
+	overflow: hidden;
+}
+
+
+.intro-text {
+	color: rgba(255, 255, 255, 1);
+	text-align: center;
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    -webkit-transform: translate(-50%, -50%);
+       -moz-transform: translate(-50%, -50%);
+    	-ms-transform: translate(-50%, -50%);
+    	 -o-transform: translate(-50%, -50%);
+    		transform: translate(-50%, -50%);
+
+ }
+
+.intro-text b {
+	font-family: 'Shadows Into Light', cursive;
+	font-size: 1em;
+	font-weight: 400;
+	text-align: center;
+}
+
+.intro-text .cd-words-wrapper {
+	color: #fff;
+}
+
+.intro-text .is-visible {
+	width: inherit;
+	word-wrap: normal;
+}
+
+.about, .work, .projects, .contact {
+	padding: 50px 0 0 0;
+}
+.about {
+	background: #272822;
+	color: #b8b7a6/*#e8e7d6*/;
+	text-align: justify;
+}
+.about h4 {
+	color: #ddd;
+}
+#about {
+	position: relative;
+}
+/*#about .image-holder {
+  width: 33%; height: auto;
+  min-width: 150px;
+  float: right;
+  margin-right:2rem;
+  border-radius: 50%;
+  -webkit-shape-outside:circle();
+  shape-outside:circle();
+}*/
+@media only screen and (min-width: 40.063em) {
+	.image-holder {
+		position: absolute;
+	    top: 50%;
+	    right: 1em;
+	    -webkit-transform: translate(0%, -50%);
+	       -moz-transform: translate(0%, -50%);
+	    	-ms-transform: translate(0%, -50%);
+	    	 -o-transform: translate(0%, -50%);
+	    		transform: translate(0%, -50%);
+
+	}
+}
+.about img{
+	margin: auto;
+	display: block;
+	width: 60%;
+	height: auto;
+	border-radius: 50%;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border: 1em solid #666/*#e8e7d6*/;
+	margin-bottom: 1em;
+}
+
+	/*color: #b8b7a6;*/
+
+ul.showcase {
+	list-style-type: none;
+	display: inline-table;
+	margin: 1em;
+}
+
+ul.showcase li {
+	display: inline-block;
+	width: 100%;
+}
+@media only screen and (min-width: 40.063em) {
+	ul.showcase li{
+		width: 50%;
+	}
+}
+@media only screen and (min-width: 64.063em) {
+	ul.showcase li{
+		width: 25%;
+	}
+}
+
+.work img:hover {
+	width: 100%;
+	height: auto;
+	opacity: 0.5;
+	-webkit-transition: 0.3s ease;
+	-moz-transition: 0.3s ease;
+	-ms-transition: 0.3s ease;
+	-o-transition: 0.3s ease;
+	transition: 0.3s ease;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
+  background-image:    -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
+  background-image:     -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
+  background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
+	opacity: 0.8;
+}
+
+footer {
+	padding: 50px 0 10px 0;
+}
+
+footer a:hover {
+	color: rgba(0, 0, 0, 0.4);
+	background-color: transparent;
+}
+
+.scrollup {
+	height: 2em;
+	width: 2em;
+	padding:0.2em;
+	text-align:center;
+	background: url(../img/glyphicons-601-chevron-up.png) center no-repeat, #63B75D;
+	background-size: 1em auto;
+	box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	-webkit-box-sizing: content-box;
+	-ms-box-sizing: content-box;
+	-o-box-sizing: content-box;
+	font-weight:bold;
+	color:#fff;
+	text-decoration:none;
+	position:fixed;
+	bottom:2em;
+	right:2em;
+	display: none;
+	border-radius: 0.1em;
+}
+
+.scrollup:hover {
+	background-color: #529A4E;
+}

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Evan's world</title>
+    <description>个人博客</description>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Mon, 18 May 2020 22:48:48 +0800</pubDate>
+    <lastBuildDate>Mon, 18 May 2020 22:48:48 +0800</lastBuildDate>
+    <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>如何使用该主题？</title>
+        <description>&lt;h1 id=&quot;如何使用该主题&quot;&gt;如何使用该主题？&lt;/h1&gt;
+
+&lt;h2 id=&quot;配置概述&quot;&gt;配置概述&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;_config.yml&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;主要配置文件，用户可修改站点名、邮件、Github等信息。&lt;/p&gt;
+
+&lt;p&gt;以下为disqus评论系统配置信息：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;disqus_username: 你的Username
+disqus: Evan
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;用户在使用该主题前，必须对其进行修改或空置，该项勿随机配置。若需要保留该配置，需前往disqus官网进行注册（需VPN）。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;blog.md&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;博客，对博客文章进行展示，在本主题中包括博客、学术、工程三类，对其进行分开展示。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;notice.md&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;博客说明。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;index.md&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;首页，主要对include目录下的index.html进行引用，可以进行优化。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;CNAME&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;个性域名，需要使用者自己购买域名配置在此处配置。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Evan&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;该主题名，用户可第一时间修改。&lt;/p&gt;
+
+&lt;h2 id=&quot;配置说明&quot;&gt;配置说明&lt;/h2&gt;
+
+&lt;p&gt;待补充。&lt;/p&gt;
+
+&lt;h2 id=&quot;其他&quot;&gt;其他&lt;/h2&gt;
+
+&lt;p&gt;若使用者对jekyll的语法不够熟悉，且计划对代码和布局进行修改，推荐先阅读jekyll提供的&lt;a href=&quot;https://jekyllrb.com/docs/step-by-step/01-setup/&quot;&gt;step-by-step&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;enjoy!&lt;/p&gt;
+</description>
+        <pubDate>Sat, 14 Mar 2020 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2020/03/14/using-this.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/03/14/using-this.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>西风</title>
+        <description>&lt;h1 id=&quot;西风&quot;&gt;西风&lt;/h1&gt;
+
+&lt;h2 id=&quot;section1&quot;&gt;section1&lt;/h2&gt;
+
+&lt;p&gt;西风，从门头沟入境北京，一路穿过石景山，来到海淀的上空。&lt;/p&gt;
+
+&lt;p&gt;人们的衣衫被吹起，驻足抬头仰望高楼之上的西风，却只看到蔚蓝的天空。&lt;/p&gt;
+
+&lt;p&gt;夏日的北京，刮起西风。&lt;/p&gt;
+
+&lt;h2 id=&quot;section2&quot;&gt;section2&lt;/h2&gt;
+
+&lt;p&gt;第二节&lt;/p&gt;
+
+&lt;h2 id=&quot;section3&quot;&gt;section3&lt;/h2&gt;
+
+&lt;p&gt;第三节&lt;/p&gt;
+</description>
+        <pubDate>Wed, 24 Jul 2019 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2019/07/24/west-wind.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/07/24/west-wind.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>梨花</title>
+        <description>&lt;h1 id=&quot;梨花&quot;&gt;梨花&lt;/h1&gt;
+
+&lt;p&gt;每到四月份，玉渊潭的樱花开了，就想起小时候邻居家的梨树开满梨花，洁白，清新。&lt;/p&gt;
+</description>
+        <pubDate>Wed, 24 Jul 2019 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2019/07/24/lihua.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/07/24/lihua.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>为何编程？</title>
+        <description>&lt;h1 id=&quot;为何编程&quot;&gt;为何编程？&lt;/h1&gt;
+
+&lt;p&gt;也许就是因为这些：&lt;a href=&quot;http://www.zhihu.com/question/23120049&quot;&gt;用编程实现 “hello world”，神奇在什么地方？&lt;/a&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Tue, 25 Mar 2014 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2014/03/25/why-programming.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2014/03/25/why-programming.html</guid>
+        
+        <category>programming</category>
+        
+        
+      </item>
+    
+  </channel>
+</rss>

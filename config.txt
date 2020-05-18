@@ -1,0 +1,10 @@
+site-name: Rongwei Wang
+append: for fun
+avator: avator.jpg
+
+navigation: 
+	- About 
+	- Websites 
+	- Projects 
+	- Contact
+

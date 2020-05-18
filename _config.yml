@@ -1,64 +1,20 @@
-# Site wide configuration
 
-title: "wangrongwei's Home Page"
-description: "Hello, welcome !"
-logo: avator.jpg # 120x120 px default image used for Twitter summary card
-teaser: default-teaser.jpg # 400x250 px default teaser image used in image archive grid
-locale: zh
-url: "https://wangrongwei.github.io/"
-feed:
-  path: atom.xml
+# Site settings
+title: wangrongwei's world
+email: rongwei.lisp@gmail.com
+description: 个人博客 # this means to ignore newlines until "baseurl:"
+  
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://wangrongwei.com" # the base hostname & protocol for your site
+#twitter_username: jekyllrb
+github_username:  wangrongwei
 
-# Jekyll configuration
+# Disqus settings（https://disqus.com/）
+disqus_username: Zackary Wong
+disqus: Evan
 
-sass:
-  sass_dir: _sass
-  style: compressed
-permalink: /:categories/:title/
-redcarpet:
-  toc_levels: 1..2
-highlighter: rouge
-gems:
-  - jekyll-sitemap
-  - jekyll-gist
-  - jekyll-feed
+# Build settings
 
 
-# Site owner
-owner:
-  name: Rongwei
-  email: rongwei.lisp@gmail.com
-  twitter:
-  google:
-    ad-client:
-    ad-slot:
-  bio:
-  avatar: avator.jpg # 160x160 px image for author byline
-  disqus-shortname: rongwei
+permalink: /:year/:month/:day/:title.html
 
-
-include:
-  - .htaccess
-exclude:
-  - "*.less"
-  - "*.sublime-project"
-  - "*.sublime-workspace"
-  - .asset-cache
-  - .bundle
-  - .jekyll-assets-cache
-  - .sass-cache
-  - CHANGELOG
-  - Capfile
-  - Gemfile
-  - Gruntfile.js
-  - LICENSE
-  - README
-  - Rakefile
-  - config
-  - gulpfile.js
-  - lib
-  - log
-  - node_modules
-  - package.json
-  - spec
-  - tmp

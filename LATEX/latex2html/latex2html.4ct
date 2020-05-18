@@ -1,8 +1,0 @@
-\expandafter\ifx\csname doTocEntry\endcsname\relax \expandafter\endinput\fi 
-\doTocEntry\tocsection{1}{\csname a:TocLink\endcsname{1}{x1-10001}{QQ2-1-1}{Table}}{3}\relax 
-\doTocEntry\toclot{1}{\csname a:TocLink\endcsname{1}{x1-10011}{}{\ignorespaces {\bf  英文刊名常用词及国际省略法}}}{table}\relax 
-\doTocEntry\tocsection{2}{\csname a:TocLink\endcsname{1}{x1-20002}{QQ2-1-3}{书写公式}}{6}\relax 
-\doTocEntry\tocsection{3}{\csname a:TocLink\endcsname{1}{x1-30003}{QQ2-1-4}{插入图片}}{6}\relax 
-\doTocEntry\toclof{1}{\csname a:TocLink\endcsname{1}{x1-30011}{}{\ignorespaces 插图实例}}{figure}\relax 
-\doTocEntry\tocsection{4}{\csname a:TocLink\endcsname{1}{x1-40004}{QQ2-1-6}{超链接}}{9}\relax 
-\par 
