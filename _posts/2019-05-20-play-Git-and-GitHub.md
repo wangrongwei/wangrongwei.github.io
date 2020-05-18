@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title:  "Git技巧"
 date:   2019-05-20 15:58:43
 categories: tech

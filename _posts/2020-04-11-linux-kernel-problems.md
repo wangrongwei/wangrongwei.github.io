@@ -1,7 +1,7 @@
 ---
-layout: article
-title:  "内核问题很“内核”"
-date:   2020-03-15
+layout: post
+title: "内核问题很“内核”"
+date: 2020-03-15
 categories: tech
 share: false
 toc: true

@@ -1,7 +1,7 @@
 ---
-layout: article
-title:  "漫谈cache"
-date:   2019-05-04
+layout: post
+title: "漫谈cache"
+date: 2019-05-04
 categories: arch
 share: false
 toc: true

@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title:  "一个简单的多任务切换模型"
 date:   2020-03-15
 categories: tech

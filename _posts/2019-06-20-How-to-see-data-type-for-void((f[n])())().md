@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title:  "函数指针void((f[n])())()的故事"
 date:   2019-06-20 19:52:48
 categories: tech

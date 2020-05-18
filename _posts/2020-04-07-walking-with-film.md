@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title:  "走进电影"
 date:   2019-11-25
 categories: life
