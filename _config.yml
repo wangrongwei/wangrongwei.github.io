@@ -1,24 +1,21 @@
 
 # Site settings
-title: lollipop's homepage
-email: rongwei.lisp
-site_name: lollipop
+title: Evan's world
+email: dog.cute
+site_name: Evan
+pages: blog notice
 
 # this means to ignore newlines until "baseurl:"
 description: 个人博客
 
-# the subpath of your site, e.g. /blog/
-baseurl: ""
-
-# the base hostname & protocol for your site
-url: "http://wangrongwei.com"
-
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://xxxxx.com" # the base hostname & protocol for your site
 #twitter_username: jekyllrb
-github_username:  wangrongwei
+github_username:  Evan
 
 # Disqus settings（https://disqus.com/）
-disqus_username: Zackary Wong
-disqus: Zackary Wong
+disqus_username: 你的Username
+disqus: Evan
 
 # Build settings
 
