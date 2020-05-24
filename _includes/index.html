@@ -57,7 +57,9 @@
 				<div class="medium-6 large-8 columns">
 					<h4>Name Who?</h4>
 					<p style="color: #ddd">
-						Hi, I'm "your name". I'm a 24 year old software engineer in Beijing. Welcome to my personal site! I like to draw, play tennis, and tackle interesting problems. Oh, and I make <i>delicious</i> pancakes.
+          Hi, I'm {{ site.github_name }}. I'm a 24 year old software engineer
+          in Beijing. Welcome to my personal site! I like to swimming, play tennis,
+          and tackle interesting problems.
 					</p>
 				</div>
 				<div class="image-holder medium-6 large-4 columns">
@@ -95,39 +97,25 @@
 					<h4>Websites</h4>
 					<p>Here are some websites I have designed and developed. </p>
 					<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2">
-						<li>
-							<a href="index.html">
-								<img src="img/Website-snapshots/MESA-Website.png">
-								<aside><small>UPDATE: website has since been taken down</small></aside>
-								<p>MESA, the Mechanical Engineering Students' Association of Rutgers University</p>
-							</a>
-						</li>
-						<li>
-							<a href="index.html">
-								<img src="img/Website-snapshots/Razzberry-Website.png">
-								<p>The Razzberry, a satire media website for Rutgers students.</p>
-							</a>
-						</li>
-						<li>
-							<a href="index.html">
-								<img src="img/Website-snapshots/VKS-Website.png">
-								<p>VKS Associates LLC, management consulting company</p>
-							</a>
-						</li>
-						<li>
-							<a href="#">
-								<img src="img/Website-snapshots/My-Website.png">
-								<p>GNU's Not Unix</p>
-							</a>
-						</li>
+            {% for post in site.categories.blog limit:4 %}
+              {%if post.categories %}
+                <li>
+                  <a href="{{ site.url }}{{ post.url }}">
+                    <img data-caption="caption 2 here..." src="{{ site.url }}/images/{{ post.teaser }}">
+                    <p itemprop="name">{{ post.title }}</p>
+                    <p itemprop="description">{{ post.excerpt }}</p>
+							    </a>
+						  </li>
+              {% endif %}
+            {% endfor %}
 						<!-- <li>
 							<img src="img/Website-snapshots/Anderson-Ludgate-Website.png">
 							<p>Anderson Ludgate Consulting, market research firm
 							<aside><small>UPDATE: website has since been redesigned elsewhere</small></aside>
 							</p>
 						</li> -->
-                    </ul>
-                    <h5><a href="blog/">Read more...</a></h5>
+            </ul>
+            <h5><a href="blog/">Read more...</a></h5>
 				</div>
 			</div>
 		</div>
@@ -138,28 +126,25 @@
 					<h4>Academic</h4>
 					<p>Here are some papers I have published. </p>
 					<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2">
-						<li>
-							<a href="index.html">
-								<img src="img/Website-snapshots/MESA-Website.png">
-								<aside><small>UPDATE: website has since been taken down</small></aside>
-								<p>object, Description text</p>
-							</a>
-						</li>
-						<li>
-							<a href="index.html">
-								<img src="img/Website-snapshots/Razzberry-Website.png">
-								<p>object, Description text.</p>
-							</a>
-						</li>
-
+            {% for post in site.categories.academic limit:2 %}
+              {%if post.categories %}
+                <li>
+                  <a href="{{ site.url }}{{ post.url }}">
+                    <img data-caption="caption 2 here..." src="{{ site.url }}/images/{{ post.teaser }}">
+                    <p itemprop="name">{{ post.title }}</p>
+                    <p itemprop="description">{{ post.excerpt }}</p>
+							    </a>
+						  </li>
+              {% endif %}
+            {% endfor %}
 						<!-- <li>
 							<img src="img/Website-snapshots/Anderson-Ludgate-Website.png">
 							<p>Anderson Ludgate Consulting, market research firm
 							<aside><small>UPDATE: website has since been redesigned elsewhere</small></aside>
 							</p>
 						</li> -->
-                    </ul>
-                    <h5><a href="blog/">Read more...</a></h5>
+            </ul>
+            <h5><a href="blog/">Read more...</a></h5>
 				</div>
 			</div>
 		</div>
@@ -171,53 +156,23 @@
 					<p>Every now and then, I sit down and decide to make something. </p>
 					<p>They aren't all finished, but please, take a look at my little projects anyway! Tell me what you think!</p>
 					<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2" >
-						<li>
-							<a href="index.html">
-								<img data-caption="caption 2 here..." src="img/Project-snapshots/GridAI.png">
-								<p>object, Description text</p>
-								<p>Description text</p>
-							</a>
-						</li>
-						<li>
-							<a href="index.html">
-								<img data-caption="caption 2 here..." src="img/Project-snapshots/DangerousNanthy.png">
-								<p>object, Description text 😉</p>
-								<p>Description text</p>
-							</a>
-						</li>
-						<li>
-							<a href="index.html">
-								<img data-caption="caption 2 here..." src="img/Project-snapshots/APIChooserinator.png">
-								<p>object, Description text. </p>
-								<p>Description text</p>
-							</a>
-						</li>
-						<li>
-							<a href="FractalGen/">
-								<img data-caption="caption 2 here..." src="img/Project-snapshots/FractalGen.png">
-								<p>object, Description text</p>
-								<p>Description text</p>
-							</a>
-						</li>
-						<li>
-							<a href="GPACalculator/">
-								<img data-caption="caption 2 here..." src="img/Project-snapshots/GPACalculator.png">
-								<p>object, Description text</p>
-								<p>Description text</p>
-							</a>
-						</li>
-						<li>
-							<a href="TileStyling/">
-								<img data-caption="caption 2 here..." src="img/Project-snapshots/TileStyling.png">
-								<p>object, Description text.</p>
-								<p>Description text</p>
-							</a>
-						</li>
+            {% capture category_name %} {{ page.categories | first }} {% endcapture %}
+            {% for post in site.categories.project limit:4 %}
+              {%if post.categories %}
+                <li>
+                  <a href="{{ site.url }}{{ post.url }}">
+                    <img data-caption="caption 2 here..." src="{{ site.url }}/images/{{ post.teaser }}">
+                    <p itemprop="name">{{ post.title }}</p>
+                    <p itemprop="description">{{ post.excerpt }}</p>
+							    </a>
+						  </li>
+              {% endif %}
+            {% endfor %}
 					</ul>
 				</div>
 			</div>
 			<div class="row text-center">
-				<a class="button round" href="https://www.github.com/xxx" style="font-size: 1.4em; width: auto">
+        <a class="button round" href="https://www.github.com/{{ site.github_name }}" style="font-size: 1.4em; width: auto">
 					<img src="https://octodex.github.com/images/original.png" style="height: 3em; width: auto">
 					Check out some of my other projects on Github!
 				</a>

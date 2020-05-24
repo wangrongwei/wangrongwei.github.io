@@ -1,18 +1,19 @@
 ---
 layout: post
 title: "ARM64仿真"
-date: 2020-03-15
-categories: tech
-share: false
-toc: true
+categories: blog
+comments: true
+tags: 
+teaser:
+    linux-kernel.jpg
 ---
 
 > qemu环境的配置
 
 > 文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部
-
+>
 > 作者：lollipop
-
+>
 > 本文原文地址：<http://wangrongwei.com{{ page.url }}>
 
 ## 环境搭建

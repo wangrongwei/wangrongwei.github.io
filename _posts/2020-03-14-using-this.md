@@ -1,11 +1,48 @@
 ---
 layout: post
 title: 如何使用该主题？
+categories: blog
+comments: true
 tags: 
+teaser:
+    default.jpg
 ---
 
 {{ page.title }}
 ===========
+
+
+
+## ruby包下载 ##
+
+jekyll依赖于ruby安装包，需前往[l](https://rubyinstaller.org/downloads/)下载较新的安装包。
+
+## 修改源 ##
+
+在进行后续步骤前，需要对ruby源进行更新，否则后续下载相关包将花费不少的时间，源更改操作如下：
+
+```bash
+- gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
+- gem sources -l
+```
+
+通过以上操作，使用**gem sources -l**查看仅存在新添加的淘宝源。
+
+## jekyll and bundler 安装 ##
+
+```bash
+- gem install jekyll bundler
+```
+
+## 选择主题 ##
+
+目前，网上有开源的博客主题，可前面[jekyllthemes](http://jekyllthemes.org/)选择喜欢的主题下载。该博客选择的主题是**skinny-bones-jekyll**，其作者的主页如下：
+
+[A Jekyll starter site](http://mademistakes.com/)
+
+除以上主题外，作者也提供了其他供选择的主题。
+
+
 
 ## 配置概述
 
@@ -51,3 +88,15 @@ disqus: Evan
 若使用者对jekyll的语法不够熟悉，且计划对代码和布局进行修改，推荐先阅读jekyll提供的[step-by-step](https://jekyllrb.com/docs/step-by-step/01-setup/)。
 
 enjoy!
+
+
+
+## 相关引用 ##
+
+- <https://www.jekyll.com.cn/docs/>
+
+- <https://rubyinstaller.org/downloads/>
+
+- <https://gems.ruby-china.com/>
+
+- <http://jekyllthemes.org/>

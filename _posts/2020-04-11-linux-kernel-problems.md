@@ -1,18 +1,19 @@
 ---
 layout: post
 title: "内核问题很“内核”"
-date: 2020-03-15
-categories: tech
-share: false
-toc: true
+categories: blog
+comments: true
+tags: programming
+teaser:
+    linux-kernel.jpg
 ---
 
 > 内核开发中几个基本概念梳理
 
 > 文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部
-
-> 作者：雨庭
-
+>
+> 作者：lollipop
+>
 > 本文原文地址：<http://wangrongwei.com{{ page.url }}>
 
 ## 基本概念

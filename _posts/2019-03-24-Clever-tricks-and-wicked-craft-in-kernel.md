@@ -2,10 +2,11 @@
 
 layout: post
 title:  "奇技淫巧@linux kernel"
-date:   2020-03-24
-categories: tech
-share: false
-toc: true
+categories: blog
+comments: true
+tags: programming
+teaser:
+    Snipaste_2020-05-23_02-00-21.jpg
 ---
 
 > 文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部

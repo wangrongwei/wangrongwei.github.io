@@ -1,18 +1,17 @@
 ---
 layout: post
 title:  "Git技巧"
-date:   2019-05-20 15:58:43
-categories: tech
-share: false
-toc: true
-image:
-    teaser: teaser/github.png
+categories: blog
+comments: true
+tags: programming
+teaser:
+    Snipaste_2020-05-24_14-16-53.jpg
 ---
 
 > 文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部
-
-> 作者：雨庭(rongwei)
-
+>
+> 作者：lollipop
+>
 > 本文原文地址：<http://wangrongwei.com/{{ page.url }}>
 
 ## Git ##

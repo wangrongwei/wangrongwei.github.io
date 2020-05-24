@@ -1,15 +1,18 @@
 ---
 layout: post
 title: "漫谈cache"
-date: 2019-05-04
-categories: arch
-share: false
-toc: true
-image:
-    teaser: /teaser/cache.jpg
+categories: blog
+comments: true
+tags: programming
+teaser:
+    Snipaste_2020-05-24_14-15-39.jpg
 ---
 
 >介绍cache类型、内部结构以及与CPU、I/O设备连接拓扑，并简要分析在代码中cache的踪迹。
+>
+>文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部
+>作者：lollipop
+>本文原文地址：<http://wangrongwei.com{{ page.url }}>
 
 ## cache简介 ##
 
@@ -80,7 +83,7 @@ image:
 　　**cache**和存储器一样具有两种基本操作，即读操作和写操作。当CPU发出读操作命令时，根据它产生的主存地址分为两种情形：
 
 - 一种是需要的数据已在**cache**中，那么只需直接访问**cache**，从对应单元中读取信息到数据总线；
-　　
+
 - 另一种是需要的数据尚未装入**cache**，CPU需从主存中读取信息的同时，**cache**替换部件把该地址所在的那块存储内容从主存拷贝到**cache**中；若**cache**中相应位置已被字块占满，就必须去掉旧的字块。
 
 常见的替换策略有两种：
@@ -95,7 +98,7 @@ image:
 
 1. **直写式（write through）**
     即CPU在向**cache**写入数据的同时，也把数据写入主存以保证**cache**和主存中相应单元数据的一致性，其特点是简单可靠，但由于CPU每次更新时都要对主存写入，速度必然受影响。
- 　
+
 2. **缓写式（post write）**
     即CPU在更新**cache**时不直接更新主存中的数据，而是把更新的数据送入一个缓存器暂存，在适当的时候再把缓存器中的内容写入主存。在这种方式下，CPU不必等待主存写入而造成的时延，在一定程度上提高了速度，但由于缓存器只有有限的容量，只能锁存一次写入的数据，如果是连续写入，CPU仍需要等待。
 

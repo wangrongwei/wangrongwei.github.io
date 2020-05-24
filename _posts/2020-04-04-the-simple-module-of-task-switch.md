@@ -1,20 +1,20 @@
 ---
 layout: post
 title:  "一个简单的多任务切换模型"
-date:   2020-03-15
-categories: tech
-share: false
-toc: true
-
+categories: blog
+comments: true
+tags: programming
+teaser:
+    linux-kernel.jpg
 ---
 
 > 多任务切换的简单模型
 
 > 文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部
-
-> 作者：雨庭
-
-> 本文原文地址：<http://wangrongwei.github.io{{ page.url }}>
+>
+> 作者：lollipop
+>
+> 本文原文地址：<http://wangrongwei.com{{ page.url }}>
 
 ## 概述
 

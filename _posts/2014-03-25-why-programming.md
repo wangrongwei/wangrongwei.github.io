@@ -1,8 +1,11 @@
 ---
 layout: post
 title: 为何编程？
+categories: blog
 comments: true
 tags: programming
+teaser:
+    Snipaste_2020-05-23_02-00-21.jpg
 ---
 
 {{ page.title }}

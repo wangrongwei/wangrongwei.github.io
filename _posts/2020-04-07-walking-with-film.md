@@ -1,17 +1,18 @@
 ---
 layout: post
 title:  "走进电影"
-date:   2019-11-25
-categories: life
-share: false
-
+categories: blog
+comments: true
+tags: 
+teaser:
+    reading.jpg
 ---
 
 > 看过很多电影，不过也忘得差不多了。
 
 > 文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部
-> 作者：雨庭(rongwei)
-> 本文原文地址：<http://wangrongwei.github.io{{ page.url }}>
+> 作者：lollipop
+> 本文原文地址：<http://wangrongwei.com{{ page.url }}>
 
 ## 一代宗师
 
