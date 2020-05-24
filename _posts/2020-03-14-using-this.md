@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 如何使用该主题？
-categories: blog
+categories: project
 comments: true
 tags: 
 teaser:
