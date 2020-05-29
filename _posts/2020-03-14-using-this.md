@@ -8,10 +8,11 @@ teaser:
     default.jpg
 ---
 
-{{ page.title }}
-===========
+> 如何使用该主题。
 
-
+> 文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部
+> 作者：lollipop
+> 本文原文地址：<http://wangrongwei.com{{ page.url }}>
 
 ## ruby包下载 ##
 
