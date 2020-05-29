@@ -6,7 +6,11 @@ site_name: lollipop
 pages: blog notice
 
 # basic configure
-markdown: Redcarpet
+highlighter: rouge
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
 
 # this means to ignore newlines until "baseurl:"
 description: 个人博客
@@ -19,7 +23,7 @@ url: "http://wangrongwei.com"
 github_username:  wangrongwei
 
 # Disqus settings（https://disqus.com/）
-disqus_username: zackarywong
+disqus_shortname: zackarywong
 disqus: Zachary Wang
 
 # Build settings
