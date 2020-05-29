@@ -156,7 +156,6 @@
 					<p>Every now and then, I sit down and decide to make something. </p>
 					<p>They aren't all finished, but please, take a look at my little projects anyway! Tell me what you think!</p>
 					<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2" >
-            {% capture category_name %} {{ page.categories | first }} {% endcapture %}
             {% for post in site.categories.project limit:4 %}
               {%if post.categories %}
                 <li>
