@@ -5,6 +5,9 @@ email: rongwei.lisp
 site_name: lollipop
 pages: blog notice
 
+# basic configure
+markdown: Redcarpet
+
 # this means to ignore newlines until "baseurl:"
 description: 个人博客
 
