@@ -26,7 +26,7 @@ teaser:
 
 在这里，我尝试用一张简单的图进行来说明：
 
-![image-20200404012812351](image-20200404012812351.png)
+![svg](http://wangrongwei.com/images/switch-task.svg)
 
 在上图中，没有提到具体的寄存器名，采用了一种比较通用的办法表示各种参与者，比如：
 

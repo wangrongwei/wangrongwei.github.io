@@ -8,15 +8,18 @@
 
   <title>
       
-        西风
+        一个基于i386的系统内核
       
 
   </title>
-  <meta name="description" content="西风">
+  <meta name="description" content="  一个基于i386的系统内核">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://localhost:4000/2019/07/24/west-wind.html">
-  <link rel="alternate" type="application/rss+xml" title="Evan's world" href="http://localhost:4000/feed.xml" />
+  <link rel="canonical" href="http://wangrongwei.com/2020/06/20/UNIX386.html">
+  <link rel="alternate" type="application/rss+xml" title="wangrongwei's world" href="http://wangrongwei.com/feed.xml" />
+  <link rel="stylesheet" href="/css/syntax.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+  <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
 </head>
 
 
@@ -68,8 +71,8 @@
       <div class="wrapper">
         <div class="post">
     <header class="post-header">
-        <h1 class="post-title">西风</h1>
-        <p class="post-meta">Jul 24, 2019</p>
+        <h1 class="post-title">一个基于i386的系统内核</h1>
+        <p class="post-meta">Jun 20, 2020</p>
     </header>
     <article class="post-content">
         <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
@@ -276,38 +279,62 @@
     }
 </style>
 
-        <h1 id="西风">西风</h1>
+        <blockquote>
+  <p>一个基于i386的系统内核</p>
+</blockquote>
 
-<h2 id="section1">section1</h2>
+<blockquote>
+  <p>文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部
+作者：lollipop
+本文原文地址：<a href="http://wangrongwei.com/2020/06/20/UNIX386.html">http://wangrongwei.com/2020/06/20/UNIX386.html</a></p>
+</blockquote>
 
-<p>西风，从门头沟入境北京，一路穿过石景山，来到海淀的上空。</p>
+<h2 id="简介">简介</h2>
 
-<p>人们的衣衫被吹起，驻足抬头仰望高楼之上的西风，却只看到蔚蓝的天空。</p>
+<h2 id="unix386">UNIX386</h2>
 
-<p>夏日的北京，刮起西风。</p>
+<h3 id="boot">boot</h3>
 
-<h2 id="section2">section2</h2>
+<h3 id="内存管理">内存管理</h3>
 
-<p>第二节</p>
+<h3 id="进程模型">进程模型</h3>
 
-<h2 id="section3">section3</h2>
+<h3 id="调度">调度</h3>
 
-<p>第三节</p>
+<h3 id="中断子系统">中断子系统</h3>
+
+<h2 id="链接">链接</h2>
+
+<ul>
+  <li>项目主页：<a href="https://github.com/wangrongwei/UNIX386">UNIX386</a></li>
+</ul>
+
 
     </article>
 
-    <div id="disqus_thread"></div>
-    <script type="text/javascript">
-        var disqus_shortname = 'Evan';
-        var disqus_identifier = '/2019/07/24/west-wind';
 
-        (function () {
-            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-            dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-    </script>
+<!-- Link Gitalk 的支持文件  -->
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: '5559cb52c37d3a87ad5a',
+        clientSecret: '533007d9135ceac46f429ae59699b23f5ef4a51c',
+        repo: 'wangrongwei.github.io',
+        owner: 'wangrongwei',
+        admin: ['wangrongwei'],
+        id: location.rongwei.2020, // Ensure uniqueness and length less than 50
+        distractionFreeMode: false // Facebook-like distraction free mode
+    });
+    gitalk.render('gitalk-container');
+</script>
+<!-- Gitalk end -->
+
+
+
 </div>
+
 
       </div>
     </div>
@@ -318,21 +345,20 @@
         <div class="footer-col-wrapper">
             <div class="footer-col  footer-col-1">
                 <ul class="contact-list">
-                    <li>Evan's world</li>
-                    <li><a href="mailto:<Your Email>"><Your Email></a></li>
+                  <li>wangrongwei's world</li>
                 </ul>
             </div>
-            <div class="footer-col  footer-col-2">
+            <div class="footer-col  footer-col-3">
                 <ul class="social-media-list">
                     
                     <li>
-                        <a href="https://github.com/Evan">
+                        <a href="https://github.com/wangrongwei">
                             <span class="icon  icon--github">
                                 <svg viewBox="0 0 16 16">
                                     <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z" />
                                 </svg>
                             </span>
-                            <span class="username">Evan</span>
+                            <span class="username">wangrongwei</span>
                         </a>
                     </li>
                     
@@ -340,13 +366,10 @@
                     
                 </ul>
             </div>
-            <div class="footer-col  footer-col-3">
-                <p class="text">个人博客</p>
-            </div>
-            <div class="large-12 columns">
+            <div class="footer-col footer-col-1">
                 <div class="row">
                     <div class="large-6 columns">
-                        <p>© Evan 2019-2020</p>
+                      <p>© lollipop 2019-2020</p>
                     </div>
                     <div class="large-6 columns">
                         <ul class="inline-list right">
@@ -357,8 +380,12 @@
             </div>
         </div>
     </div>
-
 </footer>
+
+<script
+  src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js">
+</script>
+
 <script>
     var _hmt = _hmt || [];
     (function () {

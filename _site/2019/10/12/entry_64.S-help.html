@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>
+      
+        entry_64.S中的汇编指令
+      
+
+  </title>
+  <meta name="description" content="  本文介绍x86_64体系结构中，使用汇编实现的中断处理部分，并对部分较陌生的指令进行解释，最后附上关于中断调用路径的流程图。">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://wangrongwei.com/2019/10/12/entry_64.S-help.html">
+  <link rel="alternate" type="application/rss+xml" title="wangrongwei's world" href="http://wangrongwei.com/feed.xml" />
+  <link rel="stylesheet" href="/css/syntax.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+  <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">&laquo;back</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/blog/">博客</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+          <a class="page-link" href="/notice/">说明</a>
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+    <header class="post-header">
+        <h1 class="post-title">entry_64.S中的汇编指令</h1>
+        <p class="post-meta">Oct 12, 2019</p>
+    </header>
+    <article class="post-content">
+        <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+ //是否显示导航栏
+ var showNavBar = true;
+ //是否展开导航栏
+ var expandNavBar = true;
+
+ $(document).ready(function(){
+    var h1s = $("body").find("h1");
+    var h2s = $("body").find("h2");
+    var h3s = $("body").find("h3");
+    var h4s = $("body").find("h4");
+    //var h5s = $("body").find("h5");
+    //var h6s = $("body").find("h6");
+
+    var headCounts = [h1s.length, h2s.length, h3s.length, h4s.length];
+    var vH1Tag = null;
+    var vH2Tag = null;
+    var vH3Tag = null;
+    var vH4Tag = null;
+    for(var i = 0; i < headCounts.length; i++){
+        if(headCounts[i] > 0){
+            if(vH1Tag == null){
+                vH1Tag = 'h' + (i + 1);
+            }
+            else if(vH2Tag == null){
+                vH2Tag = 'h' + (i + 1);
+            }
+            else if(vH3Tag == null){
+                vH3Tag = 'h' + (i + 1);
+            }
+            else if(vH4Tag == null){
+                vH4Tag = 'h' + (i + 1);
+            }
+        }
+    }
+    if(vH1Tag == null){
+        return;
+    }
+
+    //$("body").prepend('<div class="BlogAnchor">' + 
+    $("main").after('<div class="BlogAnchor">' +
+        '<span style="color:red;position:absolute;top:-6px;left:0px;cursor:pointer;" οnclick="$(\'.BlogAnchor\').hide();">×</span>' +
+        '<p>' + 
+            '<b id="AnchorContentToggle" title="收起" style="cursor:pointer;">目录▲</b>' + 
+        '</p>' + 
+        '<div class="AnchorContent" id="AnchorContent"> </div>' + 
+    '</div>' );
+
+    var vH1Index = 0;
+    var vH2Index = 0;
+    var vH3Index = 0;
+    var vH4Index = 0;
+    $("main").find("h1,h2,h3,h4").each(function(i,item){
+        var id = '';
+        var name = '';
+        var tag = $(item).get(0).tagName.toLowerCase();
+        var className = '';
+        if(tag == vH1Tag){
+            id = name = ++vH1Index;
+            name = id;
+            vH2Index = 0;
+            className = 'item_h1';
+        }
+        else if(tag == vH2Tag){
+            id = vH1Index + '_' + ++vH2Index;
+            name = vH1Index + '.' + vH2Index;
+            vH3Index = 0;
+            className = 'item_h2';
+        }
+        else if(tag == vH3Tag){
+            id = vH1Index + '_' + vH2Index + ++vH3Index;
+            name = vH1Index + '.' + vH2Index + '.' + vH3Index;
+            vH4Index = 0;
+            className = 'item_h3';
+        }
+        else if(tag == vH4Tag){
+            id = vH1Index + '_' + vH2Index + vH3Index + ++vH4Index;
+            name = vH1Index + '.' + vH2Index + '.' + vH3Index + '.' + vH4Index;
+            className = 'item_h4';
+        }
+
+        $(item).attr("id","wow"+id);
+        $(item).addClass("wow_head");
+        $("#AnchorContent").css('max-height', ($(window).height() - 180) + 'px');
+        $("#AnchorContent").append('<li><a class="nav_item '+className+' anchor-link" οnclick="return false;" href="#" link="#wow'+id+'">'+name+" · "+$(this).text()+'</a></li>');
+    });
+
+    $("#AnchorContentToggle").click(function(){
+        var text = $(this).html();
+        if(text=="目录▲"){
+            $(this).html("目录▼");
+            $(this).attr({"title":"展开"});
+        }else{
+            $(this).html("目录▲");
+            $(this).attr({"title":"收起"});
+        }
+        $("#AnchorContent").toggle();
+    });
+    $(".anchor-link").click(function(){
+        $("html,body").animate({scrollTop: $($(this).attr("link")).offset().top}, 500);
+    });
+
+    var headerNavs = $(".BlogAnchor li .nav_item");
+    var headerTops = [];
+    $(".wow_head").each(function(i, n){
+        headerTops.push($(n).offset().top);
+    });
+    $(window).scroll(function(){
+        var scrollTop = $(window).scrollTop();
+        $.each(headerTops, function(i, n){
+            var distance = n - scrollTop;
+            if(distance >= 0){
+                $(".BlogAnchor li .nav_item.current").removeClass('current');
+                $(headerNavs[i]).addClass('current');
+                return false;
+            }
+        });
+    });
+
+    if(!showNavBar){
+        $('.BlogAnchor').hide();
+    }
+    if(!expandNavBar){
+        $(this).html("目录▼");
+        $(this).attr({"title":"展开"});
+        $("#AnchorContent").hide();
+    }
+ });
+</script>
+<style>
+    /*导航*/
+    .BlogAnchor {
+        float: left;
+	    position: -webkit-sticky;
+	    position: sticky;
+	    top: 0;
+	    padding: 5px;
+
+        background: #f1f1f1;
+        padding: 10px;
+        line-height: 180%;
+        /*position: fixed;*/
+        /*right: 48px;*/
+        /*top: 100px;*/
+        border: 1px solid #aaaaaa;
+    }
+    .BlogAnchor p {
+        font-size: 18px;
+        color: #15a230;
+        margin: 0 0 0.3rem 0;
+        text-align: right;
+    }
+    .BlogAnchor .AnchorContent {
+        padding: 5px 0px;
+        overflow: auto;
+    }
+    .BlogAnchor li{
+        text-indent: 0.5rem;
+        font-size: 14px;
+        list-style: none;
+    }
+    .BlogAnchor li .nav_item{
+        padding: 3px;
+        margin-left: 1rem;
+    }
+    .BlogAnchor li .item_h1{
+        margin-left: 0rem;
+    }
+    .BlogAnchor li .item_h2{
+        margin-left: 2rem;
+        font-size: 0.8rem;
+    }
+    .BlogAnchor li .item_h3{
+        margin-left: 3rem;
+        font-size: 0.8rem;
+    }
+    .BlogAnchor li .item_h4{
+        margin-left: 4rem;
+        font-size: 0.8rem;
+    }
+
+    .BlogAnchor li .nav_item.current{
+        color: white;
+        background-color: #5cc26f;
+    }
+    #AnchorContentToggle {
+        font-size: 13px;
+        font-weight: normal;
+        color: #FFF;
+        display: inline-block;
+        line-height: 20px;
+        background: #5cc26f;
+        font-style: normal;
+        padding: 1px 8px;
+    }
+    .BlogAnchor a:hover {
+        color: #5cc26f;
+    }
+    .BlogAnchor a {
+        text-decoration: none;
+    }
+</style>
+
+        <blockquote>
+  <p>本文介绍x86_64体系结构中，使用汇编实现的中断处理部分，并对部分较陌生的指令进行解释，最后附上关于中断调用路径的流程图。</p>
+</blockquote>
+
+<blockquote>
+  <p>文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部
+作者：lollipop
+本文原文地址：<a href="http://wangrongwei.com/2019/10/12/entry_64.S-help.html">http://wangrongwei.com/2019/10/12/entry_64.S-help.html</a></p>
+</blockquote>
+
+<h2 id="环境">环境</h2>
+
+<p>配置source insight，支持汇编高亮和索引。
+配置文件可加载<a href="https://github.com/wangrongwei/lazytools/tree/primer/sourceinsight">config_all.xml</a>，关于source insight的配置方式和配置文件加载方式可参考<a href="xxx">source insight</a></p>
+
+<h2 id="汇编指令">汇编指令</h2>
+
+<ul>
+  <li>[1] .rept与.endr：重复.rept与.endr间的代码若干份，其作用类似宏。其详细作用可参考ENTRY(interrupt)的描述。</li>
+  <li>[2] &lt;&gt;：</li>
+  <li>[3] .p2align：字节对齐</li>
+  <li>[4] .balign：</li>
+</ul>
+
+<h2 id="重要函数">重要函数</h2>
+
+<h3 id="entryinterrupt">ENTRY(interrupt)</h3>
+
+<div class="language-S highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">    </span><span class="n">.section</span><span class="w"> </span><span class="n">.init.rodata</span><span class="p">,</span><span class="s2">"a"</span><span class="w">
+</span><span class="n">ENTRY</span><span class="p">(</span><span class="n">interrupt</span><span class="p">)</span><span class="w">
+    </span><span class="n">.section</span><span class="w"> </span><span class="n">.entry.text</span><span class="w">
+    </span><span class="n">.p2align</span><span class="w"> </span><span class="m">5</span><span class="w">
+    </span><span class="n">.p2align</span><span class="w"> </span><span class="n">CONFIG_X86_L1_CACHE_SHIFT</span><span class="w">
+</span><span class="n">ENTRY</span><span class="p">(</span><span class="n">irq_entries_start</span><span class="p">)</span><span class="w">
+    </span><span class="n">INTR_FRAME</span><span class="w">
+</span><span class="n">vector</span><span class="o">=</span><span class="n">FIRST_EXTERNAL_VECTOR</span><span class="w">
+</span><span class="n">.rept</span><span class="w"> </span><span class="p">(</span><span class="n">NR_VECTORS</span><span class="o">-</span><span class="n">FIRST_EXTERNAL_VECTOR</span><span class="m">+6</span><span class="p">)</span><span class="o">/</span><span class="m">7</span><span class="w">
+    </span><span class="n">.balign</span><span class="w"> </span><span class="m">32</span><span class="w">
+  </span><span class="n">.rept</span><span class="w"> </span><span class="m">7</span><span class="w">
+    </span><span class="n">.if</span><span class="w"> </span><span class="n">vector</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">NR_VECTORS</span><span class="w">
+      </span><span class="n">.if</span><span class="w"> </span><span class="n">vector</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">FIRST_EXTERNAL_VECTOR</span><span class="w">
+    </span><span class="n">CFI_ADJUST_CFA_OFFSET</span><span class="w"> </span><span class="m">-8</span><span class="w">
+      </span><span class="n">.endif</span><span class="w">
+</span><span class="m">1</span><span class="o">:</span><span class="w">  </span><span class="n">pushq_cfi</span><span class="w"> </span><span class="o">$</span><span class="p">(</span><span class="o">~</span><span class="n">vector</span><span class="m">+0</span><span class="n">x</span><span class="m">80</span><span class="p">)</span><span class="w">   </span><span class="o">/*</span><span class="w"> </span><span class="n">Note</span><span class="o">:</span><span class="w"> </span><span class="n">always</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">signed</span><span class="w"> </span><span class="n">byte</span><span class="w"> </span><span class="n">range</span><span class="w"> </span><span class="o">*/</span><span class="w">
+      </span><span class="n">.if</span><span class="w"> </span><span class="p">((</span><span class="n">vector</span><span class="o">-</span><span class="n">FIRST_EXTERNAL_VECTOR</span><span class="p">)</span><span class="o">%</span><span class="m">7</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="m">6</span><span class="w">
+    </span><span class="n">jmp</span><span class="w"> </span><span class="m">2</span><span class="n">f</span><span class="w">
+      </span><span class="n">.endif</span><span class="w">
+      </span><span class="n">.previous</span><span class="w">
+    </span><span class="n">.quad</span><span class="w"> </span><span class="m">1</span><span class="n">b</span><span class="w">
+      </span><span class="n">.section</span><span class="w"> </span><span class="n">.entry.text</span><span class="w">
+</span><span class="n">vector</span><span class="o">=</span><span class="n">vector</span><span class="m">+1</span><span class="w">
+    </span><span class="n">.endif</span><span class="w">
+  </span><span class="n">.endr</span><span class="w">
+</span><span class="m">2</span><span class="o">:</span><span class="w">  </span><span class="n">jmp</span><span class="w"> </span><span class="n">common_interrupt</span><span class="w">
+</span><span class="n">.endr</span><span class="w">
+</span></code></pre></div></div>
+
+<p>以上汇编代码的目的是构建出224个interrupt成员函数，与以往内核版本不同（使用宏构建interrupt成员函数）。</p>
+
+<h3 id="thread">THREAD</h3>
+
+<p>thread_info结构体对task_struct进一步封装，但是以下代码如何获取到当前进程的thread_info的地址？</p>
+
+<p><img src="/images/kernel/2019-10-12-19-50-35.png" alt="THREAD" /></p>
+
+<h3 id="cfi_">CFI_*</h3>
+
+<p>-[1] .cfi_sections section_list</p>
+
+<p><strong>.cfi_sections</strong>用于指定CFI触发的段是<strong>.eh_frame</strong> 或者是 <strong>.debug_frame</strong>，甚至同时包括以上两个。同时也可触发两个段，若后续的指示没有指定，默认为<strong>.eh_frame</strong>。</p>
+
+<blockquote>
+  <p><strong>.cfi_sections</strong> may be used to specify whether CFI directives should emit <strong>.eh_frame</strong> section and/or <strong>.debug_frame</strong> section. If section_list is <strong>.eh_frame</strong>, <strong>.eh_frame</strong> is emitted, if section_list is <strong>.debug_frame</strong>, <strong>.debug_frame</strong> is emitted. To emit both use <strong>.eh_frame</strong>, <strong>.debug_frame</strong>. The default if this directive is not used is <strong>.cfi_sections</strong> <strong>.eh_frame</strong>.</p>
+</blockquote>
+
+<p>-[2] .cfi_startproc [simple]</p>
+
+<p><strong>.cfi_startproc</strong> is used at the beginning of each function that should have an entry in <strong>.eh_frame</strong>. It initializes some internal data structures. Don’t forget to close the function by <strong>.cfi_endproc</strong>.</p>
+
+<p>Unless <strong>.cfi_startproc</strong> is used along with parameter simple it also emits some architecture dependent initial CFI instructions.</p>
+
+<p>-[3] .cfi_endproc</p>
+
+<p>.cfi_endproc is used at the end of a function where it closes its unwind entry previously opened by .cfi_startproc, and emits it to .eh_frame.</p>
+
+<p>-[4] .cfi_personality encoding [, exp]</p>
+
+<p>.cfi_personality defines personality routine and its encoding. encoding must be a constant determining how the personality should be encoded. If it is 255 (DW_EH_PE_omit), second argument is not present, otherwise second argument should be a constant or a symbol name. When using indirect encodings, the symbol provided should be the location where personality can be loaded from, not the personality routine itself. The default after .cfi_startproc is .cfi_personality 0xff, no personality routine.</p>
+
+<p>-[5] .cfi_lsda encoding [, exp]</p>
+
+<p>.cfi_lsda defines LSDA and its encoding. encoding must be a constant determining how the LSDA should be encoded. If it is 255 (DW_EH_PE_omit), second argument is not present, otherwise second argument should be a constant or a symbol name. The default after .cfi_startproc is .cfi_lsda 0xff, no LSDA.</p>
+
+<p>-[6] .cfi_def_cfa register, offset</p>
+
+<p>.cfi_def_cfa defines a rule for computing CFA as: take address from register and add offset to it.</p>
+
+<p>-[7] .cfi_def_cfa_register register</p>
+
+<p>.cfi_def_cfa_register modifies a rule for computing CFA. From now on register will be used instead of the old one. Offset remains the same.</p>
+
+<p>-[8] .cfi_def_cfa_offset offset</p>
+
+<p>.cfi_def_cfa_offset modifies a rule for computing CFA. Register remains the same, but offset is new. Note that it is the absolute offset that will be added to a defined register to compute CFA address.</p>
+
+<p>-[9] .cfi_adjust_cfa_offset offset</p>
+
+<p>Same as .cfi_def_cfa_offset but offset is a relative value that is added/substracted from the previous offset.</p>
+
+<p>-[10] .cfi_offset register, offset</p>
+
+<p>Previous value of register is saved at offset offset from CFA.</p>
+
+<p>-[11] .cfi_rel_offset register, offset</p>
+
+<p>Previous value of register is saved at offset offset from the current CFA register. This is transformed to .cfi_offset using the known displacement of the CFA register from the CFA. This is often easier to use, because the number will match the code it’s annotating.</p>
+
+<p>-[12] .cfi_register register1, register2</p>
+
+<p>Previous value of register1 is saved in register register2.</p>
+
+<p>-[13] .cfi_restore register</p>
+
+<p>.cfi_restore says that the rule for register is now the same as it was at the beginning of the function, after all initial instruction added by .cfi_startproc were executed.</p>
+
+<p>-[14] .cfi_undefined register</p>
+
+<p>表明寄存器的前一个值无法再被恢复。</p>
+
+<blockquote>
+  <p>From now on the previous value of register can’t be restored anymore.</p>
+</blockquote>
+
+<p>-[15] .cfi_same_value register</p>
+
+<p>寄存器的当前值与前一帧相同，即不需要恢复。</p>
+
+<blockquote>
+  <p>Current value of register is the same like in the previous <strong>frame</strong>, i.e. no restoration needed.</p>
+</blockquote>
+
+<p>-[16] .cfi_remember_state,</p>
+
+<p>First save all current rules for all registers by <strong>.cfi_remember_state</strong>, then totally screw them up by subsequent <strong>.cfi_*</strong> directives and when everything is hopelessly bad, use <strong>.cfi_restore_state</strong> to restore the previous saved state.</p>
+
+<p>-[17] .cfi_return_column register</p>
+
+<p>改变返回列寄存器，例如：返回地址是直接指向寄存器或者可以被访问。</p>
+
+<blockquote>
+  <p>Change return column register, i.e. the return address is either directly in register or can be accessed by rules for register.</p>
+</blockquote>
+
+<p>-[18] .cfi_signal_frame</p>
+
+<p>标记当前的函数为信号蹦床</p>
+
+<blockquote>
+  <p>Mark current function as signal trampoline.</p>
+</blockquote>
+
+<p>-[19] .cfi_window_save</p>
+
+<p>SPARC寄存器窗口已经被保存</p>
+
+<blockquote>
+  <p>SPARC register window has been saved.</p>
+</blockquote>
+
+<p>-[20] .cfi_escape expression[, …]</p>
+
+<p>允许用户添加任意字节到展开的信息。可以使用它来添加特定OS的CFI操作码，或者GAS还不支持的通用CFI操作码。</p>
+
+<blockquote>
+  <p>Allows the user to add arbitrary bytes to the unwind info. One might use this to add OS-specific CFI opcodes, or generic CFI opcodes that GAS does not yet support.</p>
+</blockquote>
+
+<p>-[21] .cfi_val_encoded_addr register, encoding, label</p>
+
+<p>The current value of register is label. The value of label will be encoded in the output file according to encoding; see the description of .cfi_personality for details on this encoding.</p>
+
+<p>The usefulness of equating a register to a fixed label is probably limited to the return address register. Here, it can be useful to mark a code segment that has only one return address which is reached by a direct branch and no copy of the return address exists in memory or another register.</p>
+
+<blockquote>
+  <p>原文链接：http://sourceware.org/binutils/docs/as/CFI-directives.html</p>
+</blockquote>
+
+<h2 id="中断处理流程">中断处理流程</h2>
+
+<h3 id="几个重要的函数">几个重要的函数</h3>
+
+<ul>
+  <li>[1] common_interrupt</li>
+</ul>
+
+<p>执行中断函数（do_irq），在do_irq中将会去执行其他的中断服务函数。</p>
+
+<div class="language-S highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">    </span><span class="n">XCPT_FRAME</span><span class="w">
+    </span><span class="n">addq</span><span class="w"> </span><span class="o">$</span><span class="m">-0</span><span class="n">x</span><span class="m">80</span><span class="p">,(</span><span class="o">%rsp)  /* Adjust vector to [-256,-1] range */
+    interrupt do_IRQ /* 中断函数 */
+    /* 0(%</span><span class="n">rsp</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">old_rsp</span><span class="o">-</span><span class="n">ARGOFFSET</span><span class="w"> </span><span class="o">*/</span><span class="w">
+</span></code></pre></div></div>
+
+<ul>
+  <li>[2] ret_from_intr:</li>
+</ul>
+
+<p>此处表明中断服务函数已经执行完成并返回。</p>
+
+<div class="language-S highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">    </span><span class="n">DISABLE_INTERRUPTS</span><span class="p">(</span><span class="n">CLBR_NONE</span><span class="p">)</span><span class="w">
+    </span><span class="n">TRACE_IRQS_OFF</span><span class="w">
+    </span><span class="n">decl</span><span class="w"> </span><span class="n">PER_CPU_VAR</span><span class="p">(</span><span class="n">irq_count</span><span class="p">)</span><span class="w">
+
+    </span><span class="o">/*</span><span class="w"> </span><span class="n">Restore</span><span class="w"> </span><span class="n">saved</span><span class="w"> </span><span class="n">previous</span><span class="w"> </span><span class="n">stack</span><span class="w"> </span><span class="o">*/</span><span class="w">
+    </span><span class="n">popq</span><span class="w"> </span><span class="o">%rsi
+    CFI_DEF_CFA rsi,SS+8-RBP    /* reg/off reset after def_cfa_expr */
+    leaq ARGOFFSET-RBP(%</span><span class="n">rsi</span><span class="p">),</span><span class="w"> </span><span class="o">%</span><span class="n">rsp</span><span class="w">
+    </span><span class="n">CFI_DEF_CFA_REGISTER</span><span class="w">    </span><span class="n">rsp</span><span class="w">
+    </span><span class="n">CFI_ADJUST_CFA_OFFSET</span><span class="w">   </span><span class="n">RBP</span><span class="o">-</span><span class="n">ARGOFFSET</span><span class="w">
+</span></code></pre></div></div>
+
+<ul>
+  <li>[3] exit_intr</li>
+</ul>
+
+<p>判断发送中断前系统处于内核态还是用户态，根据两种不同的状态分别跳转到retint_kernel（内核态）或retint_with_reschedule（用户态）。</p>
+
+<div class="language-S highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">    </span><span class="n">GET_THREAD_INFO</span><span class="p">(</span><span class="o">%rcx)
+    testl $3,CS-ARGOFFSET(%</span><span class="n">rsp</span><span class="p">)</span><span class="w"> </span><span class="o">/*</span><span class="w"> </span><span class="err">读取栈中的</span><span class="n">CS</span><span class="w"> </span><span class="o">*/</span><span class="w">
+    </span><span class="n">je</span><span class="w"> </span><span class="n">retint_kernel</span><span class="w"> </span><span class="o">/*</span><span class="w"> </span><span class="err">若为内核态，则跳转</span><span class="w"> </span><span class="o">*/</span><span class="w">
+</span></code></pre></div></div>
+
+<ul>
+  <li>[4] retint_with_reschedule</li>
+</ul>
+
+<div class="language-S highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">    </span><span class="n">movl</span><span class="w"> </span><span class="o">$</span><span class="err">_</span><span class="n">TIF_WORK_MASK</span><span class="p">,</span><span class="o">%edi
+​```S
+
+- [5] retint_check
+
+​```S
+    LOCKDEP_SYS_EXIT_IRQ
+    movl TI_flags(%</span><span class="n">rcx</span><span class="p">),</span><span class="o">%edx
+    andl %</span><span class="n">edi</span><span class="p">,</span><span class="o">%</span><span class="n">edx</span><span class="w">
+    </span><span class="n">CFI_REMEMBER_STATE</span><span class="w">
+    </span><span class="n">jnz</span><span class="w">  </span><span class="n">retint_careful</span><span class="w"> </span><span class="o">/*</span><span class="w"> </span><span class="err">判断是否有其他需要做</span><span class="w"> </span><span class="o">*/</span><span class="w">
+</span></code></pre></div></div>
+
+<p>在大多数情况下，以上[5]紧接[4]执行。</p>
+
+<ul>
+  <li>[6] retint_swapgs</li>
+</ul>
+
+<div class="language-S highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">/*</span><span class="w"> </span><span class="n">return</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">user</span><span class="o">-</span><span class="n">space</span><span class="w"> </span><span class="o">*/</span><span class="w">
+    </span><span class="o">/*</span><span class="w">
+     </span><span class="o">*</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">iretq</span><span class="w"> </span><span class="n">could</span><span class="w"> </span><span class="n">re</span><span class="o">-</span><span class="n">enable</span><span class="w"> </span><span class="n">interrupts</span><span class="o">:</span><span class="w">
+     </span><span class="o">*/</span><span class="w">
+    </span><span class="n">DISABLE_INTERRUPTS</span><span class="p">(</span><span class="n">CLBR_ANY</span><span class="p">)</span><span class="w">
+    </span><span class="n">TRACE_IRQS_IRETQ</span><span class="w">
+    </span><span class="n">SWAPGS</span><span class="w"> </span><span class="o">/*</span><span class="w"> </span><span class="err">切换</span><span class="n">gs</span><span class="w"> </span><span class="o">*/</span><span class="w">
+    </span><span class="n">jmp</span><span class="w"> </span><span class="n">restore_args</span><span class="w">
+</span></code></pre></div></div>
+
+<ul>
+  <li>[7] retint_restore_args</li>
+</ul>
+
+<p>不支持内核抢占，且要返回内核态时，将在exit_intr中跳转到此处（因为retint_kernel已经被宏定义为retint_restore_args）。</p>
+
+<div class="language-S highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">    </span><span class="n">DISABLE_INTERRUPTS</span><span class="p">(</span><span class="n">CLBR_ANY</span><span class="p">)</span><span class="w">
+    </span><span class="o">/*</span><span class="w">
+    </span><span class="o">*</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">iretq</span><span class="w"> </span><span class="n">could</span><span class="w"> </span><span class="n">re</span><span class="o">-</span><span class="n">enable</span><span class="w"> </span><span class="n">interrupts</span><span class="o">:</span><span class="w">
+    </span><span class="o">*/</span><span class="w">
+    </span><span class="n">TRACE_IRQS_IRETQ</span><span class="w">
+</span></code></pre></div></div>
+
+<ul>
+  <li>[8] restore_args:</li>
+</ul>
+
+<div class="language-S highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">    </span><span class="n">RESTORE_ARGS</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="m">8</span><span class="p">,</span><span class="m">1</span><span class="w">
+</span></code></pre></div></div>
+
+<ul>
+  <li>[9] irq_return</li>
+</ul>
+
+<p>执行到irq_return，表明中断服务函数、信号、是否重新调度等操作已经执行完，后续将跳转到中断前的状态执行。</p>
+
+<h3 id="中断框图">中断框图</h3>
+
+<p><img src="/images/kernel/2019-11-02-19-25-54.png" alt="中断框图" /></p>
+
+    </article>
+
+
+<!-- Link Gitalk 的支持文件  -->
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: '5559cb52c37d3a87ad5a',
+        clientSecret: '533007d9135ceac46f429ae59699b23f5ef4a51c',
+        repo: 'wangrongwei.github.io',
+        owner: 'wangrongwei',
+        admin: ['wangrongwei'],
+        id: location.rongwei.2020, // Ensure uniqueness and length less than 50
+        distractionFreeMode: false // Facebook-like distraction free mode
+    });
+    gitalk.render('gitalk-container');
+</script>
+<!-- Gitalk end -->
+
+
+
+</div>
+
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+    <div class="wrapper">
+        <h2 class="footer-heading">blog</h2>
+        <div class="footer-col-wrapper">
+            <div class="footer-col  footer-col-1">
+                <ul class="contact-list">
+                  <li>wangrongwei's world</li>
+                </ul>
+            </div>
+            <div class="footer-col  footer-col-3">
+                <ul class="social-media-list">
+                    
+                    <li>
+                        <a href="https://github.com/wangrongwei">
+                            <span class="icon  icon--github">
+                                <svg viewBox="0 0 16 16">
+                                    <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z" />
+                                </svg>
+                            </span>
+                            <span class="username">wangrongwei</span>
+                        </a>
+                    </li>
+                    
+
+                    
+                </ul>
+            </div>
+            <div class="footer-col footer-col-1">
+                <div class="row">
+                    <div class="large-6 columns">
+                      <p>© lollipop 2019-2020</p>
+                    </div>
+                    <div class="large-6 columns">
+                        <ul class="inline-list right">
+                            <!--<li><a href="#">Suscribe</a></li>-->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script
+  src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js">
+</script>
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?677a6496c3fa599a36743ae696b7bc3e";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+  </body>
+
+</html>

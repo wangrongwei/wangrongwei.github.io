@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>
+      
+        内核问题很“内核”
+      
+
+  </title>
+  <meta name="description" content="  内核开发中几个基本概念梳理">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://wangrongwei.com/2020/04/11/linux-kernel-problems.html">
+  <link rel="alternate" type="application/rss+xml" title="wangrongwei's world" href="http://wangrongwei.com/feed.xml" />
+  <link rel="stylesheet" href="/css/syntax.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+  <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">&laquo;back</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/blog/">博客</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+          <a class="page-link" href="/notice/">说明</a>
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+    <header class="post-header">
+        <h1 class="post-title">内核问题很“内核”</h1>
+        <p class="post-meta">Apr 11, 2020</p>
+    </header>
+    <article class="post-content">
+        <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+ //是否显示导航栏
+ var showNavBar = true;
+ //是否展开导航栏
+ var expandNavBar = true;
+
+ $(document).ready(function(){
+    var h1s = $("body").find("h1");
+    var h2s = $("body").find("h2");
+    var h3s = $("body").find("h3");
+    var h4s = $("body").find("h4");
+    //var h5s = $("body").find("h5");
+    //var h6s = $("body").find("h6");
+
+    var headCounts = [h1s.length, h2s.length, h3s.length, h4s.length];
+    var vH1Tag = null;
+    var vH2Tag = null;
+    var vH3Tag = null;
+    var vH4Tag = null;
+    for(var i = 0; i < headCounts.length; i++){
+        if(headCounts[i] > 0){
+            if(vH1Tag == null){
+                vH1Tag = 'h' + (i + 1);
+            }
+            else if(vH2Tag == null){
+                vH2Tag = 'h' + (i + 1);
+            }
+            else if(vH3Tag == null){
+                vH3Tag = 'h' + (i + 1);
+            }
+            else if(vH4Tag == null){
+                vH4Tag = 'h' + (i + 1);
+            }
+        }
+    }
+    if(vH1Tag == null){
+        return;
+    }
+
+    //$("body").prepend('<div class="BlogAnchor">' + 
+    $("main").after('<div class="BlogAnchor">' +
+        '<span style="color:red;position:absolute;top:-6px;left:0px;cursor:pointer;" οnclick="$(\'.BlogAnchor\').hide();">×</span>' +
+        '<p>' + 
+            '<b id="AnchorContentToggle" title="收起" style="cursor:pointer;">目录▲</b>' + 
+        '</p>' + 
+        '<div class="AnchorContent" id="AnchorContent"> </div>' + 
+    '</div>' );
+
+    var vH1Index = 0;
+    var vH2Index = 0;
+    var vH3Index = 0;
+    var vH4Index = 0;
+    $("main").find("h1,h2,h3,h4").each(function(i,item){
+        var id = '';
+        var name = '';
+        var tag = $(item).get(0).tagName.toLowerCase();
+        var className = '';
+        if(tag == vH1Tag){
+            id = name = ++vH1Index;
+            name = id;
+            vH2Index = 0;
+            className = 'item_h1';
+        }
+        else if(tag == vH2Tag){
+            id = vH1Index + '_' + ++vH2Index;
+            name = vH1Index + '.' + vH2Index;
+            vH3Index = 0;
+            className = 'item_h2';
+        }
+        else if(tag == vH3Tag){
+            id = vH1Index + '_' + vH2Index + ++vH3Index;
+            name = vH1Index + '.' + vH2Index + '.' + vH3Index;
+            vH4Index = 0;
+            className = 'item_h3';
+        }
+        else if(tag == vH4Tag){
+            id = vH1Index + '_' + vH2Index + vH3Index + ++vH4Index;
+            name = vH1Index + '.' + vH2Index + '.' + vH3Index + '.' + vH4Index;
+            className = 'item_h4';
+        }
+
+        $(item).attr("id","wow"+id);
+        $(item).addClass("wow_head");
+        $("#AnchorContent").css('max-height', ($(window).height() - 180) + 'px');
+        $("#AnchorContent").append('<li><a class="nav_item '+className+' anchor-link" οnclick="return false;" href="#" link="#wow'+id+'">'+name+" · "+$(this).text()+'</a></li>');
+    });
+
+    $("#AnchorContentToggle").click(function(){
+        var text = $(this).html();
+        if(text=="目录▲"){
+            $(this).html("目录▼");
+            $(this).attr({"title":"展开"});
+        }else{
+            $(this).html("目录▲");
+            $(this).attr({"title":"收起"});
+        }
+        $("#AnchorContent").toggle();
+    });
+    $(".anchor-link").click(function(){
+        $("html,body").animate({scrollTop: $($(this).attr("link")).offset().top}, 500);
+    });
+
+    var headerNavs = $(".BlogAnchor li .nav_item");
+    var headerTops = [];
+    $(".wow_head").each(function(i, n){
+        headerTops.push($(n).offset().top);
+    });
+    $(window).scroll(function(){
+        var scrollTop = $(window).scrollTop();
+        $.each(headerTops, function(i, n){
+            var distance = n - scrollTop;
+            if(distance >= 0){
+                $(".BlogAnchor li .nav_item.current").removeClass('current');
+                $(headerNavs[i]).addClass('current');
+                return false;
+            }
+        });
+    });
+
+    if(!showNavBar){
+        $('.BlogAnchor').hide();
+    }
+    if(!expandNavBar){
+        $(this).html("目录▼");
+        $(this).attr({"title":"展开"});
+        $("#AnchorContent").hide();
+    }
+ });
+</script>
+<style>
+    /*导航*/
+    .BlogAnchor {
+        float: left;
+	    position: -webkit-sticky;
+	    position: sticky;
+	    top: 0;
+	    padding: 5px;
+
+        background: #f1f1f1;
+        padding: 10px;
+        line-height: 180%;
+        /*position: fixed;*/
+        /*right: 48px;*/
+        /*top: 100px;*/
+        border: 1px solid #aaaaaa;
+    }
+    .BlogAnchor p {
+        font-size: 18px;
+        color: #15a230;
+        margin: 0 0 0.3rem 0;
+        text-align: right;
+    }
+    .BlogAnchor .AnchorContent {
+        padding: 5px 0px;
+        overflow: auto;
+    }
+    .BlogAnchor li{
+        text-indent: 0.5rem;
+        font-size: 14px;
+        list-style: none;
+    }
+    .BlogAnchor li .nav_item{
+        padding: 3px;
+        margin-left: 1rem;
+    }
+    .BlogAnchor li .item_h1{
+        margin-left: 0rem;
+    }
+    .BlogAnchor li .item_h2{
+        margin-left: 2rem;
+        font-size: 0.8rem;
+    }
+    .BlogAnchor li .item_h3{
+        margin-left: 3rem;
+        font-size: 0.8rem;
+    }
+    .BlogAnchor li .item_h4{
+        margin-left: 4rem;
+        font-size: 0.8rem;
+    }
+
+    .BlogAnchor li .nav_item.current{
+        color: white;
+        background-color: #5cc26f;
+    }
+    #AnchorContentToggle {
+        font-size: 13px;
+        font-weight: normal;
+        color: #FFF;
+        display: inline-block;
+        line-height: 20px;
+        background: #5cc26f;
+        font-style: normal;
+        padding: 1px 8px;
+    }
+    .BlogAnchor a:hover {
+        color: #5cc26f;
+    }
+    .BlogAnchor a {
+        text-decoration: none;
+    }
+</style>
+
+        <blockquote>
+  <p>内核开发中几个基本概念梳理</p>
+</blockquote>
+
+<blockquote>
+  <p>文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部</p>
+
+  <p>作者：lollipop</p>
+
+  <p>本文原文地址：<a href="http://wangrongwei.com/2020/04/11/linux-kernel-problems.html">http://wangrongwei.com/2020/04/11/linux-kernel-problems.html</a></p>
+</blockquote>
+
+<h2 id="基本概念">基本概念</h2>
+
+<ul>
+  <li>内核栈是什么？用户栈是什么？</li>
+  <li>进程上下文是什么？中断上下文是什么？</li>
+  <li>为什么中断上下文中不能发生睡眠？</li>
+  <li>为什么自旋锁不能睡眠？</li>
+  <li>逻辑地址、虚拟地址、物理地址是什么？</li>
+  <li>用户态是什么？内核态是什么？</li>
+  <li>用户抢占是什么？内核抢占是什么？</li>
+  <li>超线程是什么？同时多线程（SMT）是什么？</li>
+</ul>
+
+<h2 id="关联链接">关联链接</h2>
+
+<ul>
+  <li>http://www.wangrongwei.com//tech/the-simple-module-of-task-switch/</li>
+</ul>
+
+    </article>
+
+
+<!-- Link Gitalk 的支持文件  -->
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: '5559cb52c37d3a87ad5a',
+        clientSecret: '533007d9135ceac46f429ae59699b23f5ef4a51c',
+        repo: 'wangrongwei.github.io',
+        owner: 'wangrongwei',
+        admin: ['wangrongwei'],
+        id: location.rongwei.2020, // Ensure uniqueness and length less than 50
+        distractionFreeMode: false // Facebook-like distraction free mode
+    });
+    gitalk.render('gitalk-container');
+</script>
+<!-- Gitalk end -->
+
+
+
+</div>
+
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+    <div class="wrapper">
+        <h2 class="footer-heading">blog</h2>
+        <div class="footer-col-wrapper">
+            <div class="footer-col  footer-col-1">
+                <ul class="contact-list">
+                  <li>wangrongwei's world</li>
+                </ul>
+            </div>
+            <div class="footer-col  footer-col-3">
+                <ul class="social-media-list">
+                    
+                    <li>
+                        <a href="https://github.com/wangrongwei">
+                            <span class="icon  icon--github">
+                                <svg viewBox="0 0 16 16">
+                                    <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z" />
+                                </svg>
+                            </span>
+                            <span class="username">wangrongwei</span>
+                        </a>
+                    </li>
+                    
+
+                    
+                </ul>
+            </div>
+            <div class="footer-col footer-col-1">
+                <div class="row">
+                    <div class="large-6 columns">
+                      <p>© lollipop 2019-2020</p>
+                    </div>
+                    <div class="large-6 columns">
+                        <ul class="inline-list right">
+                            <!--<li><a href="#">Suscribe</a></li>-->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script
+  src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js">
+</script>
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?677a6496c3fa599a36743ae696b7bc3e";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+  </body>
+
+</html>

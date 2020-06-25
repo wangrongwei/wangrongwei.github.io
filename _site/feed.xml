@@ -1,17 +1,639 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Evan's world</title>
+    <title>wangrongwei's world</title>
     <description>个人博客</description>
-    <link>http://localhost:4000/</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 18 May 2020 22:48:48 +0800</pubDate>
-    <lastBuildDate>Mon, 18 May 2020 22:48:48 +0800</lastBuildDate>
+    <link>http://wangrongwei.com/</link>
+    <atom:link href="http://wangrongwei.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Thu, 25 Jun 2020 18:33:06 +0800</pubDate>
+    <lastBuildDate>Thu, 25 Jun 2020 18:33:06 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
+        <title>DIMM的层次结构</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;什么是channel、DIMM、rank、chip和bank&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部&lt;/p&gt;
+
+  &lt;p&gt;作者：lollipop&lt;/p&gt;
+
+  &lt;p&gt;本文原文地址：&lt;a href=&quot;http://wangrongwei.com/2020/06/25/DIMM.html&quot;&gt;http://wangrongwei.com/2020/06/25/DIMM.html&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;images/DIMM-structure.svg&quot; alt=&quot;svg&quot; /&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Thu, 25 Jun 2020 00:00:00 +0800</pubDate>
+        <link>http://wangrongwei.com/2020/06/25/DIMM.html</link>
+        <guid isPermaLink="true">http://wangrongwei.com/2020/06/25/DIMM.html</guid>
+        
+        
+        <category>blog</category>
+        
+      </item>
+    
+      <item>
+        <title>一个基于i386的系统内核</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;一个基于i386的系统内核&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部
+作者：lollipop
+本文原文地址：&lt;a href=&quot;http://wangrongwei.com/2020/06/20/UNIX386.html&quot;&gt;http://wangrongwei.com/2020/06/20/UNIX386.html&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;简介&quot;&gt;简介&lt;/h2&gt;
+
+&lt;h2 id=&quot;unix386&quot;&gt;UNIX386&lt;/h2&gt;
+
+&lt;h3 id=&quot;boot&quot;&gt;boot&lt;/h3&gt;
+
+&lt;h3 id=&quot;内存管理&quot;&gt;内存管理&lt;/h3&gt;
+
+&lt;h3 id=&quot;进程模型&quot;&gt;进程模型&lt;/h3&gt;
+
+&lt;h3 id=&quot;调度&quot;&gt;调度&lt;/h3&gt;
+
+&lt;h3 id=&quot;中断子系统&quot;&gt;中断子系统&lt;/h3&gt;
+
+&lt;h2 id=&quot;链接&quot;&gt;链接&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;项目主页：&lt;a href=&quot;https://github.com/wangrongwei/UNIX386&quot;&gt;UNIX386&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Sat, 20 Jun 2020 00:00:00 +0800</pubDate>
+        <link>http://wangrongwei.com/2020/06/20/UNIX386.html</link>
+        <guid isPermaLink="true">http://wangrongwei.com/2020/06/20/UNIX386.html</guid>
+        
+        
+        <category>project</category>
+        
+      </item>
+    
+      <item>
+        <title>内核问题很“内核”</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;内核开发中几个基本概念梳理&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部&lt;/p&gt;
+
+  &lt;p&gt;作者：lollipop&lt;/p&gt;
+
+  &lt;p&gt;本文原文地址：&lt;a href=&quot;http://wangrongwei.com/2020/04/11/linux-kernel-problems.html&quot;&gt;http://wangrongwei.com/2020/04/11/linux-kernel-problems.html&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;基本概念&quot;&gt;基本概念&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;内核栈是什么？用户栈是什么？&lt;/li&gt;
+  &lt;li&gt;进程上下文是什么？中断上下文是什么？&lt;/li&gt;
+  &lt;li&gt;为什么中断上下文中不能发生睡眠？&lt;/li&gt;
+  &lt;li&gt;为什么自旋锁不能睡眠？&lt;/li&gt;
+  &lt;li&gt;逻辑地址、虚拟地址、物理地址是什么？&lt;/li&gt;
+  &lt;li&gt;用户态是什么？内核态是什么？&lt;/li&gt;
+  &lt;li&gt;用户抢占是什么？内核抢占是什么？&lt;/li&gt;
+  &lt;li&gt;超线程是什么？同时多线程（SMT）是什么？&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;关联链接&quot;&gt;关联链接&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;http://www.wangrongwei.com//tech/the-simple-module-of-task-switch/&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Sat, 11 Apr 2020 00:00:00 +0800</pubDate>
+        <link>http://wangrongwei.com/2020/04/11/linux-kernel-problems.html</link>
+        <guid isPermaLink="true">http://wangrongwei.com/2020/04/11/linux-kernel-problems.html</guid>
+        
+        <category>programming</category>
+        
+        
+        <category>blog</category>
+        
+      </item>
+    
+      <item>
+        <title>走进电影</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;看过很多电影，不过也忘得差不多了。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部
+作者：lollipop
+本文原文地址：&lt;a href=&quot;http://wangrongwei.com/2020/04/07/walking-with-film.html&quot;&gt;http://wangrongwei.com/2020/04/07/walking-with-film.html&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;一代宗师&quot;&gt;一代宗师&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;见自己，见天地，见众生&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;前几日，我又重看了关于《一代宗师》电影的解说，然后就记住了这句话。这句话大概意思很明显，但是应该很难做到，我应该还处在“见自己”时间，估计“见众生”估计也就是圣人了。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+</description>
+        <pubDate>Tue, 07 Apr 2020 00:00:00 +0800</pubDate>
+        <link>http://wangrongwei.com/2020/04/07/walking-with-film.html</link>
+        <guid isPermaLink="true">http://wangrongwei.com/2020/04/07/walking-with-film.html</guid>
+        
+        
+        <category>blog</category>
+        
+      </item>
+    
+      <item>
+        <title>一个简单的多任务切换模型</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;多任务切换的简单模型&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部&lt;/p&gt;
+
+  &lt;p&gt;作者：lollipop&lt;/p&gt;
+
+  &lt;p&gt;本文原文地址：&lt;a href=&quot;http://wangrongwei.com/2020/04/04/the-simple-module-of-task-switch.html&quot;&gt;http://wangrongwei.com/2020/04/04/the-simple-module-of-task-switch.html&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;概述&quot;&gt;概述&lt;/h2&gt;
+
+&lt;p&gt;在单核时代，单个进程独占一个CPU不能充分利用CPU计算能力，其中存在大量的IO等待、网络、磁盘等操作，闲置了CPU。因此，若当当前进程因等待IO的时候，CPU可以切换到另一个进程，完成另一进程的计算部分，当前一个进程IO数据返回，CPU再重新恢复该进程的上下文并继续执行后续进程代码。以上整个过程就是目前计算机中进程切换的最简单模型。本文主要对两个进程在CPU上”无缝“切换进行描述，本文后续采用切换模型或模型表示整个切换机制。&lt;/p&gt;
+
+&lt;h2 id=&quot;直奔切换模型&quot;&gt;直奔切换模型&lt;/h2&gt;
+
+&lt;p&gt;在一个运行操作系统的计算机上，CPU在任一时刻处于用户态或者内核态两者之一，并在这两者之间不断的切换。在切换模型中，仅仅只有当CPU处于内核态时，才能执行进程切换，并在回到用户态以后才真正开始执行新“上任”的进程。&lt;/p&gt;
+
+&lt;p&gt;在这里，我尝试用一张简单的图进行来说明：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;image-20200404012812351.png&quot; alt=&quot;image-20200404012812351&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;在上图中，没有提到具体的寄存器名，采用了一种比较通用的办法表示各种参与者，比如：&lt;/p&gt;
+
+&lt;p&gt;1）T：表示时刻，其中T1、T2分别表示进程执行系统调用进入内核态或返回用户态的两个时刻；&lt;/p&gt;
+
+&lt;p&gt;2）R1：表示寄存器，主要当CPU进入内核态时，记录当前的进程上下文（记录了一个进程的所有数据和资源）；&lt;/p&gt;
+
+&lt;p&gt;3）P1：触发事件，比如当task1的时间片用完，将会主动让出CPU；&lt;/p&gt;
+
+&lt;p&gt;接下来，用两个函数来实现P1发生后，如何切换R1：&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;cm&quot;&gt;/*
+  * 切换进程
+  * 保存eflags
+  */&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#define switch_to(prev,next,last) do {					\
+	unsigned long esi,edi;						\
+	__asm__ __volatile__(&quot;pushfl\n\t&quot;	&lt;/span&gt;&lt;span class=&quot;cm&quot;&gt;/* 保存eflags */&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;		\
+		     &quot;pushl %%ebp\n\t&quot;					\
+		     &quot;movl %%esp,%0\n\t&quot;	&lt;/span&gt;&lt;span class=&quot;cm&quot;&gt;/* 保存ESP */&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;		\
+		     &quot;movl %5,%%esp\n\t&quot;	&lt;/span&gt;&lt;span class=&quot;cm&quot;&gt;/* 切换ESP */&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;		\
+		     &quot;movl $1f,%1\n\t&quot;		&lt;/span&gt;&lt;span class=&quot;cm&quot;&gt;/* 保存EIP */&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;		\
+		     &quot;pushl %6\n\t&quot;		&lt;/span&gt;&lt;span class=&quot;cm&quot;&gt;/* 切换EIP */&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;		\
+		     &quot;jmp __switch_to\n&quot;				\
+		     &quot;1:\t&quot;			&lt;/span&gt;&lt;span class=&quot;cm&quot;&gt;/* 下一次切换回到1 */&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;		\
+		     &quot;popl %%ebp\n\t&quot;					\
+		     &quot;popfl&quot;						\
+		     :&quot;=m&quot; (prev-&amp;gt;tss.esp0),&quot;=m&quot; (prev-&amp;gt;tss.eip),	\
+		      &quot;=a&quot; (last),&quot;=S&quot; (esi),&quot;=D&quot; (edi)			\
+		     :&quot;m&quot; (next-&amp;gt;tss.esp0),&quot;m&quot; (next-&amp;gt;tss.eip),		\
+		      &quot;2&quot; (prev), &quot;d&quot; (next));				\
+} while (0)
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;上面的switch_to函数中prev代表上一个进程、next代表下一个进程。在整个宏定义中，jmp __switch_to便是去执行另一个进程的程序，在跳转前需要做的：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;保存当前进程上下文到prev，其中的EIP保存就是&lt;strong&gt;movl $1f, %1\n\t&lt;/strong&gt;，即是将&lt;strong&gt;“1:\t”&lt;/strong&gt;的位置记录下来，下一次该进程切换回时，便从&lt;strong&gt;“1:\t”&lt;/strong&gt;位置开始。&lt;/li&gt;
+  &lt;li&gt;开始跳转到&lt;strong&gt;__switch_to&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;下面一段代码是&lt;strong&gt;__switch_to&lt;/strong&gt;的代码：&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cm&quot;&gt;/*
+  * 切换到task_[n]，首先需要检测n不是当前current，否则不做任何事；
+  * 如果task_[n]用到math co-processor，需要清空TS-flag；
+  */&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;task_struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fastcall&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__switch_to&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;task_struct&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;prev&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;task_struct&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;}&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__tmp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;kt&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;eip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ebp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;esp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tss&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;esp0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;ebp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tss&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ebp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;eip&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tss&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;eip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;__asm__&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__volatile__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cli&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n\t&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt; \
+		&lt;span class=&quot;s&quot;&gt;&quot;mov %0, %%ecx&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n\t&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt; \
+		&lt;span class=&quot;s&quot;&gt;&quot;mov %1, %%esp&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n\t&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt; \
+		&lt;span class=&quot;s&quot;&gt;&quot;mov %2, %%ebp&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n\t&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt; \
+		&lt;span class=&quot;s&quot;&gt;&quot;mov %3, %%eax&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n\t&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt; \
+		&lt;span class=&quot;s&quot;&gt;&quot;mov $0x12345, %%eax&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n\t&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt; \
+		&lt;span class=&quot;s&quot;&gt;&quot;sti&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n\t&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt; \
+		&lt;span class=&quot;s&quot;&gt;&quot;jmp *%%ecx&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\t&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt; \
+		&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;r&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;eip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;r&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;r&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ebp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;r&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;current&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tss&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cr3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prev&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;在&lt;strong&gt;__switch_to&lt;/strong&gt;便从完成next进程的跳转过程，跳转代码即是&lt;strong&gt;“jmp *%%ecx\t”&lt;/strong&gt;，可以简单想想一下，若该进程若不是第一次进入CPU，那这一行跳转代码将会跳转到该进程的&lt;strong&gt;“1:\t”&lt;/strong&gt;位置。&lt;/p&gt;
+
+&lt;p&gt;内核的调度系统是一个特别复杂的过程，在这里仅仅展示了多个进程间切换的过程，其模型基本与linux-0.1.1中调度代码差不多，虽然简单，但基本表示了CPU是如何做到“无缝”切换进程的过程。&lt;/p&gt;
+
+&lt;h2 id=&quot;faq&quot;&gt;FAQ&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;什么时候进行执行进程切换？&lt;/p&gt;
+
+    &lt;p&gt;执行系统调用或中断进入内核态以后。在进入内核态以后都可以设置进程是否需要切换的判断。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;如何做到无缝衔接？&lt;/p&gt;
+
+    &lt;p&gt;这里的无缝仅仅停留在基本的切换上，如&lt;strong&gt;switch_to&lt;/strong&gt;与&lt;strong&gt;__switch_to&lt;/strong&gt;两个函数，可以概括为何时跳转、又如何跳转回。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;用户态与内核态如何切换？&lt;/p&gt;
+
+    &lt;p&gt;系统调用或者发送中断。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;补充&quot;&gt;补充&lt;/h2&gt;
+
+&lt;p&gt;本文所涉及的代码来自我编写的UNIX386内核。&lt;/p&gt;
+
+</description>
+        <pubDate>Sat, 04 Apr 2020 00:00:00 +0800</pubDate>
+        <link>http://wangrongwei.com/2020/04/04/the-simple-module-of-task-switch.html</link>
+        <guid isPermaLink="true">http://wangrongwei.com/2020/04/04/the-simple-module-of-task-switch.html</guid>
+        
+        <category>programming</category>
+        
+        
+        <category>blog</category>
+        
+      </item>
+    
+      <item>
+        <title>ARM64仿真</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;qemu环境的配置&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部&lt;/p&gt;
+
+  &lt;p&gt;作者：lollipop&lt;/p&gt;
+
+  &lt;p&gt;本文原文地址：&lt;a href=&quot;http://wangrongwei.com/2020/03/15/ARM64-simulation.html&quot;&gt;http://wangrongwei.com/2020/03/15/ARM64-simulation.html&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;环境搭建&quot;&gt;环境搭建&lt;/h2&gt;
+
+&lt;h3 id=&quot;安装qemu&quot;&gt;安装qemu&lt;/h3&gt;
+
+&lt;p&gt;可选择一下版本：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;wget https://download.qemu.org/qemu-4.2.0.tar.xz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;接下来，进入qemu目录，执行：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./configure &lt;span class=&quot;nt&quot;&gt;--enable-virtfs&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--enable-debug&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; make &lt;span class=&quot;nt&quot;&gt;-j4&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; make &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;未指明–target-list表示配置所有架构。&lt;/p&gt;
+
+&lt;h3 id=&quot;制作文件系统&quot;&gt;制作文件系统&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;下载&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;首先，选择busybox制作文件系统，需要先安装busybox，可下载如下版本：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;wget https://busybox.net/downloads/busybox-1.24.2.tar.bz2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;配置&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;接下来，需要对busybox进行配置，执行make menuconfig命令进行配置，以下两个选项需要设置：&lt;/p&gt;
+
+&lt;p&gt;Busybox Setting -&amp;gt; Build Options -&amp;gt; static binary(enable)&lt;/p&gt;
+
+&lt;p&gt;Networking Utilities -&amp;gt; inetd(disable)&lt;/p&gt;
+
+&lt;p&gt;Busybox Setting -&amp;gt; BusyBox installation prefix(../rootfs)&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;编译&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;make &lt;span class=&quot;nv&quot;&gt;ARCH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;arm64 &lt;span class=&quot;nv&quot;&gt;CROSS_COMPILE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;aarch64-linux-gnu-
+make &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;在当前文件的上一级目录下生成rootfs文件。接下来需要在rootfs中添加必要的文件。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;制作文件系统&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;进入rootfs，执行以下命令&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;mkdir &lt;/span&gt;dev etc mnt
+&lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; etc/init.d
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;进入etc/init.d中创建文件rcS，在文件中加入以下内容，并修改rcS为可执行。&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; /proc
+&lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; /tmp
+&lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; /sys
+&lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; /mnt
+/bin/mount &lt;span class=&quot;nt&quot;&gt;-a&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; /dev/pts
+mount &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; devpts devpts /dev/pts
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; /sbin/mdev &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; /proc/sys/kernel/hotplug
+mdev &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;在etc/目录下新建一个fstab文件，加入内容如下：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;proc /proc proc defaults 0 0 
+tmpfs /tmp tmpfs defaults 0 0 
+sysfs /sys sysfs defaults 0 0 
+tmpfs /dev tmpfs defaults 0 0
+debugfs /sys/kernel/debug debugfs defaults 0 0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;在etc/ 目录下新建一个inittab文件，加入以下内容：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;::sysinit:/etc/init.d/rcS 
+::respawn:-/bin/sh 
+::askfirst:-/bin/sh 
+::ctrlaltdel:/bin/umount &lt;span class=&quot;nt&quot;&gt;-a&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-r&lt;/span&gt; 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;在dev目录下执行以下命令&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;mknod &lt;/span&gt;console c 5 1 
+&lt;span class=&quot;nb&quot;&gt;mknod &lt;/span&gt;null c 1 3
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;在rootfs目录执行以下命令&lt;/p&gt;
+
+&lt;p&gt;find . | cpio -o -H newc &amp;gt; rootfs.cpio 
+gzip -c rootfs.cpio &amp;gt; rootfs.cpio.gz
+至此，rootfs中的rootfs.cpio.gz就是制作好的文件系统&lt;/p&gt;
+
+&lt;p&gt;后续将以上操作写成shell脚本，可参考：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;https://github.com/gengcixi/build-busybox
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;制作linux内核&quot;&gt;制作Linux内核&lt;/h3&gt;
+
+&lt;p&gt;可选择以下内核版本：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;wget https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.99.tar.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;接下来，进入Linux目录，执行以下命令：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;make &lt;span class=&quot;nv&quot;&gt;ARCH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;arm64 &lt;span class=&quot;nv&quot;&gt;CROSS_COMPILE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;aarch64-linux-gnu- defconfig
+make &lt;span class=&quot;nv&quot;&gt;ARCH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;arm64 &lt;span class=&quot;nv&quot;&gt;CROSS_COMPILE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;aarch64-linux-gnu- Image &lt;span class=&quot;nt&quot;&gt;-j8&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;编译成功的内核为arch/arm64/boot/Image&lt;/p&gt;
+
+&lt;h2 id=&quot;虚拟机管理&quot;&gt;虚拟机管理&lt;/h2&gt;
+
+&lt;h3 id=&quot;制作镜像&quot;&gt;制作镜像&lt;/h3&gt;
+
+&lt;p&gt;使用qemu-img制作镜像&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;qemu-img create &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; qcow2 centos7-aarch64.img 10G
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;启动虚拟机&quot;&gt;启动虚拟机&lt;/h3&gt;
+
+&lt;p&gt;将以上生成的Image文件和rootfs.cpio.gz拷贝到单独的文件下，执行以下命令启动linux内核：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;qemu-system-aarch64 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-cpu&lt;/span&gt; cortex-a57 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-machine&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;virt &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-nographic&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-smp&lt;/span&gt; 1 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 512 &lt;span class=&quot;nt&quot;&gt;-kernel&lt;/span&gt; Image &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-append&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;rdinit=/linuxrc console=ttyAMA0&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-initrd&lt;/span&gt; rootfs.cpio.gz &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-device&lt;/span&gt; virtio-scsi-device
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;网络配置&quot;&gt;网络配置&lt;/h3&gt;
+
+&lt;p&gt;如何在虚拟机内核连接外网？&lt;/p&gt;
+
+&lt;p&gt;QEMU虚拟机网络的缺省模式是NAT方式，即虚拟机可以通过host访问外网，但host和外网无法访问虚拟机。如果要想让host访问虚拟机，则可以使用TAP方式。&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;首先，需要安装tunctl，可采用**lsmod&lt;/td&gt;
+      &lt;td&gt;grep tun**确认系统是否已经安装tun模块，若内核模块已经安装，可继续安装tunctl。&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;编写QEMU的TAP初始化脚本&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;QEMU的TAP初始化脚本缺省是 /etc/qemu-ifup，它的内容很简单：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/sh&lt;/span&gt;
+/sbin/ifconfig &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt; 192.168.0.118
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;其中192.168.0.118与host的ip地址需在不同网段，另外，/etc/qemu-ifup文件需要增加可执行的权限。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;虚拟机的网络设置&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;虚拟机的启动命令行增加网络参数：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;-net&lt;/span&gt; nic &lt;span class=&quot;nt&quot;&gt;-net&lt;/span&gt; tap
+待测试的：
+&lt;span class=&quot;nt&quot;&gt;-net&lt;/span&gt; nic &lt;span class=&quot;nt&quot;&gt;-net&lt;/span&gt; tap,ifname&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;tap
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;即可启动TAP网络模式。注意：因为创建TAP网卡需要root权限，所以必须用root用户启动QEMU。虚拟机启动后，用ifconfig命令设置网络，要求它的IP与host的tap网口的IP（即在上个步骤里qemu-ifup文件中设置的IP）处于同一网段。例如：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ifconfig eth0 192.168.0.119 netmask 255.255.255.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;补充&quot;&gt;补充&lt;/h2&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;在编译和最后的执行内核过程中，若出现问题，可采用**file&lt;/td&gt;
+      &lt;td&gt;which**两个命令对生成的可执行文件进行查看。&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;按Ctrl+A+X组合键退出qemu模拟器
+按Ctrl+A+C组合键进入qemu-monitor，输入help可以查看操作命令&lt;/p&gt;
+
+&lt;p&gt;以上满足基本的aarch64开发环境需求，需另外补充：&lt;/p&gt;
+
+&lt;p&gt;首次安装虚拟机，采用脚本：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;qemu-system-aarch64 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 2048 &lt;span class=&quot;nt&quot;&gt;-cpu&lt;/span&gt; cortex-a57 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-smp&lt;/span&gt; 2 &lt;span class=&quot;nt&quot;&gt;-M&lt;/span&gt; virt &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-bios&lt;/span&gt; QEMU_EFI.fd &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-nographic&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-drive&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;none,file&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ubuntu-18.04.4-server-arm64.iso,id&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;cdrom,media&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;cdrom &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-device&lt;/span&gt; virtio-scsi-device &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-device&lt;/span&gt; scsi-cd,drive&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;cdrom &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-drive&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;none,file&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;CentOS7-arm64.qcow2,id&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;hd0 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-device&lt;/span&gt; virtio-blk-device,drive&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;hd0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;后续再使用时，可采用脚本：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;qemu-system-aarch64 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 2048 &lt;span class=&quot;nt&quot;&gt;-cpu&lt;/span&gt; cortex-a57 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-smp&lt;/span&gt; 2 &lt;span class=&quot;nt&quot;&gt;-M&lt;/span&gt; virt &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-bios&lt;/span&gt; QEMU_EFI.fd &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-nographic&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-device&lt;/span&gt; virtio-scsi-device &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-drive&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;driver&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;qcow2,media&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;disk,cache&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;writeback,if&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;none,file&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;CentOS7-arm64.qcow2,id&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;hd0 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-device&lt;/span&gt; virtio-blk-device,drive&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;hd0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;两个脚本分开，以防止在后续使用过程中重复安装操作。&lt;/p&gt;
+
+&lt;h2 id=&quot;faq&quot;&gt;FAQ&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;如何制作rootfs文件系统？&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;改变方案，用现有发行版的arm64取代？&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Failed to set MokListRT: Invalid Parameter&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;如何在qemu虚拟机内连接网络？&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;在虚拟机中键盘不匹配，无法使用vim&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;虚拟机无法ping通host，host可以ping通虚拟机？&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;检测路由：route -v，缺少到目的IP的路由时，采用以下命令进行添加：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;route add &lt;span class=&quot;nt&quot;&gt;-net&lt;/span&gt; 192.168.62.0 netmask 255.255.255.0 gw 192.168.1.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;QEMU_EFI.fd(下载地址：http://releases.linaro.org/components/kernel/uefi-linaro/16.02/release/qemu64/)&lt;/p&gt;
+
+&lt;p&gt;其他启动脚本：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;qemu-system-aarch64 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;-machine&lt;/span&gt; virt-3.1 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;-smp&lt;/span&gt; 8 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 1G,slots&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;2,maxmem&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;3G &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;-enable-kvm&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;-cpu&lt;/span&gt; host &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;-nographic&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;-drive&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;none,file&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ubuntu-16.04-server-cloudimg-arm64-uefi1.img,id&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;hd0 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;-monitor&lt;/span&gt; unix:qemu-monitor-socket,server,nowait &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;-device&lt;/span&gt; virtio-blk-device,drive&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;hd0 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;-qmp&lt;/span&gt; unix:./qmp-sock,server,nowait &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;-qmp&lt;/span&gt; tcp:localhost:6666,server,nowait &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;-device&lt;/span&gt; pcie-pci-bridge,bus&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;pcie.0,id&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;pcie-bridge-0,msi&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;on,x-pcie-lnksta-dllla&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;on,addr&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;2,romfile&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;-device&lt;/span&gt; pci-bridge,bus&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;pcie-bridge-0,id&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;pci.0,shpc&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;on,msi&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;on,chassis_nr&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1,addr&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;2 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;-pflash&lt;/span&gt; flash0.img &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;-pflash&lt;/span&gt; flash1.img &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;-netdev&lt;/span&gt; user,id&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;user0 &lt;span class=&quot;nt&quot;&gt;-device&lt;/span&gt; virtio-net-device,netdev&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;user0 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;参考&quot;&gt;参考&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;https://luomuxiaoxiao.com/?p=743&lt;/li&gt;
+  &lt;li&gt;https://blog.csdn.net/linsheng_111/article/details/82996347&lt;/li&gt;
+  &lt;li&gt;https://blog.csdn.net/wujianyongw4/article/details/90289208&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Sun, 15 Mar 2020 00:00:00 +0800</pubDate>
+        <link>http://wangrongwei.com/2020/03/15/ARM64-simulation.html</link>
+        <guid isPermaLink="true">http://wangrongwei.com/2020/03/15/ARM64-simulation.html</guid>
+        
+        
+        <category>blog</category>
+        
+      </item>
+    
+      <item>
         <title>如何使用该主题？</title>
-        <description>&lt;h1 id=&quot;如何使用该主题&quot;&gt;如何使用该主题？&lt;/h1&gt;
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;如何使用该主题。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部
+作者：lollipop
+本文原文地址：&lt;a href=&quot;http://wangrongwei.com/2020/03/14/using-this.html&quot;&gt;http://wangrongwei.com/2020/03/14/using-this.html&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;ruby包下载&quot;&gt;ruby包下载&lt;/h2&gt;
+
+&lt;p&gt;jekyll依赖于ruby安装包，需前往&lt;a href=&quot;https://rubyinstaller.org/downloads/&quot;&gt;l&lt;/a&gt;下载较新的安装包。&lt;/p&gt;
+
+&lt;h2 id=&quot;修改源&quot;&gt;修改源&lt;/h2&gt;
+
+&lt;p&gt;在进行后续步骤前，需要对ruby源进行更新，否则后续下载相关包将花费不少的时间，源更改操作如下：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- gem sources &lt;span class=&quot;nt&quot;&gt;--add&lt;/span&gt; https://gems.ruby-china.com/ &lt;span class=&quot;nt&quot;&gt;--remove&lt;/span&gt; https://rubygems.org/
+- gem sources &lt;span class=&quot;nt&quot;&gt;-l&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;通过以上操作，使用&lt;strong&gt;gem sources -l&lt;/strong&gt;查看仅存在新添加的淘宝源。&lt;/p&gt;
+
+&lt;h2 id=&quot;jekyll-and-bundler-安装&quot;&gt;jekyll and bundler 安装&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- gem &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;jekyll bundler
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;选择主题&quot;&gt;选择主题&lt;/h2&gt;
+
+&lt;p&gt;目前，网上有开源的博客主题，可前面&lt;a href=&quot;http://jekyllthemes.org/&quot;&gt;jekyllthemes&lt;/a&gt;选择喜欢的主题下载。该博客选择的主题是&lt;strong&gt;skinny-bones-jekyll&lt;/strong&gt;，其作者的主页如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://mademistakes.com/&quot;&gt;A Jekyll starter site&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;除以上主题外，作者也提供了其他供选择的主题。&lt;/p&gt;
 
 &lt;h2 id=&quot;配置概述&quot;&gt;配置概述&lt;/h2&gt;
 
@@ -68,38 +690,442 @@ disqus: Evan
 &lt;p&gt;若使用者对jekyll的语法不够熟悉，且计划对代码和布局进行修改，推荐先阅读jekyll提供的&lt;a href=&quot;https://jekyllrb.com/docs/step-by-step/01-setup/&quot;&gt;step-by-step&lt;/a&gt;。&lt;/p&gt;
 
 &lt;p&gt;enjoy!&lt;/p&gt;
+
+&lt;h2 id=&quot;相关引用&quot;&gt;相关引用&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://www.jekyll.com.cn/docs/&quot;&gt;https://www.jekyll.com.cn/docs/&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://rubyinstaller.org/downloads/&quot;&gt;https://rubyinstaller.org/downloads/&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://gems.ruby-china.com/&quot;&gt;https://gems.ruby-china.com/&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://jekyllthemes.org/&quot;&gt;http://jekyllthemes.org/&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
 </description>
         <pubDate>Sat, 14 Mar 2020 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2020/03/14/using-this.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2020/03/14/using-this.html</guid>
+        <link>http://wangrongwei.com/2020/03/14/using-this.html</link>
+        <guid isPermaLink="true">http://wangrongwei.com/2020/03/14/using-this.html</guid>
         
+        
+        <category>project</category>
         
       </item>
     
       <item>
-        <title>西风</title>
-        <description>&lt;h1 id=&quot;西风&quot;&gt;西风&lt;/h1&gt;
+        <title>咖啡一下</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;记录一些琐碎的读书笔记，不过于是些信仰、旅行和奇异。&lt;/p&gt;
+&lt;/blockquote&gt;
 
-&lt;h2 id=&quot;section1&quot;&gt;section1&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部
+作者：lollipop
+本文原文地址：&lt;a href=&quot;http://wangrongwei.com/2019/11/25/FreeTalk.html&quot;&gt;http://wangrongwei.com/2019/11/25/FreeTalk.html&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 
-&lt;p&gt;西风，从门头沟入境北京，一路穿过石景山，来到海淀的上空。&lt;/p&gt;
+&lt;h2 id=&quot;银河系搭车客指南&quot;&gt;银河系搭车客指南&lt;/h2&gt;
 
-&lt;p&gt;人们的衣衫被吹起，驻足抬头仰望高楼之上的西风，却只看到蔚蓝的天空。&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;巴别鱼靠脑电波的能量为生，但所需脑电波并非来自其寄主，而是来自寄主周围的生命。&lt;/p&gt;
+&lt;/blockquote&gt;
 
-&lt;p&gt;夏日的北京，刮起西风。&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;光需要八分钟从恒星太阳传播到地球曾经在的位置，再走四年才能到距离太阳最近的恒星——半人马座阿尔法星。&lt;/p&gt;
+&lt;/blockquote&gt;
 
-&lt;h2 id=&quot;section2&quot;&gt;section2&lt;/h2&gt;
+&lt;h2 id=&quot;研究生完全求生手册&quot;&gt;研究生完全求生手册&lt;/h2&gt;
 
-&lt;p&gt;第二节&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;那是你一生中最美、最好、精力最充沛的年华。&lt;/p&gt;
+&lt;/blockquote&gt;
 
-&lt;h2 id=&quot;section3&quot;&gt;section3&lt;/h2&gt;
+&lt;p&gt;其实我的本科精力也是十足的，一般我的电脑只能熬到12点，我能熬到2点。到了研究生阶段，我的电脑能熬到1点，我能熬到3点。&lt;/p&gt;
 
-&lt;p&gt;第三节&lt;/p&gt;
+&lt;h2 id=&quot;禅与摩托车维修艺术&quot;&gt;禅与摩托车维修艺术&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;这本书的主题其实可以概况为，在工业时代，如何成为一个有信仰的人，以及如何去信。所谓信仰，说到底就是对世界的某种理解，相信自己做的事情是对的。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;帮人解决代码问题&quot;&gt;帮人解决代码问题&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;这个问题会有大量的人有这个疑问，这个问题要回答其实并不难。这个答案跟我的技术成长的环境有关。
+在技术上尤为的羡慕那些有人帮忙调试bug、答疑各类理论知识的人。但是，对于我而言，我视乎还一直没有遇到那个真正在技术上对我有指导的人，能够指正我代码变量取名不合适、不应该用魔数，或者是换行的问题。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;我们为什么要去火星&quot;&gt;我们为什么要去火星&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;人类应该发展成为存在于星际之间的物种。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;前段时间看完《我们为什么要去火星？》一书，我大致体会到了人类向宇宙空间发展有多难，这个难可能体现在人类自身生命时间的有限，比如火星，虽然与地球是邻居，但是在距离上已经超越了邻居的距离，去一趟火星可能大概是半年。对于火星如此，可想我们想要实现星际旅行，可能需要依靠记忆切换的技术了，把我们大脑的上下文存储在另一个细胞上（身体已老，但记忆长存）。
+我也想去星际旅行，可惜“生不逢时”，只能学陆游“家祭无忘告乃翁”。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;信仰&quot;&gt;信仰&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;志远而疏，心旷而放——《思旧赋》&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;活着的三个理由&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;罗素说，人活着有三个理由。第一个理由是“追求爱情”（longing for love）。因为爱情会带来“狂喜”（ecstasy），这是其他任何经历都做不到的；爱情能减轻孤独，让你对生活不再那么恐惧；爱情能创造最美好的人类生活，仿佛天堂的缩影。第二个理由是“追求知识”（search for knowledge）。因为知识能让我们理解人的内心，理解自然界，满足我们与生俱来的好奇心。第三个理由是“同情心”（pity for the suffering）。当你看到他人受苦，看到饥饿的孩子，看到被压迫的人民，看到被虐待的老人，看到人类的孤独、贫穷、痛苦，你的内心都会难以平静。我们活着，就是为了减轻一些这种苦难，不仅为了帮助他人，还因为我们自己也是这种苦难的受害者。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;旅行的艺术阿兰德波顿&quot;&gt;旅行的艺术（阿兰·德波顿）&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;好奇心&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;旅行的一个危险是，我们还没有积累和具备所需要的接受能力就迫不及待地去观光，而造成时机错误。正如缺乏一条链子将珠子串成项链一样，我们所接纳的新讯息会变得毫无价值，并且散乱无章。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;王小波&quot;&gt;王小波&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;王小波传&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;王小波和李银河相恋的时候才25岁，25岁的他思想还不成熟，但是他后期很多成熟的思想，在这时已经能找到一定的基础了。在25岁的时候，他已经想到要对得起自己，要对未来有所贡献，就该“不虚度光阴，把命运赐给我的全部智力发挥到顶点，做成一件无愧于人类智慧的事情”。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;百年孤独&quot;&gt;百年孤独&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路，一切以往的春天 都不复存在。&lt;/li&gt;
+&lt;/ul&gt;
 </description>
-        <pubDate>Wed, 24 Jul 2019 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2019/07/24/west-wind.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2019/07/24/west-wind.html</guid>
+        <pubDate>Mon, 25 Nov 2019 00:00:00 +0800</pubDate>
+        <link>http://wangrongwei.com/2019/11/25/FreeTalk.html</link>
+        <guid isPermaLink="true">http://wangrongwei.com/2019/11/25/FreeTalk.html</guid>
         
+        
+        <category>blog</category>
+        
+      </item>
+    
+      <item>
+        <title>entry_64.S中的汇编指令</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;本文介绍x86_64体系结构中，使用汇编实现的中断处理部分，并对部分较陌生的指令进行解释，最后附上关于中断调用路径的流程图。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部
+作者：lollipop
+本文原文地址：&lt;a href=&quot;http://wangrongwei.com/2019/10/12/entry_64.S-help.html&quot;&gt;http://wangrongwei.com/2019/10/12/entry_64.S-help.html&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;环境&quot;&gt;环境&lt;/h2&gt;
+
+&lt;p&gt;配置source insight，支持汇编高亮和索引。
+配置文件可加载&lt;a href=&quot;https://github.com/wangrongwei/lazytools/tree/primer/sourceinsight&quot;&gt;config_all.xml&lt;/a&gt;，关于source insight的配置方式和配置文件加载方式可参考&lt;a href=&quot;xxx&quot;&gt;source insight&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;汇编指令&quot;&gt;汇编指令&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;[1] .rept与.endr：重复.rept与.endr间的代码若干份，其作用类似宏。其详细作用可参考ENTRY(interrupt)的描述。&lt;/li&gt;
+  &lt;li&gt;[2] &amp;lt;&amp;gt;：&lt;/li&gt;
+  &lt;li&gt;[3] .p2align：字节对齐&lt;/li&gt;
+  &lt;li&gt;[4] .balign：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;重要函数&quot;&gt;重要函数&lt;/h2&gt;
+
+&lt;h3 id=&quot;entryinterrupt&quot;&gt;ENTRY(interrupt)&lt;/h3&gt;
+
+&lt;div class=&quot;language-S highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;w&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.section&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.init.rodata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;a&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ENTRY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;interrupt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.section&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.entry.text&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.p2align&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.p2align&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CONFIG_X86_L1_CACHE_SHIFT&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ENTRY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;irq_entries_start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;INTR_FRAME&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FIRST_EXTERNAL_VECTOR&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.rept&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NR_VECTORS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FIRST_EXTERNAL_VECTOR&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;+6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.balign&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;32&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.rept&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.if&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NR_VECTORS&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.if&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FIRST_EXTERNAL_VECTOR&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CFI_ADJUST_CFA_OFFSET&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;-8&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.endif&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pushq_cfi&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;+0&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;   &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/*&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Note&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;always&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;signed&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;byte&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*/&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.if&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FIRST_EXTERNAL_VECTOR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jmp&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.endif&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.previous&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.quad&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.section&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.entry.text&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;+1&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.endif&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.endr&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jmp&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;common_interrupt&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.endr&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;以上汇编代码的目的是构建出224个interrupt成员函数，与以往内核版本不同（使用宏构建interrupt成员函数）。&lt;/p&gt;
+
+&lt;h3 id=&quot;thread&quot;&gt;THREAD&lt;/h3&gt;
+
+&lt;p&gt;thread_info结构体对task_struct进一步封装，但是以下代码如何获取到当前进程的thread_info的地址？&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/kernel/2019-10-12-19-50-35.png&quot; alt=&quot;THREAD&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;cfi_&quot;&gt;CFI_*&lt;/h3&gt;
+
+&lt;p&gt;-[1] .cfi_sections section_list&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;.cfi_sections&lt;/strong&gt;用于指定CFI触发的段是&lt;strong&gt;.eh_frame&lt;/strong&gt; 或者是 &lt;strong&gt;.debug_frame&lt;/strong&gt;，甚至同时包括以上两个。同时也可触发两个段，若后续的指示没有指定，默认为&lt;strong&gt;.eh_frame&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;.cfi_sections&lt;/strong&gt; may be used to specify whether CFI directives should emit &lt;strong&gt;.eh_frame&lt;/strong&gt; section and/or &lt;strong&gt;.debug_frame&lt;/strong&gt; section. If section_list is &lt;strong&gt;.eh_frame&lt;/strong&gt;, &lt;strong&gt;.eh_frame&lt;/strong&gt; is emitted, if section_list is &lt;strong&gt;.debug_frame&lt;/strong&gt;, &lt;strong&gt;.debug_frame&lt;/strong&gt; is emitted. To emit both use &lt;strong&gt;.eh_frame&lt;/strong&gt;, &lt;strong&gt;.debug_frame&lt;/strong&gt;. The default if this directive is not used is &lt;strong&gt;.cfi_sections&lt;/strong&gt; &lt;strong&gt;.eh_frame&lt;/strong&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;-[2] .cfi_startproc [simple]&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;.cfi_startproc&lt;/strong&gt; is used at the beginning of each function that should have an entry in &lt;strong&gt;.eh_frame&lt;/strong&gt;. It initializes some internal data structures. Don’t forget to close the function by &lt;strong&gt;.cfi_endproc&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Unless &lt;strong&gt;.cfi_startproc&lt;/strong&gt; is used along with parameter simple it also emits some architecture dependent initial CFI instructions.&lt;/p&gt;
+
+&lt;p&gt;-[3] .cfi_endproc&lt;/p&gt;
+
+&lt;p&gt;.cfi_endproc is used at the end of a function where it closes its unwind entry previously opened by .cfi_startproc, and emits it to .eh_frame.&lt;/p&gt;
+
+&lt;p&gt;-[4] .cfi_personality encoding [, exp]&lt;/p&gt;
+
+&lt;p&gt;.cfi_personality defines personality routine and its encoding. encoding must be a constant determining how the personality should be encoded. If it is 255 (DW_EH_PE_omit), second argument is not present, otherwise second argument should be a constant or a symbol name. When using indirect encodings, the symbol provided should be the location where personality can be loaded from, not the personality routine itself. The default after .cfi_startproc is .cfi_personality 0xff, no personality routine.&lt;/p&gt;
+
+&lt;p&gt;-[5] .cfi_lsda encoding [, exp]&lt;/p&gt;
+
+&lt;p&gt;.cfi_lsda defines LSDA and its encoding. encoding must be a constant determining how the LSDA should be encoded. If it is 255 (DW_EH_PE_omit), second argument is not present, otherwise second argument should be a constant or a symbol name. The default after .cfi_startproc is .cfi_lsda 0xff, no LSDA.&lt;/p&gt;
+
+&lt;p&gt;-[6] .cfi_def_cfa register, offset&lt;/p&gt;
+
+&lt;p&gt;.cfi_def_cfa defines a rule for computing CFA as: take address from register and add offset to it.&lt;/p&gt;
+
+&lt;p&gt;-[7] .cfi_def_cfa_register register&lt;/p&gt;
+
+&lt;p&gt;.cfi_def_cfa_register modifies a rule for computing CFA. From now on register will be used instead of the old one. Offset remains the same.&lt;/p&gt;
+
+&lt;p&gt;-[8] .cfi_def_cfa_offset offset&lt;/p&gt;
+
+&lt;p&gt;.cfi_def_cfa_offset modifies a rule for computing CFA. Register remains the same, but offset is new. Note that it is the absolute offset that will be added to a defined register to compute CFA address.&lt;/p&gt;
+
+&lt;p&gt;-[9] .cfi_adjust_cfa_offset offset&lt;/p&gt;
+
+&lt;p&gt;Same as .cfi_def_cfa_offset but offset is a relative value that is added/substracted from the previous offset.&lt;/p&gt;
+
+&lt;p&gt;-[10] .cfi_offset register, offset&lt;/p&gt;
+
+&lt;p&gt;Previous value of register is saved at offset offset from CFA.&lt;/p&gt;
+
+&lt;p&gt;-[11] .cfi_rel_offset register, offset&lt;/p&gt;
+
+&lt;p&gt;Previous value of register is saved at offset offset from the current CFA register. This is transformed to .cfi_offset using the known displacement of the CFA register from the CFA. This is often easier to use, because the number will match the code it’s annotating.&lt;/p&gt;
+
+&lt;p&gt;-[12] .cfi_register register1, register2&lt;/p&gt;
+
+&lt;p&gt;Previous value of register1 is saved in register register2.&lt;/p&gt;
+
+&lt;p&gt;-[13] .cfi_restore register&lt;/p&gt;
+
+&lt;p&gt;.cfi_restore says that the rule for register is now the same as it was at the beginning of the function, after all initial instruction added by .cfi_startproc were executed.&lt;/p&gt;
+
+&lt;p&gt;-[14] .cfi_undefined register&lt;/p&gt;
+
+&lt;p&gt;表明寄存器的前一个值无法再被恢复。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;From now on the previous value of register can’t be restored anymore.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;-[15] .cfi_same_value register&lt;/p&gt;
+
+&lt;p&gt;寄存器的当前值与前一帧相同，即不需要恢复。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Current value of register is the same like in the previous &lt;strong&gt;frame&lt;/strong&gt;, i.e. no restoration needed.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;-[16] .cfi_remember_state,&lt;/p&gt;
+
+&lt;p&gt;First save all current rules for all registers by &lt;strong&gt;.cfi_remember_state&lt;/strong&gt;, then totally screw them up by subsequent &lt;strong&gt;.cfi_*&lt;/strong&gt; directives and when everything is hopelessly bad, use &lt;strong&gt;.cfi_restore_state&lt;/strong&gt; to restore the previous saved state.&lt;/p&gt;
+
+&lt;p&gt;-[17] .cfi_return_column register&lt;/p&gt;
+
+&lt;p&gt;改变返回列寄存器，例如：返回地址是直接指向寄存器或者可以被访问。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Change return column register, i.e. the return address is either directly in register or can be accessed by rules for register.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;-[18] .cfi_signal_frame&lt;/p&gt;
+
+&lt;p&gt;标记当前的函数为信号蹦床&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Mark current function as signal trampoline.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;-[19] .cfi_window_save&lt;/p&gt;
+
+&lt;p&gt;SPARC寄存器窗口已经被保存&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;SPARC register window has been saved.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;-[20] .cfi_escape expression[, …]&lt;/p&gt;
+
+&lt;p&gt;允许用户添加任意字节到展开的信息。可以使用它来添加特定OS的CFI操作码，或者GAS还不支持的通用CFI操作码。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Allows the user to add arbitrary bytes to the unwind info. One might use this to add OS-specific CFI opcodes, or generic CFI opcodes that GAS does not yet support.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;-[21] .cfi_val_encoded_addr register, encoding, label&lt;/p&gt;
+
+&lt;p&gt;The current value of register is label. The value of label will be encoded in the output file according to encoding; see the description of .cfi_personality for details on this encoding.&lt;/p&gt;
+
+&lt;p&gt;The usefulness of equating a register to a fixed label is probably limited to the return address register. Here, it can be useful to mark a code segment that has only one return address which is reached by a direct branch and no copy of the return address exists in memory or another register.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;原文链接：http://sourceware.org/binutils/docs/as/CFI-directives.html&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;中断处理流程&quot;&gt;中断处理流程&lt;/h2&gt;
+
+&lt;h3 id=&quot;几个重要的函数&quot;&gt;几个重要的函数&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;[1] common_interrupt&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;执行中断函数（do_irq），在do_irq中将会去执行其他的中断服务函数。&lt;/p&gt;
+
+&lt;div class=&quot;language-S highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;w&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;XCPT_FRAME&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addq&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;-0&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%rsp)  /* Adjust vector to [-256,-1] range */
+    interrupt do_IRQ /* 中断函数 */
+    /* 0(%&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rsp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;old_rsp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ARGOFFSET&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*/&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;[2] ret_from_intr:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;此处表明中断服务函数已经执行完成并返回。&lt;/p&gt;
+
+&lt;div class=&quot;language-S highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;w&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DISABLE_INTERRUPTS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CLBR_NONE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TRACE_IRQS_OFF&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;decl&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PER_CPU_VAR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;irq_count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+    &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/*&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Restore&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;saved&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;previous&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stack&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*/&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;popq&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%rsi
+    CFI_DEF_CFA rsi,SS+8-RBP    /* reg/off reset after def_cfa_expr */
+    leaq ARGOFFSET-RBP(%&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rsi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rsp&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CFI_DEF_CFA_REGISTER&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rsp&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CFI_ADJUST_CFA_OFFSET&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;   &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RBP&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ARGOFFSET&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;[3] exit_intr&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;判断发送中断前系统处于内核态还是用户态，根据两种不同的状态分别跳转到retint_kernel（内核态）或retint_with_reschedule（用户态）。&lt;/p&gt;
+
+&lt;div class=&quot;language-S highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;w&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GET_THREAD_INFO&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%rcx)
+    testl $3,CS-ARGOFFSET(%&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rsp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/*&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;读取栈中的&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CS&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*/&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;je&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;retint_kernel&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/*&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;若为内核态，则跳转&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*/&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;[4] retint_with_reschedule&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-S highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;w&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;movl&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TIF_WORK_MASK&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%edi
+​```S
+
+- [5] retint_check
+
+​```S
+    LOCKDEP_SYS_EXIT_IRQ
+    movl TI_flags(%&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rcx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%edx
+    andl %&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;edi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;edx&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CFI_REMEMBER_STATE&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jnz&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;retint_careful&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/*&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;判断是否有其他需要做&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*/&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;在大多数情况下，以上[5]紧接[4]执行。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;[6] retint_swapgs&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-S highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;/*&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;space&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*/&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/*&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+     &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;The&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iretq&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;could&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;re&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;enable&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;interrupts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+     &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*/&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DISABLE_INTERRUPTS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CLBR_ANY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TRACE_IRQS_IRETQ&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SWAPGS&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/*&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;切换&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gs&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*/&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jmp&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;restore_args&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;[7] retint_restore_args&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;不支持内核抢占，且要返回内核态时，将在exit_intr中跳转到此处（因为retint_kernel已经被宏定义为retint_restore_args）。&lt;/p&gt;
+
+&lt;div class=&quot;language-S highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;w&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DISABLE_INTERRUPTS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CLBR_ANY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/*&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;The&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iretq&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;could&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;re&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;enable&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;interrupts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*/&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TRACE_IRQS_IRETQ&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;[8] restore_args:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-S highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;w&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RESTORE_ARGS&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;[9] irq_return&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;执行到irq_return，表明中断服务函数、信号、是否重新调度等操作已经执行完，后续将跳转到中断前的状态执行。&lt;/p&gt;
+
+&lt;h3 id=&quot;中断框图&quot;&gt;中断框图&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/kernel/2019-11-02-19-25-54.png&quot; alt=&quot;中断框图&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sat, 12 Oct 2019 00:00:00 +0800</pubDate>
+        <link>http://wangrongwei.com/2019/10/12/entry_64.S-help.html</link>
+        <guid isPermaLink="true">http://wangrongwei.com/2019/10/12/entry_64.S-help.html</guid>
+        
+        <category>programming</category>
+        
+        
+        <category>blog</category>
         
       </item>
     
@@ -110,25 +1136,11 @@ disqus: Evan
 &lt;p&gt;每到四月份，玉渊潭的樱花开了，就想起小时候邻居家的梨树开满梨花，洁白，清新。&lt;/p&gt;
 </description>
         <pubDate>Wed, 24 Jul 2019 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2019/07/24/lihua.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2019/07/24/lihua.html</guid>
+        <link>http://wangrongwei.com/2019/07/24/lihua.html</link>
+        <guid isPermaLink="true">http://wangrongwei.com/2019/07/24/lihua.html</guid>
         
         
-      </item>
-    
-      <item>
-        <title>为何编程？</title>
-        <description>&lt;h1 id=&quot;为何编程&quot;&gt;为何编程？&lt;/h1&gt;
-
-&lt;p&gt;也许就是因为这些：&lt;a href=&quot;http://www.zhihu.com/question/23120049&quot;&gt;用编程实现 “hello world”，神奇在什么地方？&lt;/a&gt;&lt;/p&gt;
-
-</description>
-        <pubDate>Tue, 25 Mar 2014 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2014/03/25/why-programming.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2014/03/25/why-programming.html</guid>
-        
-        <category>programming</category>
-        
+        <category>blog</category>
         
       </item>
     
