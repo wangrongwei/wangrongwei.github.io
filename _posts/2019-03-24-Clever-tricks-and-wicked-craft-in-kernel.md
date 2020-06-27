@@ -40,6 +40,17 @@ teaser:
 
 
 
+### gcc
+
+```c
+#define _RET_IP_		(unsigned long)__builtin_return_address(0)
+#define _THIS_IP_  ({ __label__ __here; __here: (unsigned long)&&__here; })
+```
+
+当前地址和返回地址，主要用于栈追溯
+
+
+
 ### 其他
 
 登录ssh，不必每次输入命令，可操作如下：

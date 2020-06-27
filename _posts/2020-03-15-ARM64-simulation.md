@@ -8,7 +8,7 @@ teaser:
     linux-kernel.jpg
 ---
 
-> qemu环境的配置
+> 内核开发前的虚拟机搭建
 
 > 文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部
 >
@@ -17,6 +17,12 @@ teaser:
 > 本文原文地址：<http://wangrongwei.com{{ page.url }}>
 
 ## 环境搭建
+
+在内核开发中，我们经常在虚拟机环境中开发内核模块或直接修改内核代码，以及backport社区的补丁。
+
+本文介绍内核开发者的虚拟机开发环境。
+
+
 
 ### 安装qemu
 
@@ -170,6 +176,18 @@ qemu-system-aarch64 \
 
 ### 网络配置
 
+#### Linux
+
+qemu两种上网方式：
+
+　　1）user mode network :
+
+　　这种方式实现虚拟机上网很简单，类似vmware里的nat，qemu启动时加入-user-net参数，虚拟机里使用dhcp方式，即可与互联网通信，但是这种方式虚拟机与主机的通信不方便。
+
+　　2）tap/tun network :
+
+　　这种方式要比user mode复杂一些，但是设置好后 虚拟机<-->互联网 虚拟机<-->主机 通信都很容易。这种方式设置上类似vmware的host-only,qemu使用tun/tap设备在主机上增加一块虚拟网络设备(tun0),然后就可以象真实网卡一样配置它。
+
 如何在虚拟机内核连接外网？
 
 QEMU虚拟机网络的缺省模式是NAT方式，即虚拟机可以通过host访问外网，但host和外网无法访问虚拟机。如果要想让host访问虚拟机，则可以使用TAP方式。 
@@ -203,6 +221,24 @@ QEMU的TAP初始化脚本缺省是 /etc/qemu-ifup，它的内容很简单：
 ifconfig eth0 192.168.0.119 netmask 255.255.255.0
 ```
 
+
+
+#### Windows
+
+在Windows上使用qemu虚拟机，通过此配置，可以使qemu中的虚拟机能连接互联网，并且也可以和Windows主机通信。此方式类似于Vmware和VitrualBox中的桥接网卡。配置方法如下：
+
+1. **在Windows主机上安装TAP网卡驱动:** 可下载openvpn客户端软件，只安装其中的TAP驱动；在网络连接中，会看到一个新的网卡，属性类似于TAP-Win32 Adapter...，将其名称修改为tap0。
+2. **将tap0虚拟网卡和Windows上连接互联网的真实网卡桥接:** 选中这两块网卡，右键，桥接。此时，Windows主机将不能连接互联网。重新连接WIFI使Windows主机连接互联网。
+3. **qemu配置:** 在虚拟机启动命令行添加以下参数：--net nic -net tap,ifname=tap0；启动虚拟机，并配置虚拟机中的网卡，则虚拟机也可以和Windows主机一样，连接互联网和Windows主机。
+
+
+
+##  启动CentOS或openEuler
+
+
+
+
+
 ## 补充
 
 在编译和最后的执行内核过程中，若出现问题，可采用**file | which**两个命令对生成的可执行文件进行查看。
@@ -218,7 +254,7 @@ ifconfig eth0 192.168.0.119 netmask 255.255.255.0
 qemu-system-aarch64 \
     -m 2048 -cpu cortex-a57 \
     -smp 2 -M virt \
-    -bios QEMU_EFI.fd \
+    -bios edk2-aarch64-code.fd \
     -nographic -drive if=none,file=ubuntu-18.04.4-server-arm64.iso,id=cdrom,media=cdrom \
     -device virtio-scsi-device \
     -device scsi-cd,drive=cdrom \
@@ -226,13 +262,15 @@ qemu-system-aarch64 \
     -device virtio-blk-device,drive=hd0
 ```
 
+edk2-aarch64-code.fd文件来自qemu安装目录。
+
 后续再使用时，可采用脚本：
 
 ```bash
 qemu-system-aarch64 \
     -m 2048 -cpu cortex-a57 \
     -smp 2 -M virt \
-    -bios QEMU_EFI.fd \
+    -bios edk2-aarch64-code.fd \
     -nographic -device virtio-scsi-device \
     -drive driver=qcow2,media=disk,cache=writeback,if=none,file=CentOS7-arm64.qcow2,id=hd0 \
     -device virtio-blk-device,drive=hd0
@@ -246,7 +284,7 @@ qemu-system-aarch64 \
 
 - 改变方案，用现有发行版的arm64取代？
 
-- Failed to set MokListRT: Invalid Parameter
+- Failed to set MokListRT: Invalid Parameter（-bios后的fd文件不对）
 
 - 如何在qemu虚拟机内连接网络？
 
@@ -260,7 +298,7 @@ qemu-system-aarch64 \
 route add -net 192.168.62.0 netmask 255.255.255.0 gw 192.168.1.1
 ```
 
-QEMU_EFI.fd(下载地址：http://releases.linaro.org/components/kernel/uefi-linaro/16.02/release/qemu64/)
+
 
 其他启动脚本：
 
