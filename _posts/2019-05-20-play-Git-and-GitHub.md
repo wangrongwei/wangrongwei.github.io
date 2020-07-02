@@ -42,14 +42,14 @@ yum install git
 ## GitHub配置 ##
 
 ```bash
-git config --global user.name "wangrongwei"
-git config --global user.email "wangrongwei2014@gmail.com"
+git config --global user.name "username"
+git config --global user.email "email@gmail.com"
 ```
 
 生成公钥：
 
 ```bash
-ssh-keygen -t ras -C "wangrongwei2014@gmail.com"
+ssh-keygen -t ras -C "email@gmail.com"
 ```
 
 以上的指令完成以后将会在~/.ssh/路径下生成id_rsa.pub等文件。接下来，需要将id_rsa.pub中的内容复制到Github的SSH and GPG keys。
@@ -124,7 +124,7 @@ git reset --hard HEAD~7
 
 ## 补一张图
 
-![image-20200404111740474](/images/image-20200404111740474.png)
+![image-20200404111740474](http://wangrongwei.com/images/image-20200404111740474.png)
 
 
 
