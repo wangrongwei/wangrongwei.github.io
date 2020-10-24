@@ -12,14 +12,14 @@
       
 
   </title>
-  <meta name="description" content="  qemu环境的配置">
+  <meta name="description" content="  内核开发前的虚拟机搭建">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="http://wangrongwei.com/2020/03/15/ARM64-simulation.html">
   <link rel="alternate" type="application/rss+xml" title="wangrongwei's world" href="http://wangrongwei.com/feed.xml" />
   <link rel="stylesheet" href="/css/syntax.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
-  <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+  <link rel="stylesheet" href="/css/gitalk.css">
+  <script src="/js/gitalk.min.js"></script>
 </head>
 
 
@@ -70,12 +70,13 @@
     <div class="page-content">
       <div class="wrapper">
         <div class="post">
-    <header class="post-header">
-        <h1 class="post-title">ARM64仿真</h1>
-        <p class="post-meta">Mar 15, 2020</p>
-    </header>
-    <article class="post-content">
-        <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+	<header class="post-header">
+		<h1 class="post-title">ARM64仿真</h1>
+		<p class="post-meta">Mar 15, 2020</p>
+	</header>
+
+	<article class="post-content">
+		<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
 <script type="text/javascript">
  //是否显示导航栏
  var showNavBar = true;
@@ -279,8 +280,8 @@
     }
 </style>
 
-        <blockquote>
-  <p>qemu环境的配置</p>
+		<blockquote>
+  <p>内核开发前的虚拟机搭建</p>
 </blockquote>
 
 <blockquote>
@@ -292,6 +293,10 @@
 </blockquote>
 
 <h2 id="环境搭建">环境搭建</h2>
+
+<p>在内核开发中，我们经常在虚拟机环境中开发内核模块或直接修改内核代码，以及backport社区的补丁。</p>
+
+<p>本文介绍内核开发者的虚拟机开发环境。</p>
 
 <h3 id="安装qemu">安装qemu</h3>
 
@@ -437,6 +442,18 @@ make <span class="nv">ARCH</span><span class="o">=</span>arm64 <span class="nv">
 
 <h3 id="网络配置">网络配置</h3>
 
+<h4 id="linux">Linux</h4>
+
+<p>qemu两种上网方式：</p>
+
+<p>　　1）user mode network :</p>
+
+<p>　　这种方式实现虚拟机上网很简单，类似vmware里的nat，qemu启动时加入-user-net参数，虚拟机里使用dhcp方式，即可与互联网通信，但是这种方式虚拟机与主机的通信不方便。</p>
+
+<p>　　2）tap/tun network :</p>
+
+<p>　　这种方式要比user mode复杂一些，但是设置好后 虚拟机&lt;–&gt;互联网 虚拟机&lt;–&gt;主机 通信都很容易。这种方式设置上类似vmware的host-only,qemu使用tun/tap设备在主机上增加一块虚拟网络设备(tun0),然后就可以象真实网卡一样配置它。</p>
+
 <p>如何在虚拟机内核连接外网？</p>
 
 <p>QEMU虚拟机网络的缺省模式是NAT方式，即虚拟机可以通过host访问外网，但host和外网无法访问虚拟机。如果要想让host访问虚拟机，则可以使用TAP方式。</p>
@@ -478,6 +495,18 @@ make <span class="nv">ARCH</span><span class="o">=</span>arm64 <span class="nv">
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ifconfig eth0 192.168.0.119 netmask 255.255.255.0
 </code></pre></div></div>
 
+<h4 id="windows">Windows</h4>
+
+<p>在Windows上使用qemu虚拟机，通过此配置，可以使qemu中的虚拟机能连接互联网，并且也可以和Windows主机通信。此方式类似于Vmware和VitrualBox中的桥接网卡。配置方法如下：</p>
+
+<ol>
+  <li><strong>在Windows主机上安装TAP网卡驱动:</strong> 可下载openvpn客户端软件，只安装其中的TAP驱动；在网络连接中，会看到一个新的网卡，属性类似于TAP-Win32 Adapter…，将其名称修改为tap0。</li>
+  <li><strong>将tap0虚拟网卡和Windows上连接互联网的真实网卡桥接:</strong> 选中这两块网卡，右键，桥接。此时，Windows主机将不能连接互联网。重新连接WIFI使Windows主机连接互联网。</li>
+  <li><strong>qemu配置:</strong> 在虚拟机启动命令行添加以下参数：–net nic -net tap,ifname=tap0；启动虚拟机，并配置虚拟机中的网卡，则虚拟机也可以和Windows主机一样，连接互联网和Windows主机。</li>
+</ol>
+
+<h2 id="启动centos或openeuler">启动CentOS或openEuler</h2>
+
 <h2 id="补充">补充</h2>
 
 <table>
@@ -499,7 +528,7 @@ make <span class="nv">ARCH</span><span class="o">=</span>arm64 <span class="nv">
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qemu-system-aarch64 <span class="se">\</span>
     <span class="nt">-m</span> 2048 <span class="nt">-cpu</span> cortex-a57 <span class="se">\</span>
     <span class="nt">-smp</span> 2 <span class="nt">-M</span> virt <span class="se">\</span>
-    <span class="nt">-bios</span> QEMU_EFI.fd <span class="se">\</span>
+    <span class="nt">-bios</span> edk2-aarch64-code.fd <span class="se">\</span>
     <span class="nt">-nographic</span> <span class="nt">-drive</span> <span class="k">if</span><span class="o">=</span>none,file<span class="o">=</span>ubuntu-18.04.4-server-arm64.iso,id<span class="o">=</span>cdrom,media<span class="o">=</span>cdrom <span class="se">\</span>
     <span class="nt">-device</span> virtio-scsi-device <span class="se">\</span>
     <span class="nt">-device</span> scsi-cd,drive<span class="o">=</span>cdrom <span class="se">\</span>
@@ -507,12 +536,14 @@ make <span class="nv">ARCH</span><span class="o">=</span>arm64 <span class="nv">
     <span class="nt">-device</span> virtio-blk-device,drive<span class="o">=</span>hd0
 </code></pre></div></div>
 
+<p>edk2-aarch64-code.fd文件来自qemu安装目录。</p>
+
 <p>后续再使用时，可采用脚本：</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qemu-system-aarch64 <span class="se">\</span>
     <span class="nt">-m</span> 2048 <span class="nt">-cpu</span> cortex-a57 <span class="se">\</span>
     <span class="nt">-smp</span> 2 <span class="nt">-M</span> virt <span class="se">\</span>
-    <span class="nt">-bios</span> QEMU_EFI.fd <span class="se">\</span>
+    <span class="nt">-bios</span> edk2-aarch64-code.fd <span class="se">\</span>
     <span class="nt">-nographic</span> <span class="nt">-device</span> virtio-scsi-device <span class="se">\</span>
     <span class="nt">-drive</span> <span class="nv">driver</span><span class="o">=</span>qcow2,media<span class="o">=</span>disk,cache<span class="o">=</span>writeback,if<span class="o">=</span>none,file<span class="o">=</span>CentOS7-arm64.qcow2,id<span class="o">=</span>hd0 <span class="se">\</span>
     <span class="nt">-device</span> virtio-blk-device,drive<span class="o">=</span>hd0
@@ -530,7 +561,7 @@ make <span class="nv">ARCH</span><span class="o">=</span>arm64 <span class="nv">
     <p>改变方案，用现有发行版的arm64取代？</p>
   </li>
   <li>
-    <p>Failed to set MokListRT: Invalid Parameter</p>
+    <p>Failed to set MokListRT: Invalid Parameter（-bios后的fd文件不对）</p>
   </li>
   <li>
     <p>如何在qemu虚拟机内连接网络？</p>
@@ -547,8 +578,6 @@ make <span class="nv">ARCH</span><span class="o">=</span>arm64 <span class="nv">
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>route add <span class="nt">-net</span> 192.168.62.0 netmask 255.255.255.0 gw 192.168.1.1
 </code></pre></div></div>
-
-<p>QEMU_EFI.fd(下载地址：http://releases.linaro.org/components/kernel/uefi-linaro/16.02/release/qemu64/)</p>
 
 <p>其他启动脚本：</p>
 
@@ -579,12 +608,13 @@ make <span class="nv">ARCH</span><span class="o">=</span>arm64 <span class="nv">
   <li>https://blog.csdn.net/wujianyongw4/article/details/90289208</li>
 </ul>
 
-    </article>
+	</article>
 
 
 <!-- Link Gitalk 的支持文件  -->
-<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+<link rel="stylesheet" href="/css/gitalk.css">
+<script src="/js/gitalk.min.js"></script>
+
 <div id="gitalk-container"></div>
 <script type="text/javascript">
     var gitalk = new Gitalk({

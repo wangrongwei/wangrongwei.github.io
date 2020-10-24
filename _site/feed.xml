@@ -5,9 +5,270 @@
     <description>个人博客</description>
     <link>http://wangrongwei.com/</link>
     <atom:link href="http://wangrongwei.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 25 Jun 2020 18:33:06 +0800</pubDate>
-    <lastBuildDate>Thu, 25 Jun 2020 18:33:06 +0800</lastBuildDate>
+    <pubDate>Sun, 25 Oct 2020 01:04:59 +0800</pubDate>
+    <lastBuildDate>Sun, 25 Oct 2020 01:04:59 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>vmcore自动分析工具</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;vmcore自动分析工具&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;文章转自阿里云开发者社区&lt;/p&gt;
+
+  &lt;p&gt;作者：lollipop&lt;/p&gt;
+
+  &lt;p&gt;本文原文地址：&lt;a href=&quot;https://developer.aliyun.com/article/719723?spm=a2c6h.13262185.0.0.21e82cd2ICg6IN&quot;&gt;https://developer.aliyun.com/article/719723?spm=a2c6h.13262185.0.0.21e82cd2ICg6IN&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;该文章主要是去年在阿里实习期间所写的一个vmcore分析工具。&lt;/p&gt;
+
+&lt;h2 id=&quot;vmcore分析工具的需求变化&quot;&gt;vmcore分析工具的需求变化&lt;/h2&gt;
+
+&lt;p&gt;解决内核宕机、修复线上问题以及优化性能瓶颈是各操作系统团队工程师日常工作之一，其中大量工作依赖于crash工具对vmcore进行分析，但是应用规模以及场景的变化对其提出了新的需求。这种需求对开发者和集群运维而言，反映出不同的问题。对于开发者而言，crash工具可以满足查看vmcore中几乎所有数据的需求，例如全局变量、调度子系统以及cgroup等相关数据，但是将各类数据关联起来，需要工程师多次手动操作查看数据并与内核源码结合，其中涉及复杂的数据结构和领域知识，门槛太高，同时存在数据显示的友好程度较低等问题；对于集群运维效率而言，频繁产生的vmcore存在大量相似问题的vmcore，需求一种更加高效、精准的vmcore分析工具对频率较高的vmcore进行特征分析，以提高解决系统宕机问题的效率，现有的vmcollect系统采用panic栈进行相似度匹配，错误率较高，无法满足以上需求。&lt;/p&gt;
+
+&lt;p&gt;接下来，本文将对当前vmcore分析工具存在的问题进行展开，并向大家介绍一个vmcore自动分析工具，即&lt;strong&gt;VAATools（Vmcore Automatic Analysis Tools）&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;h2 id=&quot;当前vmcore分析工具存在的问题&quot;&gt;当前vmcore分析工具存在的问题&lt;/h2&gt;
+
+&lt;p&gt;当前，除crash工具以外，也存在其他大量基于Python、shell、perl等语言的vmcore分析工具，表1对目前已有的vmcore分析工具进行了一个简单对比。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;表 1 vmcore分析工具对比&lt;/strong&gt;&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt; &lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;crash&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;crash-Python&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;pykdump&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;crash-extscript&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;analyzevmcore&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;drgn&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;语言&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;c&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;c/Python&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;c/Python&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;c/perl&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;shell&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;C&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;库&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;无&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;libkdumpfile&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;无&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;无&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;无&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;libkdumpfile&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;crash&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;否&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;否&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;是&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;是&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;是&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;否&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;交互方式&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;嵌套&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;套接字&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;直接&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;多vmcore支持&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;否&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;否&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;否&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;否&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;否&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;否&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;友好程度&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;低&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;低&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;较低&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;低&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;低&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;较低&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;表1从开发语言、依赖库以及交互方式等6个方面对当前已有的6种vmcore分析工具进行总结。在以上vmcore分析工具中，crash-extscript和analyzevmcore分别采用了perl或shell对crash进行扩展，crash-extscript采用套接字与crash进行交互，这种交互的方式非必须和唯一，可以进行优化，analyzevmcore没有较明显的特点和优点可以介绍。Pykdump提供了在crash中使用python编写命令的方法，这种方式给了工程师较大的使用和自由实现命令的空间，依赖Python可以轻松、快速的实现多种数据的对比和关联。drgn与Pykdump较相似，但不依赖于crash获取vmcore种数据，其操作方式更为灵活，语法较多。&lt;/p&gt;
+
+&lt;p&gt;以上6种工具提供了分析vmcore文件的基本方式，但在为vmcollect系统选择vmcore分析工具时，还需满足多个vmcore文件分析功能，同时具备更精准的vmcore分析能力，以满足集群中大量相似vmcore文件特征匹配的场景需求。&lt;/p&gt;
+
+&lt;h2 id=&quot;quick-start&quot;&gt;Quick Start&lt;/h2&gt;
+
+&lt;p&gt;针对以上问题，我们设计了一个VAATools工具，其功能包括：&lt;/p&gt;
+
+&lt;p&gt;1）分析获取多个或单个vmcore文件信息，支持报表信息显示task、cgroup等变量重要信息；&lt;/p&gt;
+
+&lt;p&gt;2）支持编写Python脚本对内核中重要数据进行获取和处理；&lt;/p&gt;
+
+&lt;p&gt;3）提供几个参考的使用Python编写的命令；&lt;/p&gt;
+
+&lt;p&gt;在VAATools中，提供了多个vmcore文件分析功能和可支持利用Python设计crash命令。接下来，对这些功能进行一个简单的介绍。&lt;/p&gt;
+
+&lt;h3 id=&quot;分析多个vmcore文件&quot;&gt;分析多个vmcore文件&lt;/h3&gt;
+
+&lt;p&gt;输入vmcores所在文件夹，将各vmcore分析结果可输出到“.crash”文件下，命令如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;VAATcrash -d /&amp;lt;path-to-vmcore-dir&amp;gt;/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;输出结果包含bt、各cpu中runqueues、cfs_rq参数表格显示信息以及当前进程信息。同时，也将runq命令输出信息也保存到结果文件中，如文未链接。&lt;/p&gt;
+
+&lt;p&gt;VAATcrash的其他功能可借助’-h’选项查看。&lt;/p&gt;
+
+&lt;h3 id=&quot;使用python编写的新命令&quot;&gt;使用Python编写的新命令&lt;/h3&gt;
+
+&lt;p&gt;在VAATools中command目录下，提供了采用Python编写的cpu、锁信息、cgroup信息等命令。这些命令将平时需要多次操作crash命令并同时需要阅读Linux内核查看数据关联的过程进行封装为一个命令。这些命令与crash自带的命令在功能上无明显的差异，但由于Python的语言环境，设计一个Python命令可能更加容易和较快的处理一些数据和变量间关联性。&lt;/p&gt;
+
+&lt;p&gt;接下来，对command下的几个命令进行展示。&lt;/p&gt;
+
+&lt;p&gt;1）cpuinfo命令可显示vmcore中core分布以及tlb状态。如图3-1，图3-2所示。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/7daa83d2d805acae26af8a4d2892a362.png&quot; alt=&quot;图 3-1 cpuinfo命令（cpuinfo -i）&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;图 3-1 cpuinfo命令（cpuinfo -i）&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/01088614a5bc7ba7b5d1c32afb99635c.png&quot; alt=&quot;图 3-2 cpuinfo命令（cpuinfo -t）&quot; /&gt;
+&lt;strong&gt;图 3-2 cpuinfo命令（cpuinfo -t）&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;2）可解析占用某个锁的进程信息。如图3-3所示查看发生panic时，占用“cgroup_mutex”的进程：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/cb02a1a9de0714b925d04acdcf1cd63c.png&quot; alt=&quot;cb02a1a9de0714b925d04acdcf1cd63c.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;图 3-3 lockinfo命令&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;3）表格形式显示vmcore中多个同类型数据，可以明显观察出异常值。如图3-4所示。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/9f717fa45aa1340359bcce96c2690fcc.png&quot; alt=&quot;9f717fa45aa1340359bcce96c2690fcc.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;图 3-4 tasktableinfo命令&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;4）层次结构类型数据显示，例如显示cgroup层次结构，如图3-5所示，显示出各级cpuset、cpu等，同时可以获取各层cpus、mem等参数值。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/0f119ace64923e8b120dd318bbe446fb.png&quot; alt=&quot;0f119ace64923e8b120dd318bbe446fb.png&quot; /&gt;
+&lt;strong&gt;图 3-5 cgroupinfo命令&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;以上命令在实现过程中还可以直接通过相关的接口，如exec_crash_command，调用crash原命令，对原命令打印的数据进行处理。&lt;/p&gt;
+
+&lt;h2 id=&quot;深入了解vaatools&quot;&gt;深入了解VAATools&lt;/h2&gt;
+
+&lt;p&gt;VAATools主要实现单个以及多个vmcore的分析功能，同时尽量采用Python进行开发，保证代码的维护性，实现较高的可视化数据显示方式。接下来，对VAATools背后的框架以及原理进行介绍。&lt;/p&gt;
+
+&lt;h3 id=&quot;vaatools原理&quot;&gt;VAATools原理&lt;/h3&gt;
+
+&lt;p&gt;为实现&lt;strong&gt;vmcollect&lt;/strong&gt;系统上高效的vmcore分析工具，我们将crash中加入”Python”的元素，借助Python便于解决后续的数据处理、对比，图表显示、以及为后续部署模式匹配、机器学习算法部署搭建友好的框架。VAATools框架如图4-1所示。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/685cdf4d94e856d32ce38a82a3706796.png&quot; alt=&quot;ef24bad251881372bc9ef22a2fcd20cc.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;图 4-1 VAATools设计草图&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;在VAATools中，顶层VAATcrash命令主要采用Python语言进行设计，并通过Python中的subprocess库启动一个crash进程并通过管道非阻塞的方式接收crash返回的数据。&lt;/p&gt;
+
+&lt;p&gt;中间层epython命令，主要基于crash提供的命令扩展功能，并借助C语言与Python之间的相互调用接口实现epython调用Python版自定义命令。另外，顶层VAATcrash通过传入的参数控制epython选择不同的vmcore分析方式，比如单个vmcore以及多个vmcore。&lt;/p&gt;
+
+&lt;p&gt;当前，可借鉴和使用的项目主要为开源的pykdump，其提供的各类接口满足epython与自定义命令间的功能需求。&lt;/p&gt;
+
+&lt;h3 id=&quot;c与python间相互嵌套&quot;&gt;C与Python间相互嵌套&lt;/h3&gt;
+
+&lt;p&gt;在VAATools中多处存在C语言中调用Python，Python中调用C的代码。在VAATools的C与Python两种语言嵌套方式的开发过程中，主要参考和借鉴了Pykdump中相关设计。VAATools依赖于Pykdump提供的库文件&lt;/p&gt;
+
+&lt;h3 id=&quot;vaatools中存在的性能问题&quot;&gt;VAATools中存在的性能问题&lt;/h3&gt;
+
+&lt;p&gt;利用Python设计VAATools，在开发上简单和快速，但是也带来了处理速率慢的问题，尤其在处理vmcore文件较多，或查看整理的变量较多时，整体处理完成的时间较长。&lt;/p&gt;
+
+&lt;p&gt;在VAATools设计初，已经从原先的Python与crash间进程交互方式改进为现在的Python直接调用crash内函数，同时转移多个数据获取方式到crash内部的方式。通过统计获取各种数据的等待时间，我们可以了解到当前VAATools的性能信息，图4-2为VAATools优化前后获取rq、cfs、task等数据的等待时间。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/00d87e2e8b50d89542c82ea46d700c37.png&quot; alt=&quot;c897add9d8c8d3e6e0b2fcddc8350555.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;图 4-2 VAATools性能优化前后对比&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;从上图的确可以看出优化后，VAATools改进不少，但是cfs的等待延时还是偏大，其原因在于获取cfs数据时，解析的成员变量较多。因此，如果要获取的某类数据过多，将等待很长一段时间才获取结果文件，大幅度降低debug效率。&lt;/p&gt;
+
+&lt;p&gt;目前，VAATools的性能还可以在VAATools的架构调整以后，有较大的提升空间。&lt;/p&gt;
+
+&lt;h2 id=&quot;todo&quot;&gt;TODO&lt;/h2&gt;
+
+&lt;p&gt;1）改善Python与crash间的交互；&lt;/p&gt;
+
+&lt;p&gt;目前，VAATools中，最外层VAATcrash命令与crash间还存在一层通过管道获取数据的方式，通过管道获取crash的数据时，需要设置等待延时，从而带来性能问题。后期可以将这一层完全改进为函数调用的方式，不再需要启动crash进程这一过程。&lt;/p&gt;
+
+&lt;p&gt;2）vmcore特征提取；&lt;/p&gt;
+
+&lt;p&gt;提取vmcore中宕机原因的特征，从而实现后续对大量的vmcore文件进行相似度分析，识别相同问题的vmcore的目标。&lt;/p&gt;
+
+&lt;p&gt;3）考虑是否可以将机器学习引入到vmcore；&lt;/p&gt;
+
+&lt;p&gt;将机器学习用于提取vmcore特征、训练vmcore特征匹配模型可能是一种vmcore特征匹配精度更高的方法。&lt;/p&gt;
+
+&lt;h2 id=&quot;links&quot;&gt;Links&lt;/h2&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;[1] http://vmcore.alibaba-inc.com/&lt;/p&gt;
+
+&lt;p&gt;[1] https://people.redhat.com/anderson/&lt;/p&gt;
+
+&lt;p&gt;[2] &lt;a href=&quot;https://sourceforge.net/projects/pykdump/?spm=a2c6h.12873639.0.0.69e56091MTLjpX&quot;&gt;https://sourceforge.net/projects/pykdump/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;[3] https://github.com/jeffmahoney/crash-python&lt;/p&gt;
+
+&lt;p&gt;[4] https://github.com/osandov/drgn&lt;/p&gt;
+
+&lt;p&gt;[5] https://github.com/g23guy/supportutils&lt;/p&gt;
+
+</description>
+        <pubDate>Tue, 29 Sep 2020 00:00:00 +0800</pubDate>
+        <link>http://wangrongwei.com/2020/09/29/vmcore-auto-analysis.html</link>
+        <guid isPermaLink="true">http://wangrongwei.com/2020/09/29/vmcore-auto-analysis.html</guid>
+        
+        
+        <category>blog</category>
+        
+      </item>
+    
+      <item>
+        <title>杭州outing</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;杭州outing两日&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;文章禁止转载&lt;/p&gt;
+
+  &lt;p&gt;作者：lollipop&lt;/p&gt;
+
+  &lt;p&gt;本文原文地址：&lt;a href=&quot;http://wangrongwei.com/2020/08/23/hangzhou-outing.html&quot;&gt;http://wangrongwei.com/2020/08/23/hangzhou-outing.html&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;不到半月，又到杭州，相比北京的天气而言，此时的杭州正当酷暑！&lt;/p&gt;
+
+</description>
+        <pubDate>Sun, 23 Aug 2020 00:00:00 +0800</pubDate>
+        <link>http://wangrongwei.com/2020/08/23/hangzhou-outing.html</link>
+        <guid isPermaLink="true">http://wangrongwei.com/2020/08/23/hangzhou-outing.html</guid>
+        
+        
+        <category>blog</category>
+        
+      </item>
     
       <item>
         <title>DIMM的层次结构</title>
@@ -23,7 +284,9 @@
   &lt;p&gt;本文原文地址：&lt;a href=&quot;http://wangrongwei.com/2020/06/25/DIMM.html&quot;&gt;http://wangrongwei.com/2020/06/25/DIMM.html&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&quot;images/DIMM-structure.svg&quot; alt=&quot;svg&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;DIMM的层次结构：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://wangrongwei.com/images/DIMM-structure.svg&quot; alt=&quot;svg&quot; /&gt;&lt;/p&gt;
 
 </description>
         <pubDate>Thu, 25 Jun 2020 00:00:00 +0800</pubDate>
@@ -49,22 +312,382 @@
 
 &lt;h2 id=&quot;简介&quot;&gt;简介&lt;/h2&gt;
 
+&lt;p&gt;一个简答的OS，目前已完成到进程调度模型，其他部分正在完善中。&lt;/p&gt;
+
 &lt;h2 id=&quot;unix386&quot;&gt;UNIX386&lt;/h2&gt;
 
 &lt;h3 id=&quot;boot&quot;&gt;boot&lt;/h3&gt;
 
+&lt;p&gt;在i386架构中，首先CPU上电运行在实模式下，将执行存储在ROM中的BIOS，这段BIOS将会进行简单的中断初始化，建立中断向量表（如int 0x20），随后便跳转到0x7c00执行，这段代码需保证在512Byte内（主要是这个拷贝过程是BIOS已经限定的，只拷贝一个扇区的数据）。0x7c00这段代码由我们设计，因此，我们在这只有512Byte大小的代码中，需要将后续的OS代码拷贝到可用的内存中。这段流程如图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://wangrongwei.com/images/image-20200627162350561.png&quot; alt=&quot;image-20200627162350561&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;我们将前后拷贝的OS代码分别称为boot.bin的前512Byte和boot.bin剩余部分。&lt;/p&gt;
+
+&lt;p&gt;实模式下地址空间分布：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://wangrongwei.com/images/image-20200627160159766.png&quot; alt=&quot;image-20200627160159766&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;该图来源于https://wiki.osdev.org/Memory_Map_(x86)#BIOS_Data_Area_.28BDA.29&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;这段实模式下地址分布图主要用来辅助理解i386下boot.bin和kernel.bin如此设计的理由。&lt;/p&gt;
+
+&lt;p&gt;以下是实际启动相关代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-assembly&quot;&gt;ORG	BOOT_ADDR	;必须是这个地址
+;初始化段SS=0 DS=0 ES=0 SP指向程序加载的地址
+;因为程序加载的地址是0x7c00，所以我们的段地址必须是0，
+;不然地址就不是0x7c00
+	MOV	AX,CS
+	MOV	SS,AX
+	MOV	SP,BOOT_ADDR
+	MOV	DS,AX
+	MOV	ES,AX
+;
+;The second stage
+;	Now ,load kernel from img
+;
+	MOV	SI,msg
+putloop:
+	MOV	AL,[SI]
+	ADD	SI,1
+	CMP	AL,0
+	JE	Read_Sector
+	MOV	AH,0x0e
+	MOV	BX,0x0f
+	INT	0x10		;ִ执行BIOS中断0x10
+	JMP	putloop
+
+Read_Sector:
+	MOV	SI,msg_1	;打开成功显示字符
+Read:
+	MOV	AL,[SI]
+	ADD	SI,1
+	CMP	AL,0
+	JE	Read_Ok
+	MOV	AH,0x0e
+	MOV	BX,0x0f
+	INT	0x10		;ִ执行BIOS中断0x10
+	JMP	Read
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在i386中，BIOS上电一段时间进行内存划分，中断向量表的初始化，最终将会跳转到0x7c00执行。boot相关的代码即为跳转到0x7c00后待执行的代码。这段代码将使用：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-assembly&quot;&gt;ORG	BOOT_ADDR
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;表明后续的代码将会被拷贝到内存的0x7c00处。&lt;/p&gt;
+
+&lt;h3 id=&quot;实模式跳转保护模式&quot;&gt;实模式跳转保护模式&lt;/h3&gt;
+
+&lt;p&gt;在实模式下，OS只能使用有限的地址空间，以及有限的寄存器资源，无法进行后续的内存管理、进程调度，因此我们需要向保护模式跳转。&lt;/p&gt;
+
+&lt;p&gt;以下是实际进入保护模式的代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-assembly&quot;&gt;;
+;The third stage
+;	goto PM mode
+;
+goto_PM:
+	MOV	AL,0X03
+	MOV	AH,0X00
+	INT	0x10
+
+	MOV	AL,0xFF
+	OUT	0x21,AL
+	NOP
+	OUT	0xa1,AL
+
+	CLI
+
+;开始移动第二部分内核（0x7c00+512后面的代码）到0x0地址，因此原中断服务程序被覆盖
+move_start:
+        CLI
+        MOV     AX,0x0800       ;源地址
+        MOV     DS,AX
+        MOV     AX,0x0500       ;目的地址
+        MOV     ES,AX
+
+        MOV     CX,0x7000       ;表示复制的字节x/2
+        SUB     SI,SI           ;DS:SI---&amp;gt;ES:DI
+        SUB     DI,DI
+        REP     MOVSW   	;在linux-0.1.1中使用rep movw的intel的格式
+move_end:
+        MOV     AX,CS   	;还原改变的两个段
+        MOV     ES,AX
+        MOV     DS,AX
+;
+; OPEN A20
+;
+	CALL	waitkbd_8042
+	MOV	AL,0xd1      	;写命令
+	OUT	0x64,AL
+	CALL	waitkbd_8042
+	MOV	AL,0xdf
+	OUT	0x60,AL
+	CALL	waitkbd_8042 	;打开A20
+
+    CLI
+    ;由于最开始编译这个程序是按0x7c00为偏移地址的，
+    ;所以移动到0x0地址以后，需要重新计算GDTR0存储的地址
+	LGDT	[GDTR0-0x7c00]
+
+    IN      AL,92h
+    OR      AL,0x02
+	OUT     92h,AL
+
+    MOV	EAX,CR0
+	AND	EAX,0x7fffffff
+	OR	AL,1
+	MOV	CR0,EAX                 ;打开段级保护，不开分页机制
+;程序执行到这里结束，跳转到init/kernel.asm（即移动到0x0处的代码）执行
+	JMP	dword 0x08:0x5000
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在这段代码中，主要涉及三个过程：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;移动代码：接下来的一段时间里，我们不在需要BIOS所创建的中断向量表，因此我们可以将boot.bin这段代码移动到起始地址为0x00；&lt;/li&gt;
+  &lt;li&gt;打开A20：1MByte的地址空间是不够使用的，因此在kernel.bin中，我们必须打开A20，即CPU可以开始使用后面的12根地址线。此时，理论上，地址空间即达到了4G。&lt;/li&gt;
+  &lt;li&gt;准备与加载全局段描述符（GDT）：由于保护模式和分段机制是CR0中的同一位，因此当我们设置了保护模式的标志位，同时我们也打开了分段机制。这表明我们必须在此之前设置好GDT表；&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;GDT表的设计：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;;
+;进入保护模型，不再按照CS*16+IP取指令执行，需要按照向全局描述符
+;
+GDT0:
+	DW      0x0000,0x0000,0x0000,0x0000
+        ;---代码段基地址 0x0047取00，0x9a28取28，0x0000取全部===0x00280000
+	DW	0xffff,0x0000,0x9a00,0x00cf
+        ;---数据段基地址 0x00cf取00，0x9200取00，0x0000取全部===0x00000000
+	DW	0xffff,0x0000,0x9200,0x00cf
+        DW      0xffff,0x8000,0xf20b,0x000f
+        ;为tss准备的
+	DW      0x0000,0x0000,0x0000,0x0000
+        ;为ldt准备的
+	DW      0x0000,0x0000,0x0000,0x0000
+        ;DW      0xffff,0x8000,0xf20b,0x000f
+GDT0_LEN EQU $-GDT0
+GDTR0:
+	DW	GDT0_LEN-1
+	DW      GDT0-0x7c00,0x9
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;GDT表中的表项其实就是限定该段的访问权限和访问地址空间。&lt;/p&gt;
+
+&lt;p&gt;最后，最重要的一步：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-assembly&quot;&gt;MOV	CR0,EAX                 ;打开段级保护，不开分页机制
+;程序执行到这里结束，跳转到init/kernel.asm（即移动到0x0处的代码）执行
+JMP	dword 0x08:0x5000
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;理解这段代码，其实也是理解实模式和保护模式的寻址差异。&lt;/p&gt;
+
+&lt;p&gt;这段代码表明：CS=0x8，offset=0x5000。&lt;/p&gt;
+
+&lt;p&gt;关于CS、GDT在保护模式下的作用，这里不进行说明，直接告诉结果：0x08表明我们将跳转到GDT表现中的第一项，其基地址为0x00，加上偏移地址，即跳转的目的地址为0x5000。该内存空间即保存了前面所提到的kernel.bin代码。&lt;/p&gt;
+
+&lt;p&gt;跳转后，保护模式下前面几段汇编代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-assembly&quot;&gt;; 采用Intel汇编格式
+_start:
+	MOV	EAX,0x00000010
+	MOV	DS,AX
+	MOV	ES,AX
+	MOV	FS,AX
+	MOV	GS,AX
+	MOV	SS,AX
+; 设置页目录表和页目录
+    CALL    setup_paging
+; 开始打开分页机制
+    XOR     EAX,EAX
+    MOV     CR3,EAX ;将_page_dir地址0x0000写给CR3
+    MOV     EAX,CR0
+    OR      EAX,0x80000000
+    MOV     CR0,EAX ;PG位置1
+; 设置堆栈
+	MOV     ESP,kernel_stack_top
+    MOV     EBP,ESP
+
+; 跳转到C语言部分
+    MOV     EAX,kernel_start
+    JMP     EAX
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这段代码最后会跳转到kernel_start函数处，自此，我们可以开始使用C语言编写后续的OS代码。在这里其余代码不做分析。&lt;/p&gt;
+
 &lt;h3 id=&quot;内存管理&quot;&gt;内存管理&lt;/h3&gt;
+
+&lt;p&gt;在内存管理模型中，尚未完成slab分配器这种优秀的内存分配算法。目前，我仅仅使用mem_map[]数据管理每一页，同时在需要动态分配指定大小的内存时，采用固定的几个page进行分配。&lt;/p&gt;
+
+&lt;p&gt;总之，内存管理部分尚不完善，需要实现alloc和free的闭环，同时兼顾内存碎片等问题还需走很长的路。&lt;/p&gt;
+
+&lt;h3 id=&quot;中断子系统&quot;&gt;中断子系统&lt;/h3&gt;
+
+&lt;p&gt;在拷贝kernel.bin到0x00时，BIOS初始化的中断向量表就不能在使用，在完成进入保护模式的步骤后，需要马上建立保护模式下的中断子系统。&lt;/p&gt;
+
+&lt;p&gt;统一的中断入口：&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cm&quot;&gt;/*
+ * 中断服务程序
+ * 函数说明：识别到底是发生了说明中断（通过regs-&amp;gt;int_no），然后
+ *	     执行相应的中断服务程序。
+ * interrupt_handlers[n]是一个数组函数，n代表了具体的中断服务程
+ * 序，函数参数为regs。
+ */&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;isr_handler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pt_regs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;regs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;interrupt_handlers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;regs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;int_no&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]){&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;interrupt_handlers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;regs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;int_no&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;](&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;regs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+			&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;cm&quot;&gt;/* 32号中断以后的中断入口 */&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;irq_handler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pt_regs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;regs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;cm&quot;&gt;/* 
+	 * 从32号开始，为用户自定义中断，单片只能处理八级中断，因此大于40是由从片处理 
+	 */&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;regs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;int_no&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;40&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+		&lt;span class=&quot;cm&quot;&gt;/* 发送重设信号给从片 */&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;outb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0xa0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+	&lt;span class=&quot;cm&quot;&gt;/* 发送重设信号给主片 */&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;outb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;interrupt_handlers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;regs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;int_no&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]){&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;interrupt_handlers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;regs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;int_no&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;](&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;regs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;printk&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;unhandle irq_handler:%d&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;regs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;int_no&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;中断向量表：&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;set_idt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;base&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;short&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;short&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;idt_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;base0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;base&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xffff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;idt_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;base1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;base&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xffff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;idt_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;idt_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;zero&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;idt_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flags&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;将中断向量表地址告诉LIDT寄存器：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-assembly&quot;&gt;load_idtr:
+        MOV     EAX,[ESP+4]
+        LIDT    [EAX]
+        ret
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;将中断向量表的地址告诉LIDT寄存器后，在使能中断并发生中断后，CPU即可根据中断向量表地址、以及所产生的中断号找到对应的中断服务函数。&lt;/p&gt;
+
+&lt;h3 id=&quot;系统调用&quot;&gt;系统调用&lt;/h3&gt;
+
+&lt;p&gt;为了实现不同进程间的切换，必须首先实现系统调用。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-assembly&quot;&gt;;===========================================================================
+;				sys_call
+; 目前系统调用的函数定义和system_call_table数组在include/i386/sys.h下  
+;
+; 进入system_call：
+;	eax system number
+;	ebx arg1
+;	ecx arg2
+;	edx arg3
+;	esi arg3
+;	edi arg3
+;	ebp arg4
+;	
+; 从系统调用返回是，栈分布如下：
+;	 esp+0 - %eax
+;	 esp+4 - %ebx
+;	 esp+8 - %ecx
+;	 esp+C - %edx
+;	esp+10 - %fs
+;	esp+14 - %es
+;	esp+18 - %ds
+;	esp+1C - %eip
+;	esp+20 - %cs
+;	esp+24 - %eflags
+;	esp+28 - %oldesp
+;	esp+2C - %oldss
+;===========================================================================
+; 系统调用入口函数
+[GLOBAL system_call]
+system_call:
+;===========================================================================
+; already on stack: ss,sp,flags,cs,ip
+; next to save general register:EAX ECX EDX EBX ESP EBP ESI EDI and ds es fs gs
+;===========================================================================
+	pushad          ;  \
+    push    ds      ;  |
+    push    es      ;  | 保存原寄存器值
+    push    fs      ;  |
+    push    gs      ; /
+
+	mov 	esi,esp
+	
+	mov	edx,0x10 ; 设置ds es段指向当前进程的内核态数据段
+	mov 	ds,dx
+	mov	es,dx
+
+	mov 	edx,0x17 ; 设置fs段指向当前进程用户态数据段
+	mov 	fs,dx
+
+	sti
+    call    [system_call_table + eax * 4]
+    ; why add esi to 11*4 ? --&amp;gt; from EAX to gs has 11*4 
+    mov     [esi + 11*4], eax
+	cli
+	
+        ; 检测当前进程是否处于就绪态（state），时间片是否用完
+        ; if state == TASK_RUNNING, then the task would be rescheduled
+.2: mov 	eax,current
+    cmp	dword [eax],0
+    jne	reschedule
+    cmp	dword [eax+4],0
+    je 	reschedule
+ret_from_system_call:
+	;add	esp, 4 * 4
+	;pop	esi
+	pop	gs
+	pop	fs
+	pop	es
+	pop	ds
+	popad
+	
+        ret
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3 id=&quot;进程模型&quot;&gt;进程模型&lt;/h3&gt;
 
+&lt;p&gt;TODO&lt;/p&gt;
+
 &lt;h3 id=&quot;调度&quot;&gt;调度&lt;/h3&gt;
 
-&lt;h3 id=&quot;中断子系统&quot;&gt;中断子系统&lt;/h3&gt;
+&lt;p&gt;TODO&lt;/p&gt;
 
 &lt;h2 id=&quot;链接&quot;&gt;链接&lt;/h2&gt;
 
 &lt;ul&gt;
   &lt;li&gt;项目主页：&lt;a href=&quot;https://github.com/wangrongwei/UNIX386&quot;&gt;UNIX386&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;https://wiki.osdev.org/Main_Page&lt;/li&gt;
 &lt;/ul&gt;
 
 </description>
@@ -177,7 +800,7 @@
 
 &lt;p&gt;在这里，我尝试用一张简单的图进行来说明：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;image-20200404012812351.png&quot; alt=&quot;image-20200404012812351&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wangrongwei.com/images/switch-task.svg&quot; alt=&quot;svg&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;在上图中，没有提到具体的寄存器名，采用了一种比较通用的办法表示各种参与者，比如：&lt;/p&gt;
 
@@ -288,7 +911,7 @@
       <item>
         <title>ARM64仿真</title>
         <description>&lt;blockquote&gt;
-  &lt;p&gt;qemu环境的配置&lt;/p&gt;
+  &lt;p&gt;内核开发前的虚拟机搭建&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;blockquote&gt;
@@ -300,6 +923,10 @@
 &lt;/blockquote&gt;
 
 &lt;h2 id=&quot;环境搭建&quot;&gt;环境搭建&lt;/h2&gt;
+
+&lt;p&gt;在内核开发中，我们经常在虚拟机环境中开发内核模块或直接修改内核代码，以及backport社区的补丁。&lt;/p&gt;
+
+&lt;p&gt;本文介绍内核开发者的虚拟机开发环境。&lt;/p&gt;
 
 &lt;h3 id=&quot;安装qemu&quot;&gt;安装qemu&lt;/h3&gt;
 
@@ -445,6 +1072,18 @@ make &lt;span class=&quot;nv&quot;&gt;ARCH&lt;/span&gt;&lt;span class=&quot;o&qu
 
 &lt;h3 id=&quot;网络配置&quot;&gt;网络配置&lt;/h3&gt;
 
+&lt;h4 id=&quot;linux&quot;&gt;Linux&lt;/h4&gt;
+
+&lt;p&gt;qemu两种上网方式：&lt;/p&gt;
+
+&lt;p&gt;　　1）user mode network :&lt;/p&gt;
+
+&lt;p&gt;　　这种方式实现虚拟机上网很简单，类似vmware里的nat，qemu启动时加入-user-net参数，虚拟机里使用dhcp方式，即可与互联网通信，但是这种方式虚拟机与主机的通信不方便。&lt;/p&gt;
+
+&lt;p&gt;　　2）tap/tun network :&lt;/p&gt;
+
+&lt;p&gt;　　这种方式要比user mode复杂一些，但是设置好后 虚拟机&amp;lt;–&amp;gt;互联网 虚拟机&amp;lt;–&amp;gt;主机 通信都很容易。这种方式设置上类似vmware的host-only,qemu使用tun/tap设备在主机上增加一块虚拟网络设备(tun0),然后就可以象真实网卡一样配置它。&lt;/p&gt;
+
 &lt;p&gt;如何在虚拟机内核连接外网？&lt;/p&gt;
 
 &lt;p&gt;QEMU虚拟机网络的缺省模式是NAT方式，即虚拟机可以通过host访问外网，但host和外网无法访问虚拟机。如果要想让host访问虚拟机，则可以使用TAP方式。&lt;/p&gt;
@@ -486,6 +1125,18 @@ make &lt;span class=&quot;nv&quot;&gt;ARCH&lt;/span&gt;&lt;span class=&quot;o&qu
 &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ifconfig eth0 192.168.0.119 netmask 255.255.255.0
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
+&lt;h4 id=&quot;windows&quot;&gt;Windows&lt;/h4&gt;
+
+&lt;p&gt;在Windows上使用qemu虚拟机，通过此配置，可以使qemu中的虚拟机能连接互联网，并且也可以和Windows主机通信。此方式类似于Vmware和VitrualBox中的桥接网卡。配置方法如下：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;在Windows主机上安装TAP网卡驱动:&lt;/strong&gt; 可下载openvpn客户端软件，只安装其中的TAP驱动；在网络连接中，会看到一个新的网卡，属性类似于TAP-Win32 Adapter…，将其名称修改为tap0。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;将tap0虚拟网卡和Windows上连接互联网的真实网卡桥接:&lt;/strong&gt; 选中这两块网卡，右键，桥接。此时，Windows主机将不能连接互联网。重新连接WIFI使Windows主机连接互联网。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;qemu配置:&lt;/strong&gt; 在虚拟机启动命令行添加以下参数：–net nic -net tap,ifname=tap0；启动虚拟机，并配置虚拟机中的网卡，则虚拟机也可以和Windows主机一样，连接互联网和Windows主机。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;启动centos或openeuler&quot;&gt;启动CentOS或openEuler&lt;/h2&gt;
+
 &lt;h2 id=&quot;补充&quot;&gt;补充&lt;/h2&gt;
 
 &lt;table&gt;
@@ -507,7 +1158,7 @@ make &lt;span class=&quot;nv&quot;&gt;ARCH&lt;/span&gt;&lt;span class=&quot;o&qu
 &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;qemu-system-aarch64 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 2048 &lt;span class=&quot;nt&quot;&gt;-cpu&lt;/span&gt; cortex-a57 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;-smp&lt;/span&gt; 2 &lt;span class=&quot;nt&quot;&gt;-M&lt;/span&gt; virt &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;-bios&lt;/span&gt; QEMU_EFI.fd &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-bios&lt;/span&gt; edk2-aarch64-code.fd &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;-nographic&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-drive&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;none,file&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ubuntu-18.04.4-server-arm64.iso,id&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;cdrom,media&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;cdrom &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;-device&lt;/span&gt; virtio-scsi-device &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;-device&lt;/span&gt; scsi-cd,drive&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;cdrom &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
@@ -515,12 +1166,14 @@ make &lt;span class=&quot;nv&quot;&gt;ARCH&lt;/span&gt;&lt;span class=&quot;o&qu
     &lt;span class=&quot;nt&quot;&gt;-device&lt;/span&gt; virtio-blk-device,drive&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;hd0
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
+&lt;p&gt;edk2-aarch64-code.fd文件来自qemu安装目录。&lt;/p&gt;
+
 &lt;p&gt;后续再使用时，可采用脚本：&lt;/p&gt;
 
 &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;qemu-system-aarch64 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 2048 &lt;span class=&quot;nt&quot;&gt;-cpu&lt;/span&gt; cortex-a57 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;-smp&lt;/span&gt; 2 &lt;span class=&quot;nt&quot;&gt;-M&lt;/span&gt; virt &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;-bios&lt;/span&gt; QEMU_EFI.fd &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-bios&lt;/span&gt; edk2-aarch64-code.fd &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;-nographic&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-device&lt;/span&gt; virtio-scsi-device &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;-drive&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;driver&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;qcow2,media&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;disk,cache&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;writeback,if&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;none,file&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;CentOS7-arm64.qcow2,id&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;hd0 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;-device&lt;/span&gt; virtio-blk-device,drive&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;hd0
@@ -538,7 +1191,7 @@ make &lt;span class=&quot;nv&quot;&gt;ARCH&lt;/span&gt;&lt;span class=&quot;o&qu
     &lt;p&gt;改变方案，用现有发行版的arm64取代？&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;Failed to set MokListRT: Invalid Parameter&lt;/p&gt;
+    &lt;p&gt;Failed to set MokListRT: Invalid Parameter（-bios后的fd文件不对）&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;如何在qemu虚拟机内连接网络？&lt;/p&gt;
@@ -555,8 +1208,6 @@ make &lt;span class=&quot;nv&quot;&gt;ARCH&lt;/span&gt;&lt;span class=&quot;o&qu
 
 &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;route add &lt;span class=&quot;nt&quot;&gt;-net&lt;/span&gt; 192.168.62.0 netmask 255.255.255.0 gw 192.168.1.1
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;QEMU_EFI.fd(下载地址：http://releases.linaro.org/components/kernel/uefi-linaro/16.02/release/qemu64/)&lt;/p&gt;
 
 &lt;p&gt;其他启动脚本：&lt;/p&gt;
 
@@ -815,329 +1466,6 @@ disqus: Evan
         <pubDate>Mon, 25 Nov 2019 00:00:00 +0800</pubDate>
         <link>http://wangrongwei.com/2019/11/25/FreeTalk.html</link>
         <guid isPermaLink="true">http://wangrongwei.com/2019/11/25/FreeTalk.html</guid>
-        
-        
-        <category>blog</category>
-        
-      </item>
-    
-      <item>
-        <title>entry_64.S中的汇编指令</title>
-        <description>&lt;blockquote&gt;
-  &lt;p&gt;本文介绍x86_64体系结构中，使用汇编实现的中断处理部分，并对部分较陌生的指令进行解释，最后附上关于中断调用路径的流程图。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部
-作者：lollipop
-本文原文地址：&lt;a href=&quot;http://wangrongwei.com/2019/10/12/entry_64.S-help.html&quot;&gt;http://wangrongwei.com/2019/10/12/entry_64.S-help.html&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;环境&quot;&gt;环境&lt;/h2&gt;
-
-&lt;p&gt;配置source insight，支持汇编高亮和索引。
-配置文件可加载&lt;a href=&quot;https://github.com/wangrongwei/lazytools/tree/primer/sourceinsight&quot;&gt;config_all.xml&lt;/a&gt;，关于source insight的配置方式和配置文件加载方式可参考&lt;a href=&quot;xxx&quot;&gt;source insight&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;汇编指令&quot;&gt;汇编指令&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;[1] .rept与.endr：重复.rept与.endr间的代码若干份，其作用类似宏。其详细作用可参考ENTRY(interrupt)的描述。&lt;/li&gt;
-  &lt;li&gt;[2] &amp;lt;&amp;gt;：&lt;/li&gt;
-  &lt;li&gt;[3] .p2align：字节对齐&lt;/li&gt;
-  &lt;li&gt;[4] .balign：&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;重要函数&quot;&gt;重要函数&lt;/h2&gt;
-
-&lt;h3 id=&quot;entryinterrupt&quot;&gt;ENTRY(interrupt)&lt;/h3&gt;
-
-&lt;div class=&quot;language-S highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;w&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.section&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.init.rodata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;a&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ENTRY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;interrupt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.section&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.entry.text&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.p2align&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.p2align&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CONFIG_X86_L1_CACHE_SHIFT&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ENTRY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;irq_entries_start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;INTR_FRAME&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FIRST_EXTERNAL_VECTOR&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.rept&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NR_VECTORS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FIRST_EXTERNAL_VECTOR&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;+6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.balign&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;32&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.rept&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.if&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NR_VECTORS&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.if&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FIRST_EXTERNAL_VECTOR&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CFI_ADJUST_CFA_OFFSET&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;-8&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.endif&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pushq_cfi&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;+0&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;   &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/*&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Note&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;always&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;signed&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;byte&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*/&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.if&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FIRST_EXTERNAL_VECTOR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jmp&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.endif&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.previous&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.quad&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.section&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.entry.text&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;+1&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.endif&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.endr&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jmp&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;common_interrupt&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.endr&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;以上汇编代码的目的是构建出224个interrupt成员函数，与以往内核版本不同（使用宏构建interrupt成员函数）。&lt;/p&gt;
-
-&lt;h3 id=&quot;thread&quot;&gt;THREAD&lt;/h3&gt;
-
-&lt;p&gt;thread_info结构体对task_struct进一步封装，但是以下代码如何获取到当前进程的thread_info的地址？&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/kernel/2019-10-12-19-50-35.png&quot; alt=&quot;THREAD&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;cfi_&quot;&gt;CFI_*&lt;/h3&gt;
-
-&lt;p&gt;-[1] .cfi_sections section_list&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;.cfi_sections&lt;/strong&gt;用于指定CFI触发的段是&lt;strong&gt;.eh_frame&lt;/strong&gt; 或者是 &lt;strong&gt;.debug_frame&lt;/strong&gt;，甚至同时包括以上两个。同时也可触发两个段，若后续的指示没有指定，默认为&lt;strong&gt;.eh_frame&lt;/strong&gt;。&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;.cfi_sections&lt;/strong&gt; may be used to specify whether CFI directives should emit &lt;strong&gt;.eh_frame&lt;/strong&gt; section and/or &lt;strong&gt;.debug_frame&lt;/strong&gt; section. If section_list is &lt;strong&gt;.eh_frame&lt;/strong&gt;, &lt;strong&gt;.eh_frame&lt;/strong&gt; is emitted, if section_list is &lt;strong&gt;.debug_frame&lt;/strong&gt;, &lt;strong&gt;.debug_frame&lt;/strong&gt; is emitted. To emit both use &lt;strong&gt;.eh_frame&lt;/strong&gt;, &lt;strong&gt;.debug_frame&lt;/strong&gt;. The default if this directive is not used is &lt;strong&gt;.cfi_sections&lt;/strong&gt; &lt;strong&gt;.eh_frame&lt;/strong&gt;.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;-[2] .cfi_startproc [simple]&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;.cfi_startproc&lt;/strong&gt; is used at the beginning of each function that should have an entry in &lt;strong&gt;.eh_frame&lt;/strong&gt;. It initializes some internal data structures. Don’t forget to close the function by &lt;strong&gt;.cfi_endproc&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;Unless &lt;strong&gt;.cfi_startproc&lt;/strong&gt; is used along with parameter simple it also emits some architecture dependent initial CFI instructions.&lt;/p&gt;
-
-&lt;p&gt;-[3] .cfi_endproc&lt;/p&gt;
-
-&lt;p&gt;.cfi_endproc is used at the end of a function where it closes its unwind entry previously opened by .cfi_startproc, and emits it to .eh_frame.&lt;/p&gt;
-
-&lt;p&gt;-[4] .cfi_personality encoding [, exp]&lt;/p&gt;
-
-&lt;p&gt;.cfi_personality defines personality routine and its encoding. encoding must be a constant determining how the personality should be encoded. If it is 255 (DW_EH_PE_omit), second argument is not present, otherwise second argument should be a constant or a symbol name. When using indirect encodings, the symbol provided should be the location where personality can be loaded from, not the personality routine itself. The default after .cfi_startproc is .cfi_personality 0xff, no personality routine.&lt;/p&gt;
-
-&lt;p&gt;-[5] .cfi_lsda encoding [, exp]&lt;/p&gt;
-
-&lt;p&gt;.cfi_lsda defines LSDA and its encoding. encoding must be a constant determining how the LSDA should be encoded. If it is 255 (DW_EH_PE_omit), second argument is not present, otherwise second argument should be a constant or a symbol name. The default after .cfi_startproc is .cfi_lsda 0xff, no LSDA.&lt;/p&gt;
-
-&lt;p&gt;-[6] .cfi_def_cfa register, offset&lt;/p&gt;
-
-&lt;p&gt;.cfi_def_cfa defines a rule for computing CFA as: take address from register and add offset to it.&lt;/p&gt;
-
-&lt;p&gt;-[7] .cfi_def_cfa_register register&lt;/p&gt;
-
-&lt;p&gt;.cfi_def_cfa_register modifies a rule for computing CFA. From now on register will be used instead of the old one. Offset remains the same.&lt;/p&gt;
-
-&lt;p&gt;-[8] .cfi_def_cfa_offset offset&lt;/p&gt;
-
-&lt;p&gt;.cfi_def_cfa_offset modifies a rule for computing CFA. Register remains the same, but offset is new. Note that it is the absolute offset that will be added to a defined register to compute CFA address.&lt;/p&gt;
-
-&lt;p&gt;-[9] .cfi_adjust_cfa_offset offset&lt;/p&gt;
-
-&lt;p&gt;Same as .cfi_def_cfa_offset but offset is a relative value that is added/substracted from the previous offset.&lt;/p&gt;
-
-&lt;p&gt;-[10] .cfi_offset register, offset&lt;/p&gt;
-
-&lt;p&gt;Previous value of register is saved at offset offset from CFA.&lt;/p&gt;
-
-&lt;p&gt;-[11] .cfi_rel_offset register, offset&lt;/p&gt;
-
-&lt;p&gt;Previous value of register is saved at offset offset from the current CFA register. This is transformed to .cfi_offset using the known displacement of the CFA register from the CFA. This is often easier to use, because the number will match the code it’s annotating.&lt;/p&gt;
-
-&lt;p&gt;-[12] .cfi_register register1, register2&lt;/p&gt;
-
-&lt;p&gt;Previous value of register1 is saved in register register2.&lt;/p&gt;
-
-&lt;p&gt;-[13] .cfi_restore register&lt;/p&gt;
-
-&lt;p&gt;.cfi_restore says that the rule for register is now the same as it was at the beginning of the function, after all initial instruction added by .cfi_startproc were executed.&lt;/p&gt;
-
-&lt;p&gt;-[14] .cfi_undefined register&lt;/p&gt;
-
-&lt;p&gt;表明寄存器的前一个值无法再被恢复。&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;From now on the previous value of register can’t be restored anymore.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;-[15] .cfi_same_value register&lt;/p&gt;
-
-&lt;p&gt;寄存器的当前值与前一帧相同，即不需要恢复。&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Current value of register is the same like in the previous &lt;strong&gt;frame&lt;/strong&gt;, i.e. no restoration needed.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;-[16] .cfi_remember_state,&lt;/p&gt;
-
-&lt;p&gt;First save all current rules for all registers by &lt;strong&gt;.cfi_remember_state&lt;/strong&gt;, then totally screw them up by subsequent &lt;strong&gt;.cfi_*&lt;/strong&gt; directives and when everything is hopelessly bad, use &lt;strong&gt;.cfi_restore_state&lt;/strong&gt; to restore the previous saved state.&lt;/p&gt;
-
-&lt;p&gt;-[17] .cfi_return_column register&lt;/p&gt;
-
-&lt;p&gt;改变返回列寄存器，例如：返回地址是直接指向寄存器或者可以被访问。&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Change return column register, i.e. the return address is either directly in register or can be accessed by rules for register.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;-[18] .cfi_signal_frame&lt;/p&gt;
-
-&lt;p&gt;标记当前的函数为信号蹦床&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Mark current function as signal trampoline.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;-[19] .cfi_window_save&lt;/p&gt;
-
-&lt;p&gt;SPARC寄存器窗口已经被保存&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;SPARC register window has been saved.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;-[20] .cfi_escape expression[, …]&lt;/p&gt;
-
-&lt;p&gt;允许用户添加任意字节到展开的信息。可以使用它来添加特定OS的CFI操作码，或者GAS还不支持的通用CFI操作码。&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Allows the user to add arbitrary bytes to the unwind info. One might use this to add OS-specific CFI opcodes, or generic CFI opcodes that GAS does not yet support.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;-[21] .cfi_val_encoded_addr register, encoding, label&lt;/p&gt;
-
-&lt;p&gt;The current value of register is label. The value of label will be encoded in the output file according to encoding; see the description of .cfi_personality for details on this encoding.&lt;/p&gt;
-
-&lt;p&gt;The usefulness of equating a register to a fixed label is probably limited to the return address register. Here, it can be useful to mark a code segment that has only one return address which is reached by a direct branch and no copy of the return address exists in memory or another register.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;原文链接：http://sourceware.org/binutils/docs/as/CFI-directives.html&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;中断处理流程&quot;&gt;中断处理流程&lt;/h2&gt;
-
-&lt;h3 id=&quot;几个重要的函数&quot;&gt;几个重要的函数&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;[1] common_interrupt&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;执行中断函数（do_irq），在do_irq中将会去执行其他的中断服务函数。&lt;/p&gt;
-
-&lt;div class=&quot;language-S highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;w&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;XCPT_FRAME&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addq&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;-0&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%rsp)  /* Adjust vector to [-256,-1] range */
-    interrupt do_IRQ /* 中断函数 */
-    /* 0(%&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rsp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;old_rsp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ARGOFFSET&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*/&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;[2] ret_from_intr:&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;此处表明中断服务函数已经执行完成并返回。&lt;/p&gt;
-
-&lt;div class=&quot;language-S highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;w&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DISABLE_INTERRUPTS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CLBR_NONE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TRACE_IRQS_OFF&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;decl&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PER_CPU_VAR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;irq_count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-
-    &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/*&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Restore&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;saved&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;previous&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stack&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*/&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;popq&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%rsi
-    CFI_DEF_CFA rsi,SS+8-RBP    /* reg/off reset after def_cfa_expr */
-    leaq ARGOFFSET-RBP(%&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rsi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rsp&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CFI_DEF_CFA_REGISTER&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rsp&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CFI_ADJUST_CFA_OFFSET&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;   &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RBP&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ARGOFFSET&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;[3] exit_intr&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;判断发送中断前系统处于内核态还是用户态，根据两种不同的状态分别跳转到retint_kernel（内核态）或retint_with_reschedule（用户态）。&lt;/p&gt;
-
-&lt;div class=&quot;language-S highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;w&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GET_THREAD_INFO&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%rcx)
-    testl $3,CS-ARGOFFSET(%&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rsp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/*&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;读取栈中的&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CS&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*/&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;je&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;retint_kernel&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/*&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;若为内核态，则跳转&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*/&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;[4] retint_with_reschedule&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-S highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;w&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;movl&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TIF_WORK_MASK&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%edi
-​```S
-
-- [5] retint_check
-
-​```S
-    LOCKDEP_SYS_EXIT_IRQ
-    movl TI_flags(%&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rcx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%edx
-    andl %&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;edi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;edx&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CFI_REMEMBER_STATE&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jnz&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;retint_careful&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/*&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;判断是否有其他需要做&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*/&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;在大多数情况下，以上[5]紧接[4]执行。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;[6] retint_swapgs&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-S highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;/*&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;space&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*/&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/*&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-     &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;The&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iretq&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;could&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;re&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;enable&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;interrupts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-     &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*/&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DISABLE_INTERRUPTS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CLBR_ANY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TRACE_IRQS_IRETQ&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SWAPGS&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/*&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;切换&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gs&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*/&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jmp&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;restore_args&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;[7] retint_restore_args&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;不支持内核抢占，且要返回内核态时，将在exit_intr中跳转到此处（因为retint_kernel已经被宏定义为retint_restore_args）。&lt;/p&gt;
-
-&lt;div class=&quot;language-S highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;w&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DISABLE_INTERRUPTS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CLBR_ANY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/*&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;The&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iretq&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;could&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;re&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;enable&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;interrupts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*/&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TRACE_IRQS_IRETQ&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;[8] restore_args:&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-S highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;w&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RESTORE_ARGS&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;[9] irq_return&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;执行到irq_return，表明中断服务函数、信号、是否重新调度等操作已经执行完，后续将跳转到中断前的状态执行。&lt;/p&gt;
-
-&lt;h3 id=&quot;中断框图&quot;&gt;中断框图&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/kernel/2019-11-02-19-25-54.png&quot; alt=&quot;中断框图&quot; /&gt;&lt;/p&gt;
-</description>
-        <pubDate>Sat, 12 Oct 2019 00:00:00 +0800</pubDate>
-        <link>http://wangrongwei.com/2019/10/12/entry_64.S-help.html</link>
-        <guid isPermaLink="true">http://wangrongwei.com/2019/10/12/entry_64.S-help.html</guid>
-        
-        <category>programming</category>
-        
-        
-        <category>blog</category>
-        
-      </item>
-    
-      <item>
-        <title>梨花</title>
-        <description>&lt;h1 id=&quot;梨花&quot;&gt;梨花&lt;/h1&gt;
-
-&lt;p&gt;每到四月份，玉渊潭的樱花开了，就想起小时候邻居家的梨树开满梨花，洁白，清新。&lt;/p&gt;
-</description>
-        <pubDate>Wed, 24 Jul 2019 00:00:00 +0800</pubDate>
-        <link>http://wangrongwei.com/2019/07/24/lihua.html</link>
-        <guid isPermaLink="true">http://wangrongwei.com/2019/07/24/lihua.html</guid>
         
         
         <category>blog</category>

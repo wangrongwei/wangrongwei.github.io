@@ -18,8 +18,8 @@
   <link rel="canonical" href="http://wangrongwei.com/2020/06/20/UNIX386.html">
   <link rel="alternate" type="application/rss+xml" title="wangrongwei's world" href="http://wangrongwei.com/feed.xml" />
   <link rel="stylesheet" href="/css/syntax.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
-  <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+  <link rel="stylesheet" href="/css/gitalk.css">
+  <script src="/js/gitalk.min.js"></script>
 </head>
 
 
@@ -70,12 +70,13 @@
     <div class="page-content">
       <div class="wrapper">
         <div class="post">
-    <header class="post-header">
-        <h1 class="post-title">一个基于i386的系统内核</h1>
-        <p class="post-meta">Jun 20, 2020</p>
-    </header>
-    <article class="post-content">
-        <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+	<header class="post-header">
+		<h1 class="post-title">一个基于i386的系统内核</h1>
+		<p class="post-meta">Jun 20, 2020</p>
+	</header>
+
+	<article class="post-content">
+		<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
 <script type="text/javascript">
  //是否显示导航栏
  var showNavBar = true;
@@ -279,7 +280,7 @@
     }
 </style>
 
-        <blockquote>
+		<blockquote>
   <p>一个基于i386的系统内核</p>
 </blockquote>
 
@@ -291,31 +292,392 @@
 
 <h2 id="简介">简介</h2>
 
+<p>一个简答的OS，目前已完成到进程调度模型，其他部分正在完善中。</p>
+
 <h2 id="unix386">UNIX386</h2>
 
 <h3 id="boot">boot</h3>
 
+<p>在i386架构中，首先CPU上电运行在实模式下，将执行存储在ROM中的BIOS，这段BIOS将会进行简单的中断初始化，建立中断向量表（如int 0x20），随后便跳转到0x7c00执行，这段代码需保证在512Byte内（主要是这个拷贝过程是BIOS已经限定的，只拷贝一个扇区的数据）。0x7c00这段代码由我们设计，因此，我们在这只有512Byte大小的代码中，需要将后续的OS代码拷贝到可用的内存中。这段流程如图：</p>
+
+<p><img src="http://wangrongwei.com/images/image-20200627162350561.png" alt="image-20200627162350561" /></p>
+
+<p>我们将前后拷贝的OS代码分别称为boot.bin的前512Byte和boot.bin剩余部分。</p>
+
+<p>实模式下地址空间分布：</p>
+
+<p><img src="http://wangrongwei.com/images/image-20200627160159766.png" alt="image-20200627160159766" /></p>
+
+<blockquote>
+  <p>该图来源于https://wiki.osdev.org/Memory_Map_(x86)#BIOS_Data_Area_.28BDA.29</p>
+</blockquote>
+
+<p>这段实模式下地址分布图主要用来辅助理解i386下boot.bin和kernel.bin如此设计的理由。</p>
+
+<p>以下是实际启动相关代码：</p>
+
+<pre><code class="language-assembly">ORG	BOOT_ADDR	;必须是这个地址
+;初始化段SS=0 DS=0 ES=0 SP指向程序加载的地址
+;因为程序加载的地址是0x7c00，所以我们的段地址必须是0，
+;不然地址就不是0x7c00
+	MOV	AX,CS
+	MOV	SS,AX
+	MOV	SP,BOOT_ADDR
+	MOV	DS,AX
+	MOV	ES,AX
+;
+;The second stage
+;	Now ,load kernel from img
+;
+	MOV	SI,msg
+putloop:
+	MOV	AL,[SI]
+	ADD	SI,1
+	CMP	AL,0
+	JE	Read_Sector
+	MOV	AH,0x0e
+	MOV	BX,0x0f
+	INT	0x10		;ִ执行BIOS中断0x10
+	JMP	putloop
+
+Read_Sector:
+	MOV	SI,msg_1	;打开成功显示字符
+Read:
+	MOV	AL,[SI]
+	ADD	SI,1
+	CMP	AL,0
+	JE	Read_Ok
+	MOV	AH,0x0e
+	MOV	BX,0x0f
+	INT	0x10		;ִ执行BIOS中断0x10
+	JMP	Read
+</code></pre>
+
+<p>在i386中，BIOS上电一段时间进行内存划分，中断向量表的初始化，最终将会跳转到0x7c00执行。boot相关的代码即为跳转到0x7c00后待执行的代码。这段代码将使用：</p>
+
+<pre><code class="language-assembly">ORG	BOOT_ADDR
+</code></pre>
+
+<p>表明后续的代码将会被拷贝到内存的0x7c00处。</p>
+
+<h3 id="实模式跳转保护模式">实模式跳转保护模式</h3>
+
+<p>在实模式下，OS只能使用有限的地址空间，以及有限的寄存器资源，无法进行后续的内存管理、进程调度，因此我们需要向保护模式跳转。</p>
+
+<p>以下是实际进入保护模式的代码：</p>
+
+<pre><code class="language-assembly">;
+;The third stage
+;	goto PM mode
+;
+goto_PM:
+	MOV	AL,0X03
+	MOV	AH,0X00
+	INT	0x10
+
+	MOV	AL,0xFF
+	OUT	0x21,AL
+	NOP
+	OUT	0xa1,AL
+
+	CLI
+
+;开始移动第二部分内核（0x7c00+512后面的代码）到0x0地址，因此原中断服务程序被覆盖
+move_start:
+        CLI
+        MOV     AX,0x0800       ;源地址
+        MOV     DS,AX
+        MOV     AX,0x0500       ;目的地址
+        MOV     ES,AX
+
+        MOV     CX,0x7000       ;表示复制的字节x/2
+        SUB     SI,SI           ;DS:SI---&gt;ES:DI
+        SUB     DI,DI
+        REP     MOVSW   	;在linux-0.1.1中使用rep movw的intel的格式
+move_end:
+        MOV     AX,CS   	;还原改变的两个段
+        MOV     ES,AX
+        MOV     DS,AX
+;
+; OPEN A20
+;
+	CALL	waitkbd_8042
+	MOV	AL,0xd1      	;写命令
+	OUT	0x64,AL
+	CALL	waitkbd_8042
+	MOV	AL,0xdf
+	OUT	0x60,AL
+	CALL	waitkbd_8042 	;打开A20
+
+    CLI
+    ;由于最开始编译这个程序是按0x7c00为偏移地址的，
+    ;所以移动到0x0地址以后，需要重新计算GDTR0存储的地址
+	LGDT	[GDTR0-0x7c00]
+
+    IN      AL,92h
+    OR      AL,0x02
+	OUT     92h,AL
+
+    MOV	EAX,CR0
+	AND	EAX,0x7fffffff
+	OR	AL,1
+	MOV	CR0,EAX                 ;打开段级保护，不开分页机制
+;程序执行到这里结束，跳转到init/kernel.asm（即移动到0x0处的代码）执行
+	JMP	dword 0x08:0x5000
+</code></pre>
+
+<p>在这段代码中，主要涉及三个过程：</p>
+
+<ul>
+  <li>移动代码：接下来的一段时间里，我们不在需要BIOS所创建的中断向量表，因此我们可以将boot.bin这段代码移动到起始地址为0x00；</li>
+  <li>打开A20：1MByte的地址空间是不够使用的，因此在kernel.bin中，我们必须打开A20，即CPU可以开始使用后面的12根地址线。此时，理论上，地址空间即达到了4G。</li>
+  <li>准备与加载全局段描述符（GDT）：由于保护模式和分段机制是CR0中的同一位，因此当我们设置了保护模式的标志位，同时我们也打开了分段机制。这表明我们必须在此之前设置好GDT表；</li>
+</ul>
+
+<p>GDT表的设计：</p>
+
+<pre><code class="language-asm">;
+;进入保护模型，不再按照CS*16+IP取指令执行，需要按照向全局描述符
+;
+GDT0:
+	DW      0x0000,0x0000,0x0000,0x0000
+        ;---代码段基地址 0x0047取00，0x9a28取28，0x0000取全部===0x00280000
+	DW	0xffff,0x0000,0x9a00,0x00cf
+        ;---数据段基地址 0x00cf取00，0x9200取00，0x0000取全部===0x00000000
+	DW	0xffff,0x0000,0x9200,0x00cf
+        DW      0xffff,0x8000,0xf20b,0x000f
+        ;为tss准备的
+	DW      0x0000,0x0000,0x0000,0x0000
+        ;为ldt准备的
+	DW      0x0000,0x0000,0x0000,0x0000
+        ;DW      0xffff,0x8000,0xf20b,0x000f
+GDT0_LEN EQU $-GDT0
+GDTR0:
+	DW	GDT0_LEN-1
+	DW      GDT0-0x7c00,0x9
+</code></pre>
+
+<p>GDT表中的表项其实就是限定该段的访问权限和访问地址空间。</p>
+
+<p>最后，最重要的一步：</p>
+
+<pre><code class="language-assembly">MOV	CR0,EAX                 ;打开段级保护，不开分页机制
+;程序执行到这里结束，跳转到init/kernel.asm（即移动到0x0处的代码）执行
+JMP	dword 0x08:0x5000
+</code></pre>
+
+<p>理解这段代码，其实也是理解实模式和保护模式的寻址差异。</p>
+
+<p>这段代码表明：CS=0x8，offset=0x5000。</p>
+
+<p>关于CS、GDT在保护模式下的作用，这里不进行说明，直接告诉结果：0x08表明我们将跳转到GDT表现中的第一项，其基地址为0x00，加上偏移地址，即跳转的目的地址为0x5000。该内存空间即保存了前面所提到的kernel.bin代码。</p>
+
+<p>跳转后，保护模式下前面几段汇编代码：</p>
+
+<pre><code class="language-assembly">; 采用Intel汇编格式
+_start:
+	MOV	EAX,0x00000010
+	MOV	DS,AX
+	MOV	ES,AX
+	MOV	FS,AX
+	MOV	GS,AX
+	MOV	SS,AX
+; 设置页目录表和页目录
+    CALL    setup_paging
+; 开始打开分页机制
+    XOR     EAX,EAX
+    MOV     CR3,EAX ;将_page_dir地址0x0000写给CR3
+    MOV     EAX,CR0
+    OR      EAX,0x80000000
+    MOV     CR0,EAX ;PG位置1
+; 设置堆栈
+	MOV     ESP,kernel_stack_top
+    MOV     EBP,ESP
+
+; 跳转到C语言部分
+    MOV     EAX,kernel_start
+    JMP     EAX
+</code></pre>
+
+<p>这段代码最后会跳转到kernel_start函数处，自此，我们可以开始使用C语言编写后续的OS代码。在这里其余代码不做分析。</p>
+
 <h3 id="内存管理">内存管理</h3>
+
+<p>在内存管理模型中，尚未完成slab分配器这种优秀的内存分配算法。目前，我仅仅使用mem_map[]数据管理每一页，同时在需要动态分配指定大小的内存时，采用固定的几个page进行分配。</p>
+
+<p>总之，内存管理部分尚不完善，需要实现alloc和free的闭环，同时兼顾内存碎片等问题还需走很长的路。</p>
+
+<h3 id="中断子系统">中断子系统</h3>
+
+<p>在拷贝kernel.bin到0x00时，BIOS初始化的中断向量表就不能在使用，在完成进入保护模式的步骤后，需要马上建立保护模式下的中断子系统。</p>
+
+<p>统一的中断入口：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*
+ * 中断服务程序
+ * 函数说明：识别到底是发生了说明中断（通过regs-&gt;int_no），然后
+ *	     执行相应的中断服务程序。
+ * interrupt_handlers[n]是一个数组函数，n代表了具体的中断服务程
+ * 序，函数参数为regs。
+ */</span>
+<span class="kt">void</span> <span class="nf">isr_handler</span><span class="p">(</span><span class="n">pt_regs</span> <span class="o">*</span><span class="n">regs</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">static</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">interrupt_handlers</span><span class="p">[</span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">int_no</span><span class="p">]){</span>
+		<span class="n">interrupt_handlers</span><span class="p">[</span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">int_no</span><span class="p">](</span><span class="n">regs</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">else</span><span class="p">{</span>
+		<span class="n">count</span><span class="o">++</span><span class="p">;</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">count</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span>
+			<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/* 32号中断以后的中断入口 */</span>
+<span class="kt">void</span> <span class="nf">irq_handler</span><span class="p">(</span><span class="n">pt_regs</span> <span class="o">*</span><span class="n">regs</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="cm">/* 
+	 * 从32号开始，为用户自定义中断，单片只能处理八级中断，因此大于40是由从片处理 
+	 */</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">int_no</span> <span class="o">&gt;</span> <span class="mi">40</span><span class="p">){</span>
+		<span class="cm">/* 发送重设信号给从片 */</span>
+		<span class="n">outb</span><span class="p">(</span><span class="mh">0xa0</span><span class="p">,</span><span class="mh">0x20</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="cm">/* 发送重设信号给主片 */</span>
+	<span class="n">outb</span><span class="p">(</span><span class="mh">0x20</span><span class="p">,</span><span class="mh">0x20</span><span class="p">);</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">interrupt_handlers</span><span class="p">[</span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">int_no</span><span class="p">]){</span>
+		<span class="n">interrupt_handlers</span><span class="p">[</span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">int_no</span><span class="p">](</span><span class="n">regs</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">else</span><span class="p">{</span>
+		<span class="n">printk</span><span class="p">(</span><span class="s">"unhandle irq_handler:%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">int_no</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>中断向量表：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="kt">void</span> <span class="nf">set_idt</span><span class="p">(</span><span class="kt">int</span> <span class="n">num</span><span class="p">,</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">base</span><span class="p">,</span><span class="kt">unsigned</span> <span class="kt">short</span> <span class="n">sel</span><span class="p">,</span><span class="kt">unsigned</span> <span class="kt">short</span> <span class="n">flags</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">idt_list</span><span class="p">[</span><span class="n">num</span><span class="p">].</span><span class="n">base0</span> <span class="o">=</span> <span class="n">base</span> <span class="o">&amp;</span> <span class="mh">0xffff</span><span class="p">;</span>
+	<span class="n">idt_list</span><span class="p">[</span><span class="n">num</span><span class="p">].</span><span class="n">base1</span> <span class="o">=</span> <span class="p">(</span><span class="n">base</span> <span class="o">&gt;&gt;</span> <span class="mi">16</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xffff</span><span class="p">;</span>
+	<span class="n">idt_list</span><span class="p">[</span><span class="n">num</span><span class="p">].</span><span class="n">sel</span> <span class="o">=</span> <span class="n">sel</span><span class="p">;</span>
+	<span class="n">idt_list</span><span class="p">[</span><span class="n">num</span><span class="p">].</span><span class="n">zero</span> <span class="o">=</span> <span class="mh">0x0</span><span class="p">;</span>
+	<span class="n">idt_list</span><span class="p">[</span><span class="n">num</span><span class="p">].</span><span class="n">flags</span> <span class="o">=</span> <span class="n">flags</span><span class="p">;</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>将中断向量表地址告诉LIDT寄存器：</p>
+
+<pre><code class="language-assembly">load_idtr:
+        MOV     EAX,[ESP+4]
+        LIDT    [EAX]
+        ret
+</code></pre>
+
+<p>将中断向量表的地址告诉LIDT寄存器后，在使能中断并发生中断后，CPU即可根据中断向量表地址、以及所产生的中断号找到对应的中断服务函数。</p>
+
+<h3 id="系统调用">系统调用</h3>
+
+<p>为了实现不同进程间的切换，必须首先实现系统调用。</p>
+
+<pre><code class="language-assembly">;===========================================================================
+;				sys_call
+; 目前系统调用的函数定义和system_call_table数组在include/i386/sys.h下  
+;
+; 进入system_call：
+;	eax system number
+;	ebx arg1
+;	ecx arg2
+;	edx arg3
+;	esi arg3
+;	edi arg3
+;	ebp arg4
+;	
+; 从系统调用返回是，栈分布如下：
+;	 esp+0 - %eax
+;	 esp+4 - %ebx
+;	 esp+8 - %ecx
+;	 esp+C - %edx
+;	esp+10 - %fs
+;	esp+14 - %es
+;	esp+18 - %ds
+;	esp+1C - %eip
+;	esp+20 - %cs
+;	esp+24 - %eflags
+;	esp+28 - %oldesp
+;	esp+2C - %oldss
+;===========================================================================
+; 系统调用入口函数
+[GLOBAL system_call]
+system_call:
+;===========================================================================
+; already on stack: ss,sp,flags,cs,ip
+; next to save general register:EAX ECX EDX EBX ESP EBP ESI EDI and ds es fs gs
+;===========================================================================
+	pushad          ;  \
+    push    ds      ;  |
+    push    es      ;  | 保存原寄存器值
+    push    fs      ;  |
+    push    gs      ; /
+
+	mov 	esi,esp
+	
+	mov	edx,0x10 ; 设置ds es段指向当前进程的内核态数据段
+	mov 	ds,dx
+	mov	es,dx
+
+	mov 	edx,0x17 ; 设置fs段指向当前进程用户态数据段
+	mov 	fs,dx
+
+	sti
+    call    [system_call_table + eax * 4]
+    ; why add esi to 11*4 ? --&gt; from EAX to gs has 11*4 
+    mov     [esi + 11*4], eax
+	cli
+	
+        ; 检测当前进程是否处于就绪态（state），时间片是否用完
+        ; if state == TASK_RUNNING, then the task would be rescheduled
+.2: mov 	eax,current
+    cmp	dword [eax],0
+    jne	reschedule
+    cmp	dword [eax+4],0
+    je 	reschedule
+ret_from_system_call:
+	;add	esp, 4 * 4
+	;pop	esi
+	pop	gs
+	pop	fs
+	pop	es
+	pop	ds
+	popad
+	
+        ret
+</code></pre>
 
 <h3 id="进程模型">进程模型</h3>
 
+<p>TODO</p>
+
 <h3 id="调度">调度</h3>
 
-<h3 id="中断子系统">中断子系统</h3>
+<p>TODO</p>
 
 <h2 id="链接">链接</h2>
 
 <ul>
   <li>项目主页：<a href="https://github.com/wangrongwei/UNIX386">UNIX386</a></li>
+  <li>https://wiki.osdev.org/Main_Page</li>
 </ul>
 
 
-    </article>
+	</article>
 
 
 <!-- Link Gitalk 的支持文件  -->
-<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+<link rel="stylesheet" href="/css/gitalk.css">
+<script src="/js/gitalk.min.js"></script>
+
 <div id="gitalk-container"></div>
 <script type="text/javascript">
     var gitalk = new Gitalk({
