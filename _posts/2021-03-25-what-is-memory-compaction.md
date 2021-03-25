@@ -8,7 +8,13 @@ teaser:
     Snipaste_2021-03-25-memory-compaction.jpg
 ---
 
-内存就像书桌一样，要是不整理，永远不够用！
+> 内存就像书桌一样，要是不整理，永远不够用！
+
+> 文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部
+>
+> 作者：lollipop
+>
+> 本文原文地址：<http://wangrongwei.com{{ page.url }}>
 
 这是我之前在学习内存memory compaction（内存规整）代码后，整理的一篇关于内存规整的介绍：
 
