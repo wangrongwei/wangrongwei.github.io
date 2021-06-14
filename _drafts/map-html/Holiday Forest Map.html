@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<!-- saved from url=(0076)http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>Holiday Forest Map</title>
+    <meta name="viewport" content="width=1200, initial-scale=0">
+    <meta name="google" content="notranslate">
+    <link rel="stylesheet" href="./Holiday Forest Map_files/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <script src="./Holiday Forest Map_files/jquery-3.1.1.min.js.下载" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="./Holiday Forest Map_files/jquery-ui.min.js.下载"></script>
+    <script src="./Holiday Forest Map_files/bootstrap.min.js.下载"></script>
+    <script src="./Holiday Forest Map_files/hunt.js.下载"></script>
+    
+
+    <!-- generics -->
+    <link rel="icon" href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/assets/icons/favicon-32.png" sizes="32x32">
+    <link rel="icon" href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/assets/icons/favicon-96.png" sizes="96x96">
+    <link rel="icon" href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/assets/icons/favicon-128.png" sizes="128x128">
+    <link rel="icon" href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/assets/icons/favicon-192.png" sizes="192x192">
+    <!-- Android -->
+    <link rel="shortcut icon" sizes="196x196" href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/assets/icons/favicon-196.png">
+    <!-- iOS -->
+    <link rel="apple-touch-icon" href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/assets/icons/favicon-120.png" sizes="120x120">
+    <link rel="apple-touch-icon" href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/assets/icons/favicon-152.png" sizes="152x152">
+    <link rel="apple-touch-icon" href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/assets/icons/favicon-167.png" sizes="167x167">
+    <link rel="apple-touch-icon" href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/assets/icons/favicon-180.png" sizes="180x180">
+    <!-- iOS icon title -->
+    <meta name="apple-mobile-web-app-title" content="MH19">
+
+    <link rel="stylesheet" href="./Holiday Forest Map_files/bootstrap-reduced.css">
+    <link rel="stylesheet" href="./Holiday Forest Map_files/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="./Holiday Forest Map_files/common.css">
+    <style>
+      .tooltip-title {
+          font-family: "Century Supra", serif;
+          font-size: 15px;
+          text-align: center;
+      }
+      #header-change-contact-info .modal-header-text {
+          font-size: 30px;
+          font-family: MetallophileSp8-Medium,sans-serif;
+      }
+      #header-change-contact-info input {
+          font-family: Century Supra,serif;
+          font-size: 22px;
+          line-height: 29px;
+      }
+      </style>
+    
+<style>
+  body {
+    background-image: url("assets/support/background.jpg");
+  }
+  #main-page-content #map-page-container {
+    width: 1200px;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  #main-page-content #map-page-container #map-container {
+    width: 1100px;
+    max-width: 92%;
+    margin: 30px auto;
+    position: relative;
+  }
+  #main-page-content #map-page-container #map-container img#map {
+    width: 100%;
+    z-index: 0;
+  }
+  #main-page-content #map-page-container #map-container img#event-map {
+    width: 27.73%;
+    position: absolute;
+    z-index: 50;
+  }
+  #main-page-content #map-page-container #map-container img.problem-glow {
+    width: 27.73%;
+    position: absolute;
+    z-index: -50;
+  }
+  #main-page-content #map-page-container #map-container .map-link {
+    position: absolute;
+    background-color: rgba(0,0,0,0);
+  }
+  #main-page-content #map-page-container #map-container .map-link-town {
+    z-index: 200;
+  }
+  #main-page-content #map-page-container #map-container .map-link-problem {
+    z-index: 250;
+  }
+</style>
+
+    
+    
+  </head>
+  <body>
+    
+
+    <div class="fixed-header">
+      <div class="fixed-header-inner">
+        <div class="header-links">
+          <div class="header-link"><a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/full.html">Map</a></div>
+          <div class="header-link header-dropdown">
+            <div class="header-dropdown-title"><a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/full.html#">Useful Links <span class="fas fa-caret-down"></span></a></div>
+            <div class="dropdown-content-wrapper">
+              <div class="dropdown-link"><a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/guide.html">Guide</a></div>
+              
+                <div class="dropdown-link"><a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/puzzle.html">List of Puzzles</a></div>
+                
+              
+              <div class="dropdown-link"><a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/errata.html">Errata</a></div>
+              <div class="dropdown-link"><a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/safety.html">Health and Safety</a></div>
+              <div class="dropdown-link"><a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/sponsors.html">Sponsors</a></div>
+              
+                <div class="dropdown-link"><a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/statistics.html">Statistics</a></div>
+                <div class="dropdown-link"><a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/credits.html">Credits</a></div>
+              
+            </div>
+          </div>
+        
+        </div>
+        <div class="header-links">
+        
+        
+
+          
+          
+
+        
+
+          
+            
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="overall-layout-body ">
+      
+<div id="main-page-content">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <!--<div id="announcements-and-errata">This is a problem announcement.</div>-->
+
+  <div id="map-page-container">
+    <div id="map-container">
+
+      
+      
+        <img id="map" src="./Holiday Forest Map_files/map-13.png">
+      
+
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/town/valentines_day.html"><div id="link-valentines_day" class="map-link map-link-town" style="height: 15%; width: 17%;
+            top: 30%; left: 9%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/town/halloween.html"><div id="link-halloween" class="map-link map-link-town" style="height: 11%; width: 13%;
+            top: 13%; left: 44%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/town/presidents_day.html"><div id="link-presidents_day" class="map-link map-link-town" style="height: 10%; width: 14%;
+            top: 40%; left: 43%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/town/your_birthday.html"><div id="link-your_birthday" class="map-link map-link-town" style="height: 13.5%; width: 16%;
+            top: 26%; left: 43%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/town/holi.html"><div id="link-holi" class="map-link map-link-town" style="height: 9%; width: 14%;
+            top: 70%; left: 58%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/town/new_years.html"><div id="link-new_years" class="map-link map-link-town" style="height: 13%; width: 13%;
+            top: 56%; left: 81%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/town/april_fools_day.html"><div id="link-april_fools_day" class="map-link map-link-town" style="height: 12%; width: 17%;
+            top: 54%; left: 42.5%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/town/molasses_awareness_day.html"><div id="link-molasses_awareness_day" class="map-link map-link-town" style="height: 13%; width: 22%;
+            top: 81.5%; left: 41%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/town/pi_day.html"><div id="link-pi_day" class="map-link map-link-town" style="height: 11%; width: 13%;
+            top: 70%; left: 32%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/town/arbor_day.html"><div id="link-arbor_day" class="map-link map-link-town" style="height: 13%; width: 13%;
+            top: 54%; left: 9%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/town/thanksgiving.html"><div id="link-thanksgiving" class="map-link map-link-town" style="height: 11%; width: 20%;
+            top: 32%; left: 75%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/town/patriots_day.html"><div id="link-patriots_day" class="map-link map-link-town" style="height: 14%; width: 12%;
+            top: 78%; left: 81%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/town/christmas.html"><div id="link-christmas" class="map-link map-link-town" style="height: 11%; width: 13%;
+            top: 11%; left: 10%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/town/bloomsday.html"><div id="link-bloomsday" class="map-link map-link-town" style="height: 12%; width: 15%;
+            top: 79%; left: 7%;">&nbsp;</div></a>
+        
+      
+      
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/problem/new_years_patriots_day.html"><div id="link-new_years_patriots_day" class="map-link map-link-problem" style="height: 8%; width: 4.5%;
+            top: 70%; left: 90.5%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/problem/halloween_thanksgiving.html"><div id="link-halloween_thanksgiving" class="map-link map-link-problem" style="height: 8%; width: 4.5%;
+            top: 24%; left: 64.5%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/problem/valentines_day_arbor_day.html"><div id="link-valentines_day_arbor_day" class="map-link map-link-problem" style="height: 8%; width: 4.5%;
+            top: 53.5%; left: 33%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/problem/holi_pi_day.html"><div id="link-holi_pi_day" class="map-link map-link-problem" style="height: 8%; width: 4.5%;
+            top: 72.5%; left: 49%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/problem/arbor_day_pi_day.html"><div id="link-arbor_day_pi_day" class="map-link map-link-problem" style="height: 8%; width: 4.5%;
+            top: 62.5%; left: 25.5%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/problem/halloween_valentines_day.html"><div id="link-halloween_valentines_day" class="map-link map-link-problem" style="height: 8%; width: 4.5%;
+            top: 24%; left: 33%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/problem/holi_patriots_day.html"><div id="link-holi_patriots_day" class="map-link map-link-problem" style="height: 8%; width: 4.5%;
+            top: 72.5%; left: 78.5%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/problem/valentines_day_presidents_day.html"><div id="link-valentines_day_presidents_day" class="map-link map-link-problem" style="height: 8%; width: 4.5%;
+            top: 38%; left: 33%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/problem/thanksgiving_new_years.html"><div id="link-thanksgiving_new_years" class="map-link map-link-problem" style="height: 8%; width: 4.5%;
+            top: 53.5%; left: 64.5%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/problem/events.html"><div id="link-events" class="map-link map-link-problem" style="height: 8%; width: 4.5%;
+            top: 16%; left: 82%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/problem/arbor_day_bloomsday.html"><div id="link-arbor_day_bloomsday" class="map-link map-link-problem" style="height: 8%; width: 4.5%;
+            top: 70%; left: 6%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/problem/christmas_halloween.html"><div id="link-christmas_halloween" class="map-link map-link-problem" style="height: 8%; width: 4.5%;
+            top: 11%; left: 33%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/problem/new_years_holi.html"><div id="link-new_years_holi" class="map-link map-link-problem" style="height: 8%; width: 4.5%;
+            top: 62.5%; left: 73.5%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/problem/pi_day_bloomsday.html"><div id="link-pi_day_bloomsday" class="map-link map-link-problem" style="height: 8%; width: 4.5%;
+            top: 72.5%; left: 20.5%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/problem/thanksgiving_presidents_day.html"><div id="link-thanksgiving_presidents_day" class="map-link map-link-problem" style="height: 8%; width: 4.5%;
+            top: 38%; left: 64.5%;">&nbsp;</div></a>
+        
+      
+      
+        
+        <img class="problem-glow" src="./Holiday Forest Map_files/meta-glow.png" style="width: 4.5%;
+            top: 70.3%; left: 90.45%;">
+        
+      
+        
+        <img class="problem-glow" src="./Holiday Forest Map_files/meta-glow.png" style="width: 4.5%;
+            top: 24.8%; left: 64.4%;">
+        
+      
+        
+        <img class="problem-glow" src="./Holiday Forest Map_files/meta-glow.png" style="width: 4.5%;
+            top: 53.8%; left: 32.9%;">
+        
+      
+        
+        <img class="problem-glow" src="./Holiday Forest Map_files/meta-glow.png" style="width: 4.5%;
+            top: 72.9%; left: 48.95%;">
+        
+      
+        
+        <img class="problem-glow" src="./Holiday Forest Map_files/meta-glow.png" style="width: 4.5%;
+            top: 63.1%; left: 25.5%;">
+        
+      
+        
+        <img class="problem-glow" src="./Holiday Forest Map_files/meta-glow.png" style="width: 4.5%;
+            top: 24.7%; left: 32.9%;">
+        
+      
+        
+        <img class="problem-glow" src="./Holiday Forest Map_files/meta-glow.png" style="width: 4.5%;
+            top: 73.1%; left: 78.3%;">
+        
+      
+        
+        <img class="problem-glow" src="./Holiday Forest Map_files/meta-glow.png" style="width: 4.5%;
+            top: 38.0%; left: 32.9%;">
+        
+      
+        
+        <img class="problem-glow" src="./Holiday Forest Map_files/meta-glow.png" style="width: 4.5%;
+            top: 53.9%; left: 64.5%;">
+        
+      
+        
+        <img class="problem-glow" src="./Holiday Forest Map_files/meta-glow.png" style="width: 4.5%;
+            top: 16.0%; left: 81.85%;">
+        
+      
+        
+        <img class="problem-glow" src="./Holiday Forest Map_files/meta-glow.png" style="width: 4.5%;
+            top: 70.3%; left: 6.15%;">
+        
+      
+        
+        <img class="problem-glow" src="./Holiday Forest Map_files/meta-glow.png" style="width: 4.5%;
+            top: 11.3%; left: 32.9%;">
+        
+      
+        
+        <img class="problem-glow" src="./Holiday Forest Map_files/meta-glow.png" style="width: 4.5%;
+            top: 62.5%; left: 73.2%;">
+        
+      
+        
+        <img class="problem-glow" src="./Holiday Forest Map_files/meta-glow.png" style="width: 4.5%;
+            top: 73.3%; left: 20.3%;">
+        
+      
+        
+        <img class="problem-glow" src="./Holiday Forest Map_files/meta-glow.png" style="width: 4.5%;
+            top: 38.1%; left: 64.5%;">
+        
+      
+
+      
+      
+        <img id="event-map" src="./Holiday Forest Map_files/events-6.png" style="top: 9.375%; left: 70.3125%;">
+      
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/town/registration_day.html"><div id="link-registration_day" class="map-link map-link-town" style="height: 7%; width: 10.5%;
+            top: 9.5%; left: 78.5%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/town/flag_day.html"><div id="link-flag_day" class="map-link map-link-town" style="height: 7.5%; width: 10%;
+            top: 23%; left: 86%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/town/groundhog_day.html"><div id="link-groundhog_day" class="map-link map-link-town" style="height: 7%; width: 10%;
+            top: 21%; left: 73%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/town/talk_like_a_pirate_day.html"><div id="link-talk_like_a_pirate_day" class="map-link map-link-town" style="height: 9%; width: 10%;
+            top: 13.5%; left: 87%;">&nbsp;</div></a>
+        
+      
+        
+          <a href="http://web.mit.edu/kolya/sipb/afs/root.afs/sipb.mit.edu/contrib/puzzle/2019/town/martin_luther_king_jr_day.html"><div id="link-martin_luther_king_jr_day" class="map-link map-link-town" style="height: 7%; width: 10%;
+            top: 13.5%; left: 70%;">&nbsp;</div></a>
+        
+      
+
+      
+        <img id="your-birthday" src="./Holiday Forest Map_files/your-birthday-town.png" style="position: absolute; width: 18%; top: 24.87%; left: 41.0%; z-index: 50;">
+      
+
+    </div>
+  </div>
+
+
+</div>
+
+    </div>
+  
+</body></html>
