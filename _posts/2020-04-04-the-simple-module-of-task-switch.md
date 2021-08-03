@@ -121,12 +121,3 @@ struct task_struct fastcall * __switch_to(struct task_struct *prev, struct task_
 本文所涉及的代码来自我编写的UNIX386内核。
 
 [1]: https://github.com/wangrongwei/UNIX386
-
-
-
-
-
-
-
-
-
