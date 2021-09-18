@@ -1,14 +1,13 @@
 ---
 layout: post
 title: Linux内核之内存规整
+excerpt: 内存就像书桌一样，要是不整理，永远不够用！
 categories: blog
 comments: true
 tags:
 teaser:
     Snipaste_2021-03-25-memory-compaction.jpg
 ---
-
-> 内存就像书桌一样，要是不整理，永远不够用！
 
 > 文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部
 >

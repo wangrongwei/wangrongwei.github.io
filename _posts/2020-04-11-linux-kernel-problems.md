@@ -1,14 +1,13 @@
 ---
 layout: post
 title: "内核问题很“内核”"
+excerpt: 内核开发中几个基本概念梳理
 categories: blog
 comments: true
 tags: programming
 teaser:
     linux-kernel.jpg
 ---
-
-> 内核开发中几个基本概念梳理
 
 > 文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部
 >

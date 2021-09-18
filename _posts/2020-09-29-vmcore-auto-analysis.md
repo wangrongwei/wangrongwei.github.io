@@ -1,23 +1,19 @@
 ---
 layout: post
 title: "vmcore自动分析工具"
+excerpt: 该文章主要是去年在阿里实习期间所写的一个vmcore自动分析工具。
 categories: blog
 comments: true
 tags: 
 teaser:
     vmcore-automatic-analysis-tool.jpg
-
 ---
-
-> vmcore自动分析工具
 
 > 文章转自阿里云开发者社区
 >
 > 作者：lollipop
 >
 > 本文原文地址：<https://developer.aliyun.com/article/719723?spm=a2c6h.13262185.0.0.21e82cd2ICg6IN>
-
-该文章主要是去年在阿里实习期间所写的一个vmcore分析工具。
 
 ## vmcore分析工具的需求变化
 
