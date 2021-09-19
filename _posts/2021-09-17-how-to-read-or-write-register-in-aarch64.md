@@ -4,7 +4,7 @@ title: 如何读写aarch64的系统寄存器
 excerpt: 用户空间读写寄存器不是梦！
 categories: blog
 comments: true
-tags:
+tags: aarch64 系统寄存器
 teaser:
     Snipaste_2021-09-18-system-register-tools.jpg
 ---
