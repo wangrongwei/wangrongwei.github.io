@@ -3,6 +3,8 @@ title: wangrongwei's world
 email: rongwei.wrw
 site_name: lollipop
 pages: blog notice
+plugins:
+ - jekyll-sitemap
 
 # basic configure
 highlighter: rouge
