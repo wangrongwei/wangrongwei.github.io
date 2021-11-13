@@ -3,10 +3,10 @@
   <channel>
     <title>wangrongwei&apos;s world</title>
     <description>个人博客</description>
-    <link>http://localhost:4000/</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 14 Nov 2021 03:06:35 +0800</pubDate>
-    <lastBuildDate>Sun, 14 Nov 2021 03:06:35 +0800</lastBuildDate>
+    <link>http://wangrongwei.com/</link>
+    <atom:link href="http://wangrongwei.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sun, 14 Nov 2021 03:18:31 +0800</pubDate>
+    <lastBuildDate>Sun, 14 Nov 2021 03:18:31 +0800</lastBuildDate>
     <generator>Jekyll v4.2.1</generator>
     
       <item>
@@ -66,8 +66,8 @@
 
 </description>
         <pubDate>Fri, 17 Sep 2021 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2021/09/17/how-to-read-or-write-register-in-aarch64.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2021/09/17/how-to-read-or-write-register-in-aarch64.html</guid>
+        <link>http://wangrongwei.com/2021/09/17/how-to-read-or-write-register-in-aarch64.html</link>
+        <guid isPermaLink="true">http://wangrongwei.com/2021/09/17/how-to-read-or-write-register-in-aarch64.html</guid>
         
         <category>aarch64</category>
         
@@ -93,8 +93,8 @@
 &lt;p&gt;&lt;a href=&quot;https://www.yuque.com/docs/share/b0c7c2db-ea93-43b4-bdb9-222f27091863?# 《分配连续页失败了怎么办？内存规整！》&quot;&gt;分配连续页失败了怎么办？内存规整！&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 25 Mar 2021 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2021/03/25/what-is-memory-compaction.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2021/03/25/what-is-memory-compaction.html</guid>
+        <link>http://wangrongwei.com/2021/03/25/what-is-memory-compaction.html</link>
+        <guid isPermaLink="true">http://wangrongwei.com/2021/03/25/what-is-memory-compaction.html</guid>
         
         
         <category>blog</category>
@@ -321,8 +321,8 @@
 &lt;p&gt;[5] https://github.com/g23guy/supportutils&lt;/p&gt;
 </description>
         <pubDate>Tue, 29 Sep 2020 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2020/09/29/vmcore-auto-analysis.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2020/09/29/vmcore-auto-analysis.html</guid>
+        <link>http://wangrongwei.com/2020/09/29/vmcore-auto-analysis.html</link>
+        <guid isPermaLink="true">http://wangrongwei.com/2020/09/29/vmcore-auto-analysis.html</guid>
         
         
         <category>blog</category>
@@ -345,8 +345,8 @@
 
 </description>
         <pubDate>Thu, 25 Jun 2020 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2020/06/25/DIMM.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2020/06/25/DIMM.html</guid>
+        <link>http://wangrongwei.com/2020/06/25/DIMM.html</link>
+        <guid isPermaLink="true">http://wangrongwei.com/2020/06/25/DIMM.html</guid>
         
         
         <category>blog</category>
@@ -743,8 +743,8 @@ ret_from_system_call:
 
 </description>
         <pubDate>Sat, 20 Jun 2020 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2020/06/20/UNIX386.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2020/06/20/UNIX386.html</guid>
+        <link>http://wangrongwei.com/2020/06/20/UNIX386.html</link>
+        <guid isPermaLink="true">http://wangrongwei.com/2020/06/20/UNIX386.html</guid>
         
         
         <category>project</category>
@@ -781,8 +781,8 @@ ret_from_system_call:
 &lt;/ul&gt;
 </description>
         <pubDate>Sat, 11 Apr 2020 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2020/04/11/linux-kernel-problems.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2020/04/11/linux-kernel-problems.html</guid>
+        <link>http://wangrongwei.com/2020/04/11/linux-kernel-problems.html</link>
+        <guid isPermaLink="true">http://wangrongwei.com/2020/04/11/linux-kernel-problems.html</guid>
         
         <category>programming</category>
         
@@ -815,8 +815,8 @@ ret_from_system_call:
 
 </description>
         <pubDate>Tue, 07 Apr 2020 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2020/04/07/walking-with-film.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2020/04/07/walking-with-film.html</guid>
+        <link>http://wangrongwei.com/2020/04/07/walking-with-film.html</link>
+        <guid isPermaLink="true">http://wangrongwei.com/2020/04/07/walking-with-film.html</guid>
         
         
         <category>blog</category>
@@ -945,8 +945,8 @@ ret_from_system_call:
 
 </description>
         <pubDate>Sat, 04 Apr 2020 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2020/04/04/the-simple-module-of-task-switch.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2020/04/04/the-simple-module-of-task-switch.html</guid>
+        <link>http://wangrongwei.com/2020/04/04/the-simple-module-of-task-switch.html</link>
+        <guid isPermaLink="true">http://wangrongwei.com/2020/04/04/the-simple-module-of-task-switch.html</guid>
         
         <category>programming</category>
         
@@ -1286,8 +1286,8 @@ make &lt;span class=&quot;nv&quot;&gt;ARCH&lt;/span&gt;&lt;span class=&quot;o&qu
 &lt;/ul&gt;
 </description>
         <pubDate>Sun, 15 Mar 2020 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2020/03/15/ARM64-simulation.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2020/03/15/ARM64-simulation.html</guid>
+        <link>http://wangrongwei.com/2020/03/15/ARM64-simulation.html</link>
+        <guid isPermaLink="true">http://wangrongwei.com/2020/03/15/ARM64-simulation.html</guid>
         
         
         <category>blog</category>
@@ -1407,8 +1407,8 @@ disqus: Evan
 &lt;/ul&gt;
 </description>
         <pubDate>Sat, 14 Mar 2020 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2020/03/14/using-this.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2020/03/14/using-this.html</guid>
+        <link>http://wangrongwei.com/2020/03/14/using-this.html</link>
+        <guid isPermaLink="true">http://wangrongwei.com/2020/03/14/using-this.html</guid>
         
         
         <category>project</category>
