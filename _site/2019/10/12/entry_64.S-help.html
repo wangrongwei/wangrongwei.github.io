@@ -2,26 +2,25 @@
 <html>
 
   <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="google-site-verification" content="wtke_mxnGJaiGNvwbsMC2FAozsN3UW82c2dItPgrRwA" />
 
-  <title>
-      
-        entry_64.S中的汇编指令
-      
+	<title>
+		
+		entry_64.S中的汇编指令
+		
+	</title>
+	<meta name="description" content="  本文介绍x86_64体系结构中，使用汇编实现的中断处理部分，并对部分较陌生的指令进行解释，最后附上关于中断调用路径的流程图。">
 
-  </title>
-  <meta name="description" content="  本文介绍x86_64体系结构中，使用汇编实现的中断处理部分，并对部分较陌生的指令进行解释，最后附上关于中断调用路径的流程图。">
-
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://wangrongwei.com/2019/10/12/entry_64.S-help.html">
-  <link rel="alternate" type="application/rss+xml" title="wangrongwei's world" href="http://wangrongwei.com/feed.xml" />
-  <link rel="stylesheet" href="/css/syntax.css">
-  <link rel="stylesheet" href="/css/gitalk.css">
-  <script src="/js/gitalk.min.js"></script>
+	<link rel="stylesheet" href="/css/main.css">
+	<link rel="canonical" href="http://localhost:4000/2019/10/12/entry_64.S-help.html">
+	<link rel="alternate" type="application/rss+xml" title="wangrongwei's world" href="http://localhost:4000/feed.xml" />
+	<link rel="stylesheet" href="/css/syntax.css">
+	<link rel="stylesheet" href="/css/gitalk.css">
+	<script src="/js/gitalk.min.js"></script>
 </head>
-
 
   <body>
 
@@ -56,6 +55,10 @@
         
           
           <a class="page-link" href="/notice/">说明</a>
+          
+        
+          
+        
           
         
           
@@ -323,7 +326,7 @@
       </span><span class="n">.if</span><span class="w"> </span><span class="n">vector</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">FIRST_EXTERNAL_VECTOR</span><span class="w">
     </span><span class="n">CFI_ADJUST_CFA_OFFSET</span><span class="w"> </span><span class="m">-8</span><span class="w">
       </span><span class="n">.endif</span><span class="w">
-</span><span class="m">1</span><span class="o">:</span><span class="w">  </span><span class="n">pushq_cfi</span><span class="w"> </span><span class="o">$</span><span class="p">(</span><span class="o">~</span><span class="n">vector</span><span class="m">+0</span><span class="n">x</span><span class="m">80</span><span class="p">)</span><span class="w">   </span><span class="o">/*</span><span class="w"> </span><span class="n">Note</span><span class="o">:</span><span class="w"> </span><span class="n">always</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">signed</span><span class="w"> </span><span class="n">byte</span><span class="w"> </span><span class="n">range</span><span class="w"> </span><span class="o">*/</span><span class="w">
+</span><span class="m">1</span><span class="o">:</span><span class="w">  </span><span class="n">pushq_cfi</span><span class="w"> </span><span class="o">$</span><span class="p">(</span><span class="o">~</span><span class="n">vector</span><span class="m">+0</span><span class="n">x80</span><span class="p">)</span><span class="w">   </span><span class="o">/*</span><span class="w"> </span><span class="n">Note</span><span class="o">:</span><span class="w"> </span><span class="n">always</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">signed</span><span class="w"> </span><span class="n">byte</span><span class="w"> </span><span class="n">range</span><span class="w"> </span><span class="o">*/</span><span class="w">
       </span><span class="n">.if</span><span class="w"> </span><span class="p">((</span><span class="n">vector</span><span class="o">-</span><span class="n">FIRST_EXTERNAL_VECTOR</span><span class="p">)</span><span class="o">%</span><span class="m">7</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="m">6</span><span class="w">
     </span><span class="n">jmp</span><span class="w"> </span><span class="m">2</span><span class="n">f</span><span class="w">
       </span><span class="n">.endif</span><span class="w">
@@ -478,7 +481,7 @@
 <p>执行中断函数（do_irq），在do_irq中将会去执行其他的中断服务函数。</p>
 
 <div class="language-S highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">    </span><span class="n">XCPT_FRAME</span><span class="w">
-    </span><span class="n">addq</span><span class="w"> </span><span class="o">$</span><span class="m">-0</span><span class="n">x</span><span class="m">80</span><span class="p">,(</span><span class="o">%rsp)  /* Adjust vector to [-256,-1] range */
+    </span><span class="n">addq</span><span class="w"> </span><span class="o">$</span><span class="m">-0</span><span class="n">x80</span><span class="p">,(</span><span class="o">%rsp)  /* Adjust vector to [-256,-1] range */
     interrupt do_IRQ /* 中断函数 */
     /* 0(%</span><span class="n">rsp</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">old_rsp</span><span class="o">-</span><span class="n">ARGOFFSET</span><span class="w"> </span><span class="o">*/</span><span class="w">
 </span></code></pre></div></div>
@@ -508,8 +511,8 @@
 <p>判断发送中断前系统处于内核态还是用户态，根据两种不同的状态分别跳转到retint_kernel（内核态）或retint_with_reschedule（用户态）。</p>
 
 <div class="language-S highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">    </span><span class="n">GET_THREAD_INFO</span><span class="p">(</span><span class="o">%rcx)
-    testl $3,CS-ARGOFFSET(%</span><span class="n">rsp</span><span class="p">)</span><span class="w"> </span><span class="o">/*</span><span class="w"> </span><span class="err">读取栈中的</span><span class="n">CS</span><span class="w"> </span><span class="o">*/</span><span class="w">
-    </span><span class="n">je</span><span class="w"> </span><span class="n">retint_kernel</span><span class="w"> </span><span class="o">/*</span><span class="w"> </span><span class="err">若为内核态，则跳转</span><span class="w"> </span><span class="o">*/</span><span class="w">
+    testl $3,CS-ARGOFFSET(%</span><span class="n">rsp</span><span class="p">)</span><span class="w"> </span><span class="o">/*</span><span class="w"> </span><span class="n">读取栈中的CS</span><span class="w"> </span><span class="o">*/</span><span class="w">
+    </span><span class="n">je</span><span class="w"> </span><span class="n">retint_kernel</span><span class="w"> </span><span class="o">/*</span><span class="w"> </span><span class="n">若为内核态</span><span class="err">，</span><span class="n">则跳转</span><span class="w"> </span><span class="o">*/</span><span class="w">
 </span></code></pre></div></div>
 
 <ul>
@@ -526,7 +529,7 @@
     movl TI_flags(%</span><span class="n">rcx</span><span class="p">),</span><span class="o">%edx
     andl %</span><span class="n">edi</span><span class="p">,</span><span class="o">%</span><span class="n">edx</span><span class="w">
     </span><span class="n">CFI_REMEMBER_STATE</span><span class="w">
-    </span><span class="n">jnz</span><span class="w">  </span><span class="n">retint_careful</span><span class="w"> </span><span class="o">/*</span><span class="w"> </span><span class="err">判断是否有其他需要做</span><span class="w"> </span><span class="o">*/</span><span class="w">
+    </span><span class="n">jnz</span><span class="w">  </span><span class="n">retint_careful</span><span class="w"> </span><span class="o">/*</span><span class="w"> </span><span class="n">判断是否有其他需要做</span><span class="w"> </span><span class="o">*/</span><span class="w">
 </span></code></pre></div></div>
 
 <p>在大多数情况下，以上[5]紧接[4]执行。</p>
@@ -541,7 +544,7 @@
      </span><span class="o">*/</span><span class="w">
     </span><span class="n">DISABLE_INTERRUPTS</span><span class="p">(</span><span class="n">CLBR_ANY</span><span class="p">)</span><span class="w">
     </span><span class="n">TRACE_IRQS_IRETQ</span><span class="w">
-    </span><span class="n">SWAPGS</span><span class="w"> </span><span class="o">/*</span><span class="w"> </span><span class="err">切换</span><span class="n">gs</span><span class="w"> </span><span class="o">*/</span><span class="w">
+    </span><span class="n">SWAPGS</span><span class="w"> </span><span class="o">/*</span><span class="w"> </span><span class="n">切换gs</span><span class="w"> </span><span class="o">*/</span><span class="w">
     </span><span class="n">jmp</span><span class="w"> </span><span class="n">restore_args</span><span class="w">
 </span></code></pre></div></div>
 
@@ -584,19 +587,19 @@
 
 <div id="gitalk-container"></div>
 <script type="text/javascript">
+    var title = location.pathname.substr(0, 50);
     var gitalk = new Gitalk({
         clientID: '5559cb52c37d3a87ad5a',
         clientSecret: '533007d9135ceac46f429ae59699b23f5ef4a51c',
         repo: 'wangrongwei.github.io',
         owner: 'wangrongwei',
         admin: ['wangrongwei'],
-        id: location.rongwei.2020, // Ensure uniqueness and length less than 50
-        distractionFreeMode: false // Facebook-like distraction free mode
+        id: title,
+        distractionFreeMode: false
     });
     gitalk.render('gitalk-container');
 </script>
 <!-- Gitalk end -->
-
 
 
 </div>
@@ -635,7 +638,7 @@
             <div class="footer-col footer-col-1">
                 <div class="row">
                     <div class="large-6 columns">
-                      <p>© lollipop 2019-2020</p>
+                      <p>© lollipop 2019-2021</p>
                     </div>
                     <div class="large-6 columns">
                         <ul class="inline-list right">

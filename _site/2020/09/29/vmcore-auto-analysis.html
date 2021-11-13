@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="google-site-verification" content="wtke_mxnGJaiGNvwbsMC2FAozsN3UW82c2dItPgrRwA" />
+
+	<title>
+		
+		vmcore自动分析工具
+		
+	</title>
+	<meta name="description" content="该文章主要是去年在阿里实习期间所写的一个vmcore自动分析工具。">
+
+	<link rel="stylesheet" href="/css/main.css">
+	<link rel="canonical" href="http://localhost:4000/2020/09/29/vmcore-auto-analysis.html">
+	<link rel="alternate" type="application/rss+xml" title="wangrongwei's world" href="http://localhost:4000/feed.xml" />
+	<link rel="stylesheet" href="/css/syntax.css">
+	<link rel="stylesheet" href="/css/gitalk.css">
+	<script src="/js/gitalk.min.js"></script>
+</head>
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">&laquo;back</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/blog/">博客</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+          <a class="page-link" href="/notice/">说明</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+	<header class="post-header">
+		<h1 class="post-title">vmcore自动分析工具</h1>
+		<p class="post-meta">Sep 29, 2020</p>
+	</header>
+
+	<article class="post-content">
+		<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+ //是否显示导航栏
+ var showNavBar = true;
+ //是否展开导航栏
+ var expandNavBar = true;
+
+ $(document).ready(function(){
+    var h1s = $("body").find("h1");
+    var h2s = $("body").find("h2");
+    var h3s = $("body").find("h3");
+    var h4s = $("body").find("h4");
+    //var h5s = $("body").find("h5");
+    //var h6s = $("body").find("h6");
+
+    var headCounts = [h1s.length, h2s.length, h3s.length, h4s.length];
+    var vH1Tag = null;
+    var vH2Tag = null;
+    var vH3Tag = null;
+    var vH4Tag = null;
+    for(var i = 0; i < headCounts.length; i++){
+        if(headCounts[i] > 0){
+            if(vH1Tag == null){
+                vH1Tag = 'h' + (i + 1);
+            }
+            else if(vH2Tag == null){
+                vH2Tag = 'h' + (i + 1);
+            }
+            else if(vH3Tag == null){
+                vH3Tag = 'h' + (i + 1);
+            }
+            else if(vH4Tag == null){
+                vH4Tag = 'h' + (i + 1);
+            }
+        }
+    }
+    if(vH1Tag == null){
+        return;
+    }
+
+    //$("body").prepend('<div class="BlogAnchor">' + 
+    $("main").after('<div class="BlogAnchor">' +
+        '<span style="color:red;position:absolute;top:-6px;left:0px;cursor:pointer;" οnclick="$(\'.BlogAnchor\').hide();">×</span>' +
+        '<p>' + 
+            '<b id="AnchorContentToggle" title="收起" style="cursor:pointer;">目录▲</b>' + 
+        '</p>' + 
+        '<div class="AnchorContent" id="AnchorContent"> </div>' + 
+    '</div>' );
+
+    var vH1Index = 0;
+    var vH2Index = 0;
+    var vH3Index = 0;
+    var vH4Index = 0;
+    $("main").find("h1,h2,h3,h4").each(function(i,item){
+        var id = '';
+        var name = '';
+        var tag = $(item).get(0).tagName.toLowerCase();
+        var className = '';
+        if(tag == vH1Tag){
+            id = name = ++vH1Index;
+            name = id;
+            vH2Index = 0;
+            className = 'item_h1';
+        }
+        else if(tag == vH2Tag){
+            id = vH1Index + '_' + ++vH2Index;
+            name = vH1Index + '.' + vH2Index;
+            vH3Index = 0;
+            className = 'item_h2';
+        }
+        else if(tag == vH3Tag){
+            id = vH1Index + '_' + vH2Index + ++vH3Index;
+            name = vH1Index + '.' + vH2Index + '.' + vH3Index;
+            vH4Index = 0;
+            className = 'item_h3';
+        }
+        else if(tag == vH4Tag){
+            id = vH1Index + '_' + vH2Index + vH3Index + ++vH4Index;
+            name = vH1Index + '.' + vH2Index + '.' + vH3Index + '.' + vH4Index;
+            className = 'item_h4';
+        }
+
+        $(item).attr("id","wow"+id);
+        $(item).addClass("wow_head");
+        $("#AnchorContent").css('max-height', ($(window).height() - 180) + 'px');
+        $("#AnchorContent").append('<li><a class="nav_item '+className+' anchor-link" οnclick="return false;" href="#" link="#wow'+id+'">'+name+" · "+$(this).text()+'</a></li>');
+    });
+
+    $("#AnchorContentToggle").click(function(){
+        var text = $(this).html();
+        if(text=="目录▲"){
+            $(this).html("目录▼");
+            $(this).attr({"title":"展开"});
+        }else{
+            $(this).html("目录▲");
+            $(this).attr({"title":"收起"});
+        }
+        $("#AnchorContent").toggle();
+    });
+    $(".anchor-link").click(function(){
+        $("html,body").animate({scrollTop: $($(this).attr("link")).offset().top}, 500);
+    });
+
+    var headerNavs = $(".BlogAnchor li .nav_item");
+    var headerTops = [];
+    $(".wow_head").each(function(i, n){
+        headerTops.push($(n).offset().top);
+    });
+    $(window).scroll(function(){
+        var scrollTop = $(window).scrollTop();
+        $.each(headerTops, function(i, n){
+            var distance = n - scrollTop;
+            if(distance >= 0){
+                $(".BlogAnchor li .nav_item.current").removeClass('current');
+                $(headerNavs[i]).addClass('current');
+                return false;
+            }
+        });
+    });
+
+    if(!showNavBar){
+        $('.BlogAnchor').hide();
+    }
+    if(!expandNavBar){
+        $(this).html("目录▼");
+        $(this).attr({"title":"展开"});
+        $("#AnchorContent").hide();
+    }
+ });
+</script>
+<style>
+    /*导航*/
+    .BlogAnchor {
+        float: left;
+	    position: -webkit-sticky;
+	    position: sticky;
+	    top: 0;
+	    padding: 5px;
+
+        background: #f1f1f1;
+        padding: 10px;
+        line-height: 180%;
+        /*position: fixed;*/
+        /*right: 48px;*/
+        /*top: 100px;*/
+        border: 1px solid #aaaaaa;
+    }
+    .BlogAnchor p {
+        font-size: 18px;
+        color: #15a230;
+        margin: 0 0 0.3rem 0;
+        text-align: right;
+    }
+    .BlogAnchor .AnchorContent {
+        padding: 5px 0px;
+        overflow: auto;
+    }
+    .BlogAnchor li{
+        text-indent: 0.5rem;
+        font-size: 14px;
+        list-style: none;
+    }
+    .BlogAnchor li .nav_item{
+        padding: 3px;
+        margin-left: 1rem;
+    }
+    .BlogAnchor li .item_h1{
+        margin-left: 0rem;
+    }
+    .BlogAnchor li .item_h2{
+        margin-left: 2rem;
+        font-size: 0.8rem;
+    }
+    .BlogAnchor li .item_h3{
+        margin-left: 3rem;
+        font-size: 0.8rem;
+    }
+    .BlogAnchor li .item_h4{
+        margin-left: 4rem;
+        font-size: 0.8rem;
+    }
+
+    .BlogAnchor li .nav_item.current{
+        color: white;
+        background-color: #5cc26f;
+    }
+    #AnchorContentToggle {
+        font-size: 13px;
+        font-weight: normal;
+        color: #FFF;
+        display: inline-block;
+        line-height: 20px;
+        background: #5cc26f;
+        font-style: normal;
+        padding: 1px 8px;
+    }
+    .BlogAnchor a:hover {
+        color: #5cc26f;
+    }
+    .BlogAnchor a {
+        text-decoration: none;
+    }
+</style>
+
+		<blockquote>
+  <p>文章转自阿里云开发者社区</p>
+
+  <p>作者：lollipop</p>
+
+  <p>本文原文地址：<a href="https://developer.aliyun.com/article/719723?spm=a2c6h.13262185.0.0.21e82cd2ICg6IN">https://developer.aliyun.com/article/719723?spm=a2c6h.13262185.0.0.21e82cd2ICg6IN</a></p>
+</blockquote>
+
+<h2 id="vmcore分析工具的需求变化">vmcore分析工具的需求变化</h2>
+
+<p>解决内核宕机、修复线上问题以及优化性能瓶颈是各操作系统团队工程师日常工作之一，其中大量工作依赖于crash工具对vmcore进行分析，但是应用规模以及场景的变化对其提出了新的需求。这种需求对开发者和集群运维而言，反映出不同的问题。对于开发者而言，crash工具可以满足查看vmcore中几乎所有数据的需求，例如全局变量、调度子系统以及cgroup等相关数据，但是将各类数据关联起来，需要工程师多次手动操作查看数据并与内核源码结合，其中涉及复杂的数据结构和领域知识，门槛太高，同时存在数据显示的友好程度较低等问题；对于集群运维效率而言，频繁产生的vmcore存在大量相似问题的vmcore，需求一种更加高效、精准的vmcore分析工具对频率较高的vmcore进行特征分析，以提高解决系统宕机问题的效率，现有的vmcollect系统采用panic栈进行相似度匹配，错误率较高，无法满足以上需求。</p>
+
+<p>接下来，本文将对当前vmcore分析工具存在的问题进行展开，并向大家介绍一个vmcore自动分析工具，即<strong>VAATools（Vmcore Automatic Analysis Tools）</strong>。</p>
+
+<h2 id="当前vmcore分析工具存在的问题">当前vmcore分析工具存在的问题</h2>
+
+<p>当前，除crash工具以外，也存在其他大量基于Python、shell、perl等语言的vmcore分析工具，表1对目前已有的vmcore分析工具进行了一个简单对比。</p>
+
+<p><strong>表 1 vmcore分析工具对比</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: left">crash</th>
+      <th style="text-align: left">crash-Python</th>
+      <th style="text-align: left">pykdump</th>
+      <th style="text-align: left">crash-extscript</th>
+      <th style="text-align: left">analyzevmcore</th>
+      <th style="text-align: left">drgn</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">语言</td>
+      <td style="text-align: left">c</td>
+      <td style="text-align: left">c/Python</td>
+      <td style="text-align: left">c/Python</td>
+      <td style="text-align: left">c/perl</td>
+      <td style="text-align: left">shell</td>
+      <td style="text-align: left">C</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">库</td>
+      <td style="text-align: left">无</td>
+      <td style="text-align: left">libkdumpfile</td>
+      <td style="text-align: left">无</td>
+      <td style="text-align: left">无</td>
+      <td style="text-align: left">无</td>
+      <td style="text-align: left">libkdumpfile</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">crash</td>
+      <td style="text-align: left">否</td>
+      <td style="text-align: left">否</td>
+      <td style="text-align: left">是</td>
+      <td style="text-align: left">是</td>
+      <td style="text-align: left">是</td>
+      <td style="text-align: left">否</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">交互方式</td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: left">嵌套</td>
+      <td style="text-align: left">套接字</td>
+      <td style="text-align: left">直接</td>
+      <td style="text-align: left"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">多vmcore支持</td>
+      <td style="text-align: left">否</td>
+      <td style="text-align: left">否</td>
+      <td style="text-align: left">否</td>
+      <td style="text-align: left">否</td>
+      <td style="text-align: left">否</td>
+      <td style="text-align: left">否</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">友好程度</td>
+      <td style="text-align: left">低</td>
+      <td style="text-align: left">低</td>
+      <td style="text-align: left">较低</td>
+      <td style="text-align: left">低</td>
+      <td style="text-align: left">低</td>
+      <td style="text-align: left">较低</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>表1从开发语言、依赖库以及交互方式等6个方面对当前已有的6种vmcore分析工具进行总结。在以上vmcore分析工具中，crash-extscript和analyzevmcore分别采用了perl或shell对crash进行扩展，crash-extscript采用套接字与crash进行交互，这种交互的方式非必须和唯一，可以进行优化，analyzevmcore没有较明显的特点和优点可以介绍。Pykdump提供了在crash中使用python编写命令的方法，这种方式给了工程师较大的使用和自由实现命令的空间，依赖Python可以轻松、快速的实现多种数据的对比和关联。drgn与Pykdump较相似，但不依赖于crash获取vmcore种数据，其操作方式更为灵活，语法较多。</p>
+
+<p>以上6种工具提供了分析vmcore文件的基本方式，但在为vmcollect系统选择vmcore分析工具时，还需满足多个vmcore文件分析功能，同时具备更精准的vmcore分析能力，以满足集群中大量相似vmcore文件特征匹配的场景需求。</p>
+
+<h2 id="quick-start">Quick Start</h2>
+
+<p>针对以上问题，我们设计了一个VAATools工具，其功能包括：</p>
+
+<p>1）分析获取多个或单个vmcore文件信息，支持报表信息显示task、cgroup等变量重要信息；</p>
+
+<p>2）支持编写Python脚本对内核中重要数据进行获取和处理；</p>
+
+<p>3）提供几个参考的使用Python编写的命令；</p>
+
+<p>在VAATools中，提供了多个vmcore文件分析功能和可支持利用Python设计crash命令。接下来，对这些功能进行一个简单的介绍。</p>
+
+<h3 id="分析多个vmcore文件">分析多个vmcore文件</h3>
+
+<p>输入vmcores所在文件夹，将各vmcore分析结果可输出到“.crash”文件下，命令如下：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>VAATcrash -d /&lt;path-to-vmcore-dir&gt;/
+</code></pre></div></div>
+
+<p>输出结果包含bt、各cpu中runqueues、cfs_rq参数表格显示信息以及当前进程信息。同时，也将runq命令输出信息也保存到结果文件中，如文未链接。</p>
+
+<p>VAATcrash的其他功能可借助’-h’选项查看。</p>
+
+<h3 id="使用python编写的新命令">使用Python编写的新命令</h3>
+
+<p>在VAATools中command目录下，提供了采用Python编写的cpu、锁信息、cgroup信息等命令。这些命令将平时需要多次操作crash命令并同时需要阅读Linux内核查看数据关联的过程进行封装为一个命令。这些命令与crash自带的命令在功能上无明显的差异，但由于Python的语言环境，设计一个Python命令可能更加容易和较快的处理一些数据和变量间关联性。</p>
+
+<p>接下来，对command下的几个命令进行展示。</p>
+
+<p>1）cpuinfo命令可显示vmcore中core分布以及tlb状态。如图3-1，图3-2所示。</p>
+
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/7daa83d2d805acae26af8a4d2892a362.png" alt="图 3-1 cpuinfo命令（cpuinfo -i）" /></p>
+
+<p><strong>图 3-1 cpuinfo命令（cpuinfo -i）</strong></p>
+
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/01088614a5bc7ba7b5d1c32afb99635c.png" alt="图 3-2 cpuinfo命令（cpuinfo -t）" />
+<strong>图 3-2 cpuinfo命令（cpuinfo -t）</strong></p>
+
+<p>2）可解析占用某个锁的进程信息。如图3-3所示查看发生panic时，占用“cgroup_mutex”的进程：</p>
+
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/cb02a1a9de0714b925d04acdcf1cd63c.png" alt="cb02a1a9de0714b925d04acdcf1cd63c.png" /></p>
+
+<p><strong>图 3-3 lockinfo命令</strong></p>
+
+<p>3）表格形式显示vmcore中多个同类型数据，可以明显观察出异常值。如图3-4所示。</p>
+
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/9f717fa45aa1340359bcce96c2690fcc.png" alt="9f717fa45aa1340359bcce96c2690fcc.png" /></p>
+
+<p><strong>图 3-4 tasktableinfo命令</strong></p>
+
+<p>4）层次结构类型数据显示，例如显示cgroup层次结构，如图3-5所示，显示出各级cpuset、cpu等，同时可以获取各层cpus、mem等参数值。</p>
+
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/0f119ace64923e8b120dd318bbe446fb.png" alt="0f119ace64923e8b120dd318bbe446fb.png" />
+<strong>图 3-5 cgroupinfo命令</strong></p>
+
+<p>以上命令在实现过程中还可以直接通过相关的接口，如exec_crash_command，调用crash原命令，对原命令打印的数据进行处理。</p>
+
+<h2 id="深入了解vaatools">深入了解VAATools</h2>
+
+<p>VAATools主要实现单个以及多个vmcore的分析功能，同时尽量采用Python进行开发，保证代码的维护性，实现较高的可视化数据显示方式。接下来，对VAATools背后的框架以及原理进行介绍。</p>
+
+<h3 id="vaatools原理">VAATools原理</h3>
+
+<p>为实现<strong>vmcollect</strong>系统上高效的vmcore分析工具，我们将crash中加入”Python”的元素，借助Python便于解决后续的数据处理、对比，图表显示、以及为后续部署模式匹配、机器学习算法部署搭建友好的框架。VAATools框架如图4-1所示。</p>
+
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/685cdf4d94e856d32ce38a82a3706796.png" alt="ef24bad251881372bc9ef22a2fcd20cc.png" /></p>
+
+<p><strong>图 4-1 VAATools设计草图</strong></p>
+
+<p>在VAATools中，顶层VAATcrash命令主要采用Python语言进行设计，并通过Python中的subprocess库启动一个crash进程并通过管道非阻塞的方式接收crash返回的数据。</p>
+
+<p>中间层epython命令，主要基于crash提供的命令扩展功能，并借助C语言与Python之间的相互调用接口实现epython调用Python版自定义命令。另外，顶层VAATcrash通过传入的参数控制epython选择不同的vmcore分析方式，比如单个vmcore以及多个vmcore。</p>
+
+<p>当前，可借鉴和使用的项目主要为开源的pykdump，其提供的各类接口满足epython与自定义命令间的功能需求。</p>
+
+<h3 id="c与python间相互嵌套">C与Python间相互嵌套</h3>
+
+<p>在VAATools中多处存在C语言中调用Python，Python中调用C的代码。在VAATools的C与Python两种语言嵌套方式的开发过程中，主要参考和借鉴了Pykdump中相关设计。VAATools依赖于Pykdump提供的库文件</p>
+
+<h3 id="vaatools中存在的性能问题">VAATools中存在的性能问题</h3>
+
+<p>利用Python设计VAATools，在开发上简单和快速，但是也带来了处理速率慢的问题，尤其在处理vmcore文件较多，或查看整理的变量较多时，整体处理完成的时间较长。</p>
+
+<p>在VAATools设计初，已经从原先的Python与crash间进程交互方式改进为现在的Python直接调用crash内函数，同时转移多个数据获取方式到crash内部的方式。通过统计获取各种数据的等待时间，我们可以了解到当前VAATools的性能信息，图4-2为VAATools优化前后获取rq、cfs、task等数据的等待时间。</p>
+
+<p><img src="https://ata2-img.cn-hangzhou.oss-pub.aliyun-inc.com/00d87e2e8b50d89542c82ea46d700c37.png" alt="c897add9d8c8d3e6e0b2fcddc8350555.png" /></p>
+
+<p><strong>图 4-2 VAATools性能优化前后对比</strong></p>
+
+<p>从上图的确可以看出优化后，VAATools改进不少，但是cfs的等待延时还是偏大，其原因在于获取cfs数据时，解析的成员变量较多。因此，如果要获取的某类数据过多，将等待很长一段时间才获取结果文件，大幅度降低debug效率。</p>
+
+<p>目前，VAATools的性能还可以在VAATools的架构调整以后，有较大的提升空间。</p>
+
+<h2 id="todo">TODO</h2>
+
+<p>1）改善Python与crash间的交互；</p>
+
+<p>目前，VAATools中，最外层VAATcrash命令与crash间还存在一层通过管道获取数据的方式，通过管道获取crash的数据时，需要设置等待延时，从而带来性能问题。后期可以将这一层完全改进为函数调用的方式，不再需要启动crash进程这一过程。</p>
+
+<p>2）vmcore特征提取；</p>
+
+<p>提取vmcore中宕机原因的特征，从而实现后续对大量的vmcore文件进行相似度分析，识别相同问题的vmcore的目标。</p>
+
+<p>3）考虑是否可以将机器学习引入到vmcore；</p>
+
+<p>将机器学习用于提取vmcore特征、训练vmcore特征匹配模型可能是一种vmcore特征匹配精度更高的方法。</p>
+
+<h2 id="links">Links</h2>
+
+<hr />
+
+<p>[1] http://vmcore.alibaba-inc.com/</p>
+
+<p>[1] https://people.redhat.com/anderson/</p>
+
+<p>[2] <a href="https://sourceforge.net/projects/pykdump/?spm=a2c6h.12873639.0.0.69e56091MTLjpX">https://sourceforge.net/projects/pykdump/</a></p>
+
+<p>[3] https://github.com/jeffmahoney/crash-python</p>
+
+<p>[4] https://github.com/osandov/drgn</p>
+
+<p>[5] https://github.com/g23guy/supportutils</p>
+
+	</article>
+
+
+<!-- Link Gitalk 的支持文件  -->
+<link rel="stylesheet" href="/css/gitalk.css">
+<script src="/js/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+    var title = location.pathname.substr(0, 50);
+    var gitalk = new Gitalk({
+        clientID: '5559cb52c37d3a87ad5a',
+        clientSecret: '533007d9135ceac46f429ae59699b23f5ef4a51c',
+        repo: 'wangrongwei.github.io',
+        owner: 'wangrongwei',
+        admin: ['wangrongwei'],
+        id: title,
+        distractionFreeMode: false
+    });
+    gitalk.render('gitalk-container');
+</script>
+<!-- Gitalk end -->
+
+
+</div>
+
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+    <div class="wrapper">
+        <h2 class="footer-heading">blog</h2>
+        <div class="footer-col-wrapper">
+            <div class="footer-col  footer-col-1">
+                <ul class="contact-list">
+                  <li>wangrongwei's world</li>
+                </ul>
+            </div>
+            <div class="footer-col  footer-col-3">
+                <ul class="social-media-list">
+                    
+                    <li>
+                        <a href="https://github.com/wangrongwei">
+                            <span class="icon  icon--github">
+                                <svg viewBox="0 0 16 16">
+                                    <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z" />
+                                </svg>
+                            </span>
+                            <span class="username">wangrongwei</span>
+                        </a>
+                    </li>
+                    
+
+                    
+                </ul>
+            </div>
+            <div class="footer-col footer-col-1">
+                <div class="row">
+                    <div class="large-6 columns">
+                      <p>© lollipop 2019-2021</p>
+                    </div>
+                    <div class="large-6 columns">
+                        <ul class="inline-list right">
+                            <!--<li><a href="#">Suscribe</a></li>-->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script
+  src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js">
+</script>
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?677a6496c3fa599a36743ae696b7bc3e";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+  </body>
+
+</html>

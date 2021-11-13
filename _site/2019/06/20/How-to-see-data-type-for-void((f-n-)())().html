@@ -2,26 +2,25 @@
 <html>
 
   <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="google-site-verification" content="wtke_mxnGJaiGNvwbsMC2FAozsN3UW82c2dItPgrRwA" />
 
-  <title>
-      
-        函数指针void((f[n])())()的故事
-      
+	<title>
+		
+		函数指针void((f[n])())()的故事
+		
+	</title>
+	<meta name="description" content="  本文尝试说明C语言中指针函数与函数指针中的本质区别，并举例说明复杂的函数指针。">
 
-  </title>
-  <meta name="description" content="  本文尝试说明C语言中指针函数与函数指针中的本质区别，并举例说明复杂的函数指针。">
-
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://wangrongwei.com/2019/06/20/How-to-see-data-type-for-void((f-n-)())().html">
-  <link rel="alternate" type="application/rss+xml" title="wangrongwei's world" href="http://wangrongwei.com/feed.xml" />
-  <link rel="stylesheet" href="/css/syntax.css">
-  <link rel="stylesheet" href="/css/gitalk.css">
-  <script src="/js/gitalk.min.js"></script>
+	<link rel="stylesheet" href="/css/main.css">
+	<link rel="canonical" href="http://localhost:4000/2019/06/20/How-to-see-data-type-for-void((f-n-)())().html">
+	<link rel="alternate" type="application/rss+xml" title="wangrongwei's world" href="http://localhost:4000/feed.xml" />
+	<link rel="stylesheet" href="/css/syntax.css">
+	<link rel="stylesheet" href="/css/gitalk.css">
+	<script src="/js/gitalk.min.js"></script>
 </head>
-
 
   <body>
 
@@ -56,6 +55,10 @@
         
           
           <a class="page-link" href="/notice/">说明</a>
+          
+        
+          
+        
           
         
           
@@ -487,19 +490,19 @@ defines f as an array of unspecified size, of pointers to functions that return 
 
 <div id="gitalk-container"></div>
 <script type="text/javascript">
+    var title = location.pathname.substr(0, 50);
     var gitalk = new Gitalk({
         clientID: '5559cb52c37d3a87ad5a',
         clientSecret: '533007d9135ceac46f429ae59699b23f5ef4a51c',
         repo: 'wangrongwei.github.io',
         owner: 'wangrongwei',
         admin: ['wangrongwei'],
-        id: location.rongwei.2020, // Ensure uniqueness and length less than 50
-        distractionFreeMode: false // Facebook-like distraction free mode
+        id: title,
+        distractionFreeMode: false
     });
     gitalk.render('gitalk-container');
 </script>
 <!-- Gitalk end -->
-
 
 
 </div>
@@ -538,7 +541,7 @@ defines f as an array of unspecified size, of pointers to functions that return 
             <div class="footer-col footer-col-1">
                 <div class="row">
                     <div class="large-6 columns">
-                      <p>© lollipop 2019-2020</p>
+                      <p>© lollipop 2019-2021</p>
                     </div>
                     <div class="large-6 columns">
                         <ul class="inline-list right">
