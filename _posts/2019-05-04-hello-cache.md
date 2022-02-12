@@ -3,15 +3,17 @@ layout: post
 title: "漫谈cache"
 categories: blog
 comments: true
-tags: programming
+tags: cache
 teaser:
     Snipaste_2020-05-24_14-15-39.jpg
 ---
 
->介绍cache类型、内部结构以及与CPU、I/O设备连接拓扑，并简要分析在代码中cache的踪迹。
+>介绍cache类型、内部结构以及与CPU、I/O设备连接拓扑。
 >
 >文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部
+>
 >作者：lollipop
+>
 >本文原文地址：<http://wangrongwei.com{{ page.url }}>
 
 ## cache简介 ##
