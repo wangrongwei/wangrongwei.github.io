@@ -63,11 +63,11 @@ alternative_else_nop_endif
 .endm
 ```
 
-ALTERNATIVE宏会在链接阶段创建两个特殊的section .altinstructions和.altinstr_replacement,而且arch/x86/kernel/vmlinux.lds.S脚本将两个section顺序放在一起，所以可使用偏移来计算指令地址。
-在内核启动的时候会调用apply_alternatives()开始修改指令，遍历.altinstructions节中的内容，判断当前cpu是否支持该特性来决定是否应该使用优化指令来覆盖原始指令，还有两个处理:
+**ALTERNATIVE**宏会在链接阶段创建两个特殊的**section .altinstructions**和**.altinstr_replacement**,而且**arch/x86/kernel/vmlinux.lds.S**脚本将两个section顺序放在一起，所以可使用偏移来计算指令地址。
+在内核启动的时候会调用**apply_alternatives()**开始修改指令，遍历.altinstructions节中的内容，判断当前cpu是否支持该特性来决定是否应该使用优化指令来覆盖原始指令，还有两个处理:
 
-- 如果优化指令长度 > 原始指令长度，且不会覆盖，会尝试优化原始指令后面填充的nop指令
-- 如果优化指令有相对跳转，对其跳转地址进行重新计算
+- 如果优化指令长度 > 原始指令长度，且不会覆盖，会尝试优化原始指令后面填充的nop指令；
+- 如果优化指令有相对跳转，对其跳转地址进行重新计算；
 
 这种方式对于发行版非常有利，能够发布一个通用的内核，在实际运行的时候自修改优化，例如在单核或SMP系统上它就能自己选择合适的指令。
 
