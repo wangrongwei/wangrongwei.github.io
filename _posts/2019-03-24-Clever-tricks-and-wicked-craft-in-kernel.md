@@ -1,7 +1,7 @@
 ---
 
 layout: post
-title:  "奇技淫巧@linux kernel"
+title:  "奇技淫巧@Linux Kernel"
 categories: blog
 comments: true
 tags: programming
@@ -28,11 +28,9 @@ teaser:
 
 **.inst**为aarch64架构下的伪指令，可将二进制转换为机器码插入到程序中执行。
 
-
-
 - alternative_if
 
-```assembly
+```s
 /*
  * These macros are no-ops when UAO is present.
  */
@@ -53,7 +51,7 @@ alternative_else_nop_endif
 
 
 
-```asm
+```s
 .macro alternative_if cap
 	.set .Lasm_alt_mode, 1
 	.pushsection .altinstructions, "a"
@@ -82,13 +80,9 @@ ALTERNATIVE宏会在链接阶段创建两个特殊的section .altinstructions和
 
 如果启动功能，需要在开启线面的两个开关，目前Linux在x86上是强制开启的，ARM上还是根据需求来开启。
 
-
-
 ### x86
 
 待补充
-
-
 
 ### gcc
 
@@ -99,8 +93,6 @@ ALTERNATIVE宏会在链接阶段创建两个特殊的section .altinstructions和
 
 当前地址和返回地址，主要用于栈追溯
 
-
-
 ### 其他
 
 登录ssh，不必每次输入命令，可操作如下：
@@ -109,8 +101,6 @@ ALTERNATIVE宏会在链接阶段创建两个特殊的section .altinstructions和
 ssh-keygen -t rsa
 ssh-copy-id <name>@<ip>
 ```
-
-
 
 ## 关联链接
 
