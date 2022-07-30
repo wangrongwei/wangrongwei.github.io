@@ -19,11 +19,11 @@ teaser:
 
 ## 为什么要有CPU Cache
 
-<br />随着工艺的提升最近几十年CPU的频率不断提升，而受制于制造工艺和成本限制，目前计算机的内存主要是DRAM并且在访问速度上没有质的突破。因此，CPU的处理速度和内存的访问速度差距越来越大，甚至可以达到上万倍。这种情况下传统的CPU通过FSB直连内存的方式显然就会因为内存访问的等待，导致计算资源大量闲置，降低CPU整体吞吐量。同时又由于内存数据访问的热点集中性，在CPU和内存之间用较为快速而成本较高的SDRAM做一层缓存，就显得性价比极高了。<br />
+随着工艺的提升最近几十年CPU的频率不断提升，而受制于制造工艺和成本限制，目前计算机的内存主要是DRAM并且在访问速度上没有质的突破。因此，CPU的处理速度和内存的访问速度差距越来越大，甚至可以达到上万倍。这种情况下传统的CPU通过FSB直连内存的方式显然就会因为内存访问的等待，导致计算资源大量闲置，降低CPU整体吞吐量。同时又由于内存数据访问的热点集中性，在CPU和内存之间用较为快速而成本较高的SDRAM做一层缓存，就显得性价比极高了。
 
 ## 为什么要有多级CPU Cache
 
-<br />随着科技发展，热点数据的体积越来越大，单纯的增加一级缓存大小的性价比已经很低了。因此，就慢慢出现了在一级缓存(L1 Cache)和内存之间又增加一层访问速度和成本都介于两者之间的二级缓存(L2 Cache)。下面是一段从[What Every Programmer Should Know About Memory]((www.akkadia.org/drepper/cpumemory.pdf))中摘录的解释：<br />
+随着科技发展，热点数据的体积越来越大，单纯的增加一级缓存大小的性价比已经很低了。因此，就慢慢出现了在一级缓存(L1 Cache)和内存之间又增加一层访问速度和成本都介于两者之间的二级缓存(L2 Cache)。下面是一段从[What Every Programmer Should Know About Memory]((www.akkadia.org/drepper/cpumemory.pdf))中摘录的解释：
 
 >    
 > Soon after the introduction of the cache the system got more complicated. The speed difference between the cache and the main memory increased again, to a point that another level of cache was added, bigger and slower than the first-level cache. Only increasing the size of the first-level cache was not an option for economical rea- sons.
@@ -34,10 +34,10 @@ teaser:
 
 ## 什么是Cache Line
 
-<br />Cache Line可以简单的理解为CPU Cache中的最小缓存单位。目前主流的CPU Cache的Cache Line大小都是64Bytes。假设我们有一个512字节的一级缓存，那么按照64B的缓存单位大小来算，这个一级缓存所能存放的缓存个数就是`512/64 = 8`个。具体参见下图：<br />
+Cache Line可以简单的理解为CPU Cache中的最小缓存单位。目前主流的CPU Cache的Cache Line大小都是64Bytes。假设我们有一个512字节的一级缓存，那么按照64B的缓存单位大小来算，这个一级缓存所能存放的缓存个数就是`512/64 = 8`个。具体参见下图：
 <br />![](https://cenalulu.github.io/images/linux/cache_line/cache_line.png#id=liODw&originHeight=547&originWidth=656&originalType=binary&ratio=1&status=done&style=none)<br />
 <br />为了更好的了解Cache Line，我们还可以在自己的电脑上做下面这个有趣的实验。 <br />下面这段C代码，会从命令行接收一个参数作为数组的大小创建一个数量为N的int数组。并依次循环的从这个数组中进行数组内容访问，循环10亿次。最终输出数组总大小和对应总执行时间。  
-```
+```c
 #include "stdio.h"
 #include <stdlib.h>
 #include <sys/time.h>
@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
 <br />
 <br />**了解Cache Line的概念对我们程序猿有什么帮助？** 我们来看下面这个C语言中[常用的循环优化例子](http://qr.ae/ja9ov) 下面两段代码中，第一段代码在C语言中总是比第二段代码的执行速度要快。具体的原因相信你仔细阅读了Cache Line的介绍后就很容易理解了。<br />
 
-```
+```c
 for(int i = 0; i < n; i++) {
     for(int j = 0; j < n; j++) {
         int num;    
@@ -99,7 +99,7 @@ for(int i = 0; i < n; i++) {
 
 #### 你会怎么设计Cache的存放规则
 
-<br />我们先来尝试回答一下那么这个问题：<br />
+我们先来尝试回答一下那么这个问题：
 
 >    
 > 假设我们有一块4MB的区域用于缓存，每个缓存对象的唯一标识是它所在的物理内存地址。每个缓存对象大小是64Bytes，所有可以被缓存对象的大小总和（即物理内存总大小）为4GB。那么我们该如何设计这个缓存？
@@ -109,15 +109,15 @@ for(int i = 0; i < n; i++) {
 
 #### 为什么Cache不能做成Fully Associative
 
-<br />Fully Associative 字面意思是全关联。在CPU Cache中的含义是：如果在一个Cache集内，任何一个内存地址的数据可以被缓存在任何一个Cache Line里，那么我们成这个cache是Fully Associative。从定义中我们可以得出这样的结论：给到一个内存地址，要知道他是否存在于Cache中，需要遍历所有Cache Line并比较缓存内容的内存地址。而Cache的本意就是为了在尽可能少得CPU Cycle内取到数据。那么想要设计一个快速的Fully Associative的Cache几乎是不可能的。<br />
+Fully Associative 字面意思是全关联。在CPU Cache中的含义是：如果在一个Cache集内，任何一个内存地址的数据可以被缓存在任何一个Cache Line里，那么我们成这个cache是Fully Associative。从定义中我们可以得出这样的结论：给到一个内存地址，要知道他是否存在于Cache中，需要遍历所有Cache Line并比较缓存内容的内存地址。而Cache的本意就是为了在尽可能少得CPU Cycle内取到数据。那么想要设计一个快速的Fully Associative的Cache几乎是不可能的。
 
 #### 为什么Cache不能做成Direct Mapped
 
-<br />和Fully Associative完全相反，使用Direct Mapped模式的Cache给定一个内存地址，就唯一确定了一条Cache Line。设计复杂度低且速度快。那么为什么Cache不使用这种模式呢？让我们来想象这么一种情况：一个拥有1M L2 Cache的32位CPU，每条Cache Line的大小为64Bytes。那么整个L2Cache被划为了`1M/64=16384`条Cache Line。我们为每条Cache Line从0开始编上号。同时32位CPU所能管理的内存地址范围是`2^32=4G`，那么Direct Mapped模式下，内存也被划为`4G/16384=256K`的小份。也就是说每256K的内存地址共享一条Cache Line。但是，这种模式下每条Cache Line的使用率如果要做到接近100%，就需要操作系统对于内存的分配和访问在地址上也是近乎平均的。而与我们的意愿相反，为了减少内存碎片和实现便捷，操作系统更多的是连续集中的使用内存。这样会出现的情况就是0-1000号这样的低编号Cache Line由于内存经常被分配并使用，而16000号以上的Cache Line由于内存鲜有进程访问，几乎一直处于空闲状态。这种情况下，本来就宝贵的1M二级CPU缓存，使用率也许50%都无法达到。<br />
+和Fully Associative完全相反，使用Direct Mapped模式的Cache给定一个内存地址，就唯一确定了一条Cache Line。设计复杂度低且速度快。那么为什么Cache不使用这种模式呢？让我们来想象这么一种情况：一个拥有1M L2 Cache的32位CPU，每条Cache Line的大小为64Bytes。那么整个L2Cache被划为了`1M/64=16384`条Cache Line。我们为每条Cache Line从0开始编上号。同时32位CPU所能管理的内存地址范围是`2^32=4G`，那么Direct Mapped模式下，内存也被划为`4G/16384=256K`的小份。也就是说每256K的内存地址共享一条Cache Line。但是，这种模式下每条Cache Line的使用率如果要做到接近100%，就需要操作系统对于内存的分配和访问在地址上也是近乎平均的。而与我们的意愿相反，为了减少内存碎片和实现便捷，操作系统更多的是连续集中的使用内存。这样会出现的情况就是0-1000号这样的低编号Cache Line由于内存经常被分配并使用，而16000号以上的Cache Line由于内存鲜有进程访问，几乎一直处于空闲状态。这种情况下，本来就宝贵的1M二级CPU缓存，使用率也许50%都无法达到。
 
 #### 什么是N-Way Set Associative
 
-<br />为了避免以上两种设计模式的缺陷，N-Way Set Associative缓存就出现了。他的原理是把一个缓存按照N个Cache Line作为一组（set），缓存按组划为等分。这样一个64位系统的内存地址在4MB二级缓存中就划成了三个部分（见下图），低位6个bit表示在Cache Line中的偏移量，中间12bit表示Cache组号（set index），剩余的高位46bit就是内存地址的唯一id。这样的设计相较前两种设计有以下两点好处：<br />
+为了避免以上两种设计模式的缺陷，N-Way Set Associative缓存就出现了。他的原理是把一个缓存按照N个Cache Line作为一组（set），缓存按组划为等分。这样一个64位系统的内存地址在4MB二级缓存中就划成了三个部分（见下图），低位6个bit表示在Cache Line中的偏移量，中间12bit表示Cache组号（set index），剩余的高位46bit就是内存地址的唯一id。这样的设计相较前两种设计有以下两点好处：
 
 - 给定一个内存地址可以唯一对应一个set，对于set中只需遍历16个元素就可以确定对象是否在缓存中（Full Associative中比较次数随内存大小线性增加）
 - 每`2^18(256K)*16(way)`=`4M`的连续热点数据才会导致一个set内的conflict（Direct Mapped中512K的连续热点数据就会出现conflict）
@@ -131,7 +131,7 @@ for(int i = 0; i < n; i++) {
 > The vast majority of accesses are close together, so moving the set index bits upwards would cause more conflict misses. You might be able to get away with a hash function that isn’t simply the least significant bits, but most proposed schemes hurt about as much as they help while adding extra complexity.
 
 
-<br />由于内存的访问通常是大片连续的，或者是因为在同一程序中而导致地址接近的（即这些内存地址的高位都是一样的）。所以如果把内存地址的高位作为set index的话，那么短时间的大量内存访问都会因为set index相同而落在同一个set index中，从而导致cache conflicts使得L2, L3 Cache的命中率低下，影响程序的整体执行效率。<br />
+由于内存的访问通常是大片连续的，或者是因为在同一程序中而导致地址接近的（即这些内存地址的高位都是一样的）。所以如果把内存地址的高位作为set index的话，那么短时间的大量内存访问都会因为set index相同而落在同一个set index中，从而导致cache conflicts使得L2, L3 Cache的命中率低下，影响程序的整体执行效率。
 <br />**了解N-Way Set Associative的存储模式对我们有什么帮助**<br />
 <br />了解N-Way Set的概念后，我们不难得出以下结论：`2^(6Bits <Cache Line Offset> + 12Bits <Set Index>)` = `2^18` = `256K`。即在连续的内存地址中每256K都会出现一个处于同一个Cache Set中的缓存对象。也就是说这些对象都会争抢一个仅有16个空位的缓存池（16-Way Set）。而如果我们在程序中又使用了所谓优化神器的“内存对齐”的时候，这种争抢就会越发增多。效率上的损失也会变得非常明显。具体的实际测试我们可以参考： [How Misaligning Data Can Increase Performance 12x by Reducing Cache Misses](http://danluu.com/3c-conflict/#fn3) 一文。 这里我们引用一张[Gallery of Processor Cache Effects](http://igoro.com/archive/gallery-of-processor-cache-effects/) 中的测试结果图，来解释下内存对齐在极端情况下带来的性能损失。 
 ![](http://igoro.com/wordpress/wp-content/uploads/2010/02/assoc_big1.png#id=WdYnP&originHeight=328&originWidth=640&originalType=binary&ratio=1&status=done&style=none)<br />
@@ -147,7 +147,7 @@ for(int i = 0; i < n; i++) {
 
 ## Cache淘汰策略
 
-<br />在文章的最后我们顺带提一下CPU Cache的淘汰策略。常见的淘汰策略主要有`LRU`和`Random`两种。通常意义下LRU对于Cache的命中率会比Random更好，所以CPU Cache的淘汰策略选择的是`LRU`。当然也有些实验显示[在Cache Size较大的时候Random策略会有更高的命中率](http://danluu.com/2choices-eviction/)<br />
+在文章的最后我们顺带提一下CPU Cache的淘汰策略。常见的淘汰策略主要有`LRU`和`Random`两种。通常意义下LRU对于Cache的命中率会比Random更好，所以CPU Cache的淘汰策略选择的是`LRU`。当然也有些实验显示[在Cache Size较大的时候Random策略会有更高的命中率](http://danluu.com/2choices-eviction/)
 
 ## 总结
 CPU Cache对于程序猿是透明的，所有的操作和策略都在CPU内部完成。但是，了解和理解CPU Cache的设计、工作原理有利于我们更好的利用CPU Cache，写出更多对CPU Cache友好的程序<br />
