@@ -3907,7 +3907,7 @@ blockquote {
   border-left: 1px solid #DDDDDD; }
   blockquote cite {
     display: block;
-    font-size: 0.8125rem;
+    font-size: 0.5625rem;
     color: #555555; }
     blockquote cite:before {
       content: "\2014 \0020"; }
