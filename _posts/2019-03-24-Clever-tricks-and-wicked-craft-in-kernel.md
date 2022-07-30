@@ -15,7 +15,7 @@ teaser:
 >
 > 本文原文地址：<http://wangrongwei.com{{ page.url }}>
 
-## linux kernel
+## Linux Kernel
 
 ### aarch64
 
